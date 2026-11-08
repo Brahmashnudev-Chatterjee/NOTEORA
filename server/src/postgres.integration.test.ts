@@ -1,5 +1,5 @@
 import { afterAll, beforeAll, describe, expect, it } from 'vitest'
-import { PrismaClient, UserRole, MaterialStatus, PaymentStatus } from '@prisma/client'
+import { PrismaClient } from '@prisma/client'
 
 const databaseUrl = process.env.TEST_DATABASE_URL || 'postgresql://noteora_app:noteora_app_dev_password@127.0.0.1:5432/noteora?schema=marketplace'
 const prisma = new PrismaClient({ datasources: { db: { url: databaseUrl } } })
@@ -20,8 +20,8 @@ afterAll(async () => {
 
 describe.sequential('PostgreSQL integration', () => {
   it('connects and performs user registration relationships', async () => {
-    const buyer = await prisma.user.create({ data: { name: 'Buyer', email: `buyer-${suffix}@example.com`, passwordHash: 'test-only-hash', role: UserRole.USER } })
-    const seller = await prisma.user.create({ data: { name: 'Seller', email: `seller-${suffix}@example.com`, passwordHash: 'test-only-hash', role: UserRole.USER } })
+    const buyer = await prisma.user.create({ data: { name: 'Buyer', email: `buyer-${suffix}@example.com`, passwordHash: 'test-only-hash', role: 'USER' } })
+    const seller = await prisma.user.create({ data: { name: 'Seller', email: `seller-${suffix}@example.com`, passwordHash: 'test-only-hash', role: 'USER' } })
     ids.users.push(buyer.id, seller.id)
     expect(await prisma.user.count({ where: { email: { in: [buyer.email, seller.email] } } })).toBe(2)
   })
@@ -32,7 +32,7 @@ describe.sequential('PostgreSQL integration', () => {
     const seller = await prisma.user.findUniqueOrThrow({ where: { email: `seller-${suffix}@example.com` } })
     const category = await prisma.category.create({ data: { name: `Engineering-${suffix}`, slug: `engineering-${suffix}` } })
     ids.categories.push(category.id)
-    const material = await prisma.material.create({ data: { sellerId: seller.id, categoryId: category.id, title: `Finance Notes ${suffix}`, price: '100.00', status: MaterialStatus.APPROVED } })
+    const material = await prisma.material.create({ data: { sellerId: seller.id, categoryId: category.id, title: `Finance Notes ${suffix}`, price: '100.00', status: 'APPROVED' } })
     ids.materials.push(material.id)
     const owned = await prisma.material.findUnique({ where: { id: material.id }, include: { category: true, seller: true } })
     expect(owned?.seller.id).toBe(seller.id)
@@ -44,7 +44,7 @@ describe.sequential('PostgreSQL integration', () => {
     const seller = await prisma.user.findUniqueOrThrow({ where: { email: `seller-${suffix}@example.com` } })
     const material = await prisma.material.findFirstOrThrow({ where: { id: { in: ids.materials } } })
     const clientOrderId = `client-${suffix}`
-    const order = await prisma.order.create({ data: { internalOrderId: `internal-${suffix}`, clientOrderId, userId: buyer.id, subtotal: '100.00', gst: '18.00', discount: '0.00', total: '118.00', paymentStatus: PaymentStatus.PAID } })
+    const order = await prisma.order.create({ data: { internalOrderId: `internal-${suffix}`, clientOrderId, userId: buyer.id, subtotal: '100.00', gst: '18.00', discount: '0.00', total: '118.00', paymentStatus: 'PAID' } })
     ids.orders.push(order.id)
     await prisma.orderItem.create({ data: { orderId: order.id, materialId: material.id, title: material.title, unitPrice: '100.00', sellerId: seller.id } })
     await prisma.sellerLedger.create({ data: { sellerId: seller.id, orderId: order.id, originalPrice: '100.00', discount: '0.00', gst: '18.00', customerPayment: '118.00', commission: '20.00', gatewayCost: '0.00', sellerPayable: '80.00', refundAmount: '0.00', platformRevenue: '20.00' } })
