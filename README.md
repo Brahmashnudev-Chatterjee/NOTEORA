@@ -406,10 +406,28 @@ npm run prisma:validate
 
 
 
-# Generate Prisma client
+# Generate Prisma clients for root, server, and gateway
 
 npm run prisma:generate
 
+# Validate the Prisma schema
+
+npm run prisma:validate
+
+# Run gateway security tests
+
+npm --prefix gateway-api test
+
+```
+
+For a clean CI-style PostgreSQL run, ensure PostgreSQL schemas exist, apply the migrations, generate Prisma clients, then run the PostgreSQL integration suite:
+
+```powershell
+psql -h 127.0.0.1 -p 5432 -U noteora_dev -d noteora -v ON_ERROR_STOP=1 -c "CREATE SCHEMA IF NOT EXISTS marketplace; CREATE SCHEMA IF NOT EXISTS gateway;"
+psql -h 127.0.0.1 -p 5432 -U noteora_dev -d noteora -v ON_ERROR_STOP=1 -f database/prisma/migrations/20261108175257_phase5b/migration.sql
+psql -h 127.0.0.1 -p 5432 -U noteora_dev -d noteora -v ON_ERROR_STOP=1 -f database/prisma/migrations/20261108_phase5c/migration.sql
+npm run prisma:generate
+npm run test:postgres
 ```
 
 
@@ -433,6 +451,24 @@ docker compose down
 
 
 Review service environment variables before startup. Never place real credentials in Compose files or committed environment files.
+
+
+
+## Continuous Integration and Current Verification
+
+[![Noteora CI](https://github.com/Brahmashnudev-Chatterjee/NOTEORA/actions/workflows/ci.yml/badge.svg)](https://github.com/Brahmashnudev-Chatterjee/NOTEORA/actions/workflows/ci.yml)
+
+The GitHub Actions workflow runs on pushes and pull requests to `main` and `develop`. It currently provisions PostgreSQL 16, Redis 7 and MongoDB 7 services, applies the Phase 5B and Phase 5C migrations, generates package-level Prisma clients, validates Docker Compose, validates and builds the schema, frontend, backend and gateway, and runs backend, PostgreSQL integration and gateway security suites.
+
+Latest verified workspace fixes include:
+
+- The PostgreSQL integration suite imports the generated Prisma client correctly in a clean Linux workspace.
+- Separate initialized Prisma clients are generated for the root, marketplace server and gateway API packages.
+- Schema generation is verified before package imports, builds and test execution.
+- PostgreSQL migration setup explicitly creates the `marketplace` and `gateway` schemas before migration SQL execution.
+- CI includes package-level Prisma import checks so an uninitialized client fails before tests instead of returning an initialization error later.
+
+The latest CI run shown on GitHub completed successfully for `build-and-test`.
 
 
 
