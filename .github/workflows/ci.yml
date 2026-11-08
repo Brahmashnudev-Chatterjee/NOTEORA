@@ -105,7 +105,7 @@ jobs:
       - name: Validate Prisma schema
         run: npm run prisma:validate
 
-      - name: Generate Prisma client
+      - name: Generate Prisma clients before build
         run: npm run prisma:generate
 
       - name: Build frontend, backend and gateway
