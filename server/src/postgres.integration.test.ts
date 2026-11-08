@@ -1,5 +1,6 @@
 import { afterAll, beforeAll, describe, expect, it } from 'vitest'
 import { PrismaClient } from '@prisma/client'
+import type { Prisma } from '@prisma/client'
 
 const databaseUrl = process.env.TEST_DATABASE_URL || 'postgresql://noteora_app:noteora_app_dev_password@127.0.0.1:5432/noteora?schema=marketplace'
 const prisma = new PrismaClient({ datasources: { db: { url: databaseUrl } } })
@@ -53,7 +54,7 @@ describe.sequential('PostgreSQL integration', () => {
 
   it('rolls back failed transactions', async () => {
     const email = `rollback-${suffix}@example.com`
-    await expect(prisma.$transaction(async tx => {
+    await expect(prisma.$transaction(async (tx: Prisma.TransactionClient) => {
       await tx.user.create({ data: { name: 'Rollback', email, passwordHash: 'hash' } })
       throw new Error('forced rollback')
     })).rejects.toThrow('forced rollback')
