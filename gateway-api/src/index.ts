@@ -8,6 +8,7 @@ import bcrypt from 'bcryptjs'
 import crypto from 'node:crypto'
 import { z } from 'zod'
 import { PrismaClient, MerchantStatus, MerchantRole, PaymentEnvironment } from '@prisma/client'
+import type { Prisma } from '@prisma/client'
 
 const prisma = new PrismaClient({ log: ['error'] })
 export const app = express()
@@ -73,7 +74,7 @@ const registerSchema = z.object({ name: z.string().min(2).max(120), businessName
 app.post('/api/v1/merchants/register', async (req, res, next) => {
   try {
     const input = registerSchema.parse(req.body); const base = input.businessName.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)/g, '')
-    const result = await prisma.$transaction(async tx => {
+    const result = await prisma.$transaction(async (tx: Prisma.TransactionClient) => {
       const merchant = await tx.merchant.create({ data: { name: input.name, slug: `${base}-${random(3)}`, businessName: input.businessName, contactName: input.contactName, contactEmail: input.contactEmail, contactPhone: input.contactPhone, businessType: input.businessType, website: input.website, status: MerchantStatus.PENDING, onboardingStep: 1 } })
       const user = await tx.merchantUser.create({ data: { merchantId: merchant.id, name: input.contactName, email: input.contactEmail.toLowerCase(), passwordHash: await bcrypt.hash(input.password, 12), role: MerchantRole.MERCHANT_OWNER } })
       await tx.gatewayAuditLog.create({ data: { merchantId: merchant.id, actorType: 'MERCHANT', actorId: user.id, action: 'MERCHANT_REGISTERED', entity: 'MERCHANT', entityId: merchant.id, ip: req.ip } })
@@ -150,7 +151,7 @@ app.post('/api/v1/merchant/api-keys', authMerchant, requireMerchantPermission(Me
     const environment = input.environment as PaymentEnvironment
     const keyPrefix = environment === 'LIVE' ? 'nk_live_' : 'nk_test_'
     const apiKey = keyPrefix + random(18); const secret = random(32)
-    await prisma.$transaction(async tx => {
+    await prisma.$transaction(async (tx: Prisma.TransactionClient) => {
       await tx.merchantCredential.updateMany({ where: { merchantId, environment, active: true }, data: { active: false } })
       await tx.merchantCredential.create({ data: { merchantId, environment, apiKey: sha256(apiKey), apiSecretHash: sha256(secret), expiresAt: input.expiresAt ? new Date(input.expiresAt) : null } })
       await tx.gatewayAuditLog.create({ data: { merchantId, actorType: 'MERCHANT_USER', actorId: userId, action: 'API_KEY_ROTATED', entity: 'MERCHANT_CREDENTIAL', details: { environment } } })
