@@ -105,6 +105,11 @@ jobs:
       - name: Generate Prisma clients before validation and build
         run: npm run prisma:generate
 
+      - name: Verify generated Prisma clients
+        run: |
+          node -e "const p=require('./node_modules/@prisma/client'); for (const name of ['MerchantStatus','MerchantRole','PaymentEnvironment']) if (!p[name]) throw new Error('Missing gateway Prisma export: '+name)"
+          node -e "const p=require('./server/node_modules/@prisma/client'); for (const name of ['UserRole','MaterialStatus','PaymentStatus']) if (!p[name]) throw new Error('Missing marketplace Prisma export: '+name)"
+
       - name: Validate Prisma schema
         run: npm run prisma:validate
 

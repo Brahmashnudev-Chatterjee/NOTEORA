@@ -7,8 +7,15 @@ import jwt from 'jsonwebtoken'
 import bcrypt from 'bcryptjs'
 import crypto from 'node:crypto'
 import { z } from 'zod'
-import { PrismaClient, MerchantStatus, MerchantRole, PaymentEnvironment } from '@prisma/client'
+import { PrismaClient } from '@prisma/client'
 import type { Prisma } from '@prisma/client'
+
+const MerchantStatus = { PENDING: 'PENDING', UNDER_REVIEW: 'UNDER_REVIEW', APPROVED: 'APPROVED', REJECTED: 'REJECTED', SUSPENDED: 'SUSPENDED' } as const
+const MerchantRole = { MERCHANT_OWNER: 'MERCHANT_OWNER', MERCHANT_ADMIN: 'MERCHANT_ADMIN', MERCHANT_DEVELOPER: 'MERCHANT_DEVELOPER', MERCHANT_VIEWER: 'MERCHANT_VIEWER' } as const
+const PaymentEnvironment = { SANDBOX: 'SANDBOX', LIVE: 'LIVE' } as const
+type MerchantStatusValue = typeof MerchantStatus[keyof typeof MerchantStatus]
+type MerchantRoleValue = typeof MerchantRole[keyof typeof MerchantRole]
+type PaymentEnvironmentValue = typeof PaymentEnvironment[keyof typeof PaymentEnvironment]
 
 const prisma = new PrismaClient({ log: ['error'] })
 export const app = express()
@@ -39,7 +46,7 @@ async function authMerchant(req: Request, res: Response, next: NextFunction) {
   if (token.toLowerCase().startsWith('bearer ')) token = token.slice(7).trim()
   if (!token) return res.status(401).json({ error: 'Merchant authentication required' })
   try {
-    const claims = jwt.verify(token, jwtSecret) as { merchantId: string; userId: string; role: MerchantRole }
+    const claims = jwt.verify(token, jwtSecret) as { merchantId: string; userId: string; role: MerchantRoleValue }
     const user = await prisma.merchantUser.findFirst({ where: { id: claims.userId, merchantId: claims.merchantId, active: true } })
     if (!user) return res.status(401).json({ error: 'Merchant account is inactive or invalid' })
     const merchant = await prisma.merchant.findUnique({ where: { id: claims.merchantId }, select: { status: true } })
@@ -54,9 +61,9 @@ function requireAdmin(req: Request, res: Response, next: NextFunction) {
   if (!expected || token !== expected) return res.status(403).json({ error: 'Administrator access required' })
   next()
 }
-function requireMerchantPermission(...roles: MerchantRole[]) {
+function requireMerchantPermission(...roles: MerchantRoleValue[]) {
   return (req: Request, res: Response, next: NextFunction) => {
-    const user = (req as any).user as { merchantId: string; role: MerchantRole }
+    const user = (req as any).user as { merchantId: string; role: MerchantRoleValue }
     if (!roles.includes(user.role)) return res.status(403).json({ error: 'Insufficient merchant permissions' })
     next()
   }
@@ -97,7 +104,7 @@ app.post('/api/v1/auth/login', async (req, res) => {
 app.post('/api/v1/credentials/verify', async (req, res) => {
   const parsed = z.object({ apiKey: z.string().min(10), apiSecret: z.string().min(10), environment: z.enum(['SANDBOX','LIVE']) }).safeParse(req.body)
   if (!parsed.success) return res.status(400).json({ valid: false })
-  const credential = await prisma.merchantCredential.findFirst({ where: { apiKey: sha256(parsed.data.apiKey), environment: parsed.data.environment as PaymentEnvironment, active: true } })
+  const credential = await prisma.merchantCredential.findFirst({ where: { apiKey: sha256(parsed.data.apiKey), environment: parsed.data.environment as PaymentEnvironmentValue, active: true } })
   if (!credential || credential.apiSecretHash !== sha256(parsed.data.apiSecret)) return res.status(401).json({ valid: false })
   if (credential.expiresAt && credential.expiresAt <= new Date()) return res.status(401).json({ valid: false })
   const merchant = await prisma.merchant.findUnique({ where: { id: credential.merchantId }, select: { id: true, status: true } })
@@ -123,20 +130,20 @@ app.patch('/api/v1/merchant/me', authMerchant, requireMerchantPermission(Merchan
 })
 
 app.get('/api/v1/admin/merchants', requireAdmin, async (req, res) => {
-  const status = typeof req.query.status === 'string' ? req.query.status as MerchantStatus : undefined
+  const status = typeof req.query.status === 'string' ? req.query.status as MerchantStatusValue : undefined
   const merchants = await prisma.merchant.findMany({ where: status ? { status } : undefined, orderBy: { createdAt: 'desc' }, include: { _count: { select: { credentials: true, webhookEndpoints: true } } } })
   res.json(merchants)
 })
 app.get('/api/v1/admin/overview', requireAdmin, async (_req, res) => {
   const statuses = await prisma.merchant.groupBy({ by: ['status'], _count: { _all: true } })
-  const counts = Object.fromEntries(statuses.map(x => [x.status, x._count._all]))
+  const counts = Object.fromEntries(statuses.map((x: { status: MerchantStatusValue; _count: { _all: number } }) => [x.status, x._count._all]))
   res.json({ total: counts.PENDING + counts.UNDER_REVIEW + counts.APPROVED + counts.REJECTED + counts.SUSPENDED || 0, pending: counts.PENDING || 0, underReview: counts.UNDER_REVIEW || 0, approved: counts.APPROVED || 0, rejected: counts.REJECTED || 0, suspended: counts.SUSPENDED || 0 })
 })
 app.patch('/api/v1/admin/merchants/:id/status', requireAdmin, async (req, res, next) => {
   try {
     const input = z.object({ status: z.enum(['UNDER_REVIEW','APPROVED','REJECTED','SUSPENDED']), reason: z.string().max(500).optional() }).parse(req.body)
     if (input.status === 'REJECTED' && !input.reason) return res.status(400).json({ error: 'Rejection reason is required' })
-    const merchant = await prisma.merchant.update({ where: { id: String(req.params.id) }, data: { status: input.status as MerchantStatus, rejectionReason: input.reason || null, reviewedAt: new Date(), onboardingStep: input.status === 'APPROVED' ? 4 : undefined } })
+    const merchant = await prisma.merchant.update({ where: { id: String(req.params.id) }, data: { status: input.status as MerchantStatusValue, rejectionReason: input.reason || null, reviewedAt: new Date(), onboardingStep: input.status === 'APPROVED' ? 4 : undefined } })
     await audit(merchant.id, 'ADMIN', null, `MERCHANT_${input.status}`, 'MERCHANT', merchant.id, req)
     res.json(merchant)
   } catch (e) { next(e) }
@@ -148,7 +155,7 @@ app.post('/api/v1/merchant/api-keys', authMerchant, requireMerchantPermission(Me
     const { merchantId, userId } = (req as any).user
     const merchant = await prisma.merchant.findUnique({ where: { id: merchantId } })
     if (!merchant || merchant.status !== MerchantStatus.APPROVED) return res.status(409).json({ error: 'Only approved merchants may create API keys' })
-    const environment = input.environment as PaymentEnvironment
+    const environment = input.environment as PaymentEnvironmentValue
     const keyPrefix = environment === 'LIVE' ? 'nk_live_' : 'nk_test_'
     const apiKey = keyPrefix + random(18); const secret = random(32)
     await prisma.$transaction(async (tx: Prisma.TransactionClient) => {
@@ -178,7 +185,7 @@ app.put('/api/v1/merchant/webhooks', authMerchant, requireMerchantPermission(Mer
   try {
     const input = z.object({ environment: z.enum(['SANDBOX','LIVE']), url: z.string().url(), active: z.boolean().default(true), eventSubscriptions: z.array(z.string()).default([]) }).parse(req.body)
     const { merchantId, userId } = (req as any).user
-    const secret = random(32); const environment = input.environment as PaymentEnvironment
+    const secret = random(32); const environment = input.environment as PaymentEnvironmentValue
     const existing = await prisma.webhookEndpoint.findFirst({ where: { merchantId, environment } })
     const endpoint = existing ? await prisma.webhookEndpoint.update({ where: { id: existing.id }, data: { url: input.url, active: input.active, signingSecretHash: sha256(secret), signingSecretEncrypted: encrypt(secret), eventSubscriptions: input.eventSubscriptions } }) : await prisma.webhookEndpoint.create({ data: { merchantId, environment, url: input.url, active: input.active, signingSecretHash: sha256(secret), signingSecretEncrypted: encrypt(secret), eventSubscriptions: input.eventSubscriptions } })
     await audit(merchantId, 'MERCHANT_USER', userId, 'WEBHOOK_CONFIGURED', 'WEBHOOK_ENDPOINT', endpoint.id, req)
