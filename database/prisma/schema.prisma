@@ -1,5 +1,16 @@
-generator client {
+generator root {
   provider = "prisma-client-js"
+  output   = "../../node_modules/.prisma/client"
+}
+
+generator server {
+  provider = "prisma-client-js"
+  output   = "../../server/node_modules/.prisma/client"
+}
+
+generator gateway {
+  provider = "prisma-client-js"
+  output   = "../../gateway-api/node_modules/.prisma/client"
 }
 
 datasource db {
