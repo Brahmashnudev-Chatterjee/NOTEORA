@@ -1,0 +1,56 @@
+[
+  {
+    "_id": {
+      "$oid": "000000000000000000000029"
+    },
+    "seller": {
+      "$oid": "000000000000000000000002"
+    },
+    "order": {
+      "$oid": "00000000000000000000001f"
+    },
+    "originalPrice": 50,
+    "discount": 0,
+    "gst": 0,
+    "customerPayment": 50,
+    "commission": 10,
+    "gatewayCost": 1,
+    "sellerPayable": 39,
+    "refundAmount": 0,
+    "platformRevenue": 10,
+    "settlementStatus": "READY",
+    "createdAt": {
+      "$date": "2026-11-08T18:00:00.000Z"
+    },
+    "updatedAt": {
+      "$date": "2026-11-08T18:00:00.000Z"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "00000000000000000000002a"
+    },
+    "seller": {
+      "$oid": "000000000000000000000003"
+    },
+    "order": {
+      "$oid": "000000000000000000000020"
+    },
+    "originalPrice": 150,
+    "discount": 0,
+    "gst": 0,
+    "customerPayment": 150,
+    "commission": 15,
+    "gatewayCost": 2,
+    "sellerPayable": 133,
+    "refundAmount": 0,
+    "platformRevenue": 15,
+    "settlementStatus": "READY",
+    "createdAt": {
+      "$date": "2026-11-08T18:00:00.000Z"
+    },
+    "updatedAt": {
+      "$date": "2026-11-08T18:00:00.000Z"
+    }
+  }
+]

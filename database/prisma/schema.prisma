@@ -1,0 +1,755 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+  schemas  = ["marketplace", "gateway"]
+}
+
+enum UserRole {
+  USER
+  MODERATOR
+  ADMIN
+  SUPER_ADMIN
+  @@schema("marketplace")
+}
+
+enum MaterialStatus {
+  PENDING
+  APPROVED
+  REJECTED
+  @@schema("marketplace")
+}
+
+enum PaymentStatus {
+  CREATED
+  PENDING
+  UNDER_REVIEW
+  PAID
+  FAILED
+  EXPIRED
+  REFUNDING
+  REFUNDED
+  PARTIALLY_REFUNDED
+  @@schema("marketplace")
+}
+
+enum SettlementStatus {
+  PENDING
+  READY
+  PAID
+  REJECTED
+  @@schema("marketplace")
+}
+
+enum MerchantStatus {
+  PENDING
+  UNDER_REVIEW
+  APPROVED
+  REJECTED
+  SUSPENDED
+  @@schema("gateway")
+}
+
+enum MerchantRole {
+  MERCHANT_OWNER
+  MERCHANT_ADMIN
+  MERCHANT_DEVELOPER
+  MERCHANT_VIEWER
+  @@schema("gateway")
+}
+
+enum PaymentEnvironment {
+  SANDBOX
+  LIVE
+  @@schema("gateway")
+}
+
+enum GatewayPaymentStatus {
+  CREATED
+  PENDING
+  UNDER_REVIEW
+  PAID
+  FAILED
+  EXPIRED
+  REFUNDING
+  REFUNDED
+  PARTIALLY_REFUNDED
+  @@schema("gateway")
+}
+
+model User {
+  id                String   @id @default(uuid()) @db.Uuid
+  legacyId          String?  @unique
+  name              String
+  email             String   @unique @db.VarChar(320)
+  passwordHash      String
+  role              UserRole @default(USER)
+  verified          Boolean  @default(false)
+  active            Boolean  @default(true)
+  plan              String   @default("FREE") @db.VarChar(20)
+  verificationTokenHash String?
+  resetTokenHash    String?
+  resetTokenExpiresAt DateTime?
+  acceptedTermsAt   DateTime?
+  createdAt         DateTime @default(now())
+  updatedAt         DateTime @updatedAt
+
+  materials         Material[]
+  carts             Cart[]
+  orders            Order[]
+  reviews           Review[]
+  subscriptions     Subscription[]
+  ledgerEntries     SellerLedger[]
+  notifications     Notification[]
+  supportTickets    SupportTicket[]
+  sessions          Session[]
+  activityLogs      ActivityLog[]
+  refundsRequested  Refund[]
+  settlementRequests SettlementRequest[]
+
+  @@index([role, active])
+  @@index([createdAt])
+  @@schema("marketplace")
+}
+
+model Session {
+  id         String   @id @default(uuid()) @db.Uuid
+  userId     String   @db.Uuid
+  user       User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  refreshTokenHash String @unique
+  ip         String?
+  userAgent  String?
+  expiresAt  DateTime
+  revokedAt  DateTime?
+  loginAt    DateTime @default(now())
+  logoutAt   DateTime?
+
+  @@index([userId, expiresAt])
+  @@index([revokedAt])
+  @@schema("marketplace")
+}
+
+model Category {
+  id        String @id @default(uuid()) @db.Uuid
+  legacyId  String? @unique
+  name      String @unique
+  slug      String @unique
+  createdAt DateTime @default(now())
+  materials Material[]
+
+  @@schema("marketplace")
+}
+
+model Material {
+  id          String @id @default(uuid()) @db.Uuid
+  legacyId    String? @unique
+  sellerId    String @db.Uuid
+  seller      User @relation(fields: [sellerId], references: [id], onDelete: Restrict)
+  categoryId  String? @db.Uuid
+  category    Category? @relation(fields: [categoryId], references: [id], onDelete: SetNull)
+  title       String
+  description String?
+  academicLevel String?
+  subject     String?
+  tags        String[] @default([])
+  price       Decimal @db.Decimal(12, 2)
+  pdfObjectKey String?
+  coverObjectKey String?
+  status      MaterialStatus @default(PENDING)
+  views       Int @default(0)
+  sales       Int @default(0)
+  moderationNote String?
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  cartItems   CartItem[]
+  orderItems  OrderItem[]
+  reviews     Review[]
+
+  @@index([status, createdAt])
+  @@index([sellerId, status])
+  @@index([subject])
+  @@index([title])
+  @@schema("marketplace")
+}
+
+model Cart {
+  id      String @id @default(uuid()) @db.Uuid
+  userId  String @db.Uuid @unique
+  user    User @relation(fields: [userId], references: [id], onDelete: Cascade)
+  updatedAt DateTime @updatedAt
+  items   CartItem[]
+
+  @@schema("marketplace")
+}
+
+model CartItem {
+  id         String @id @default(uuid()) @db.Uuid
+  cartId     String @db.Uuid
+  cart       Cart @relation(fields: [cartId], references: [id], onDelete: Cascade)
+  materialId String @db.Uuid
+  material   Material @relation(fields: [materialId], references: [id], onDelete: Cascade)
+  quantity   Int @default(1)
+
+  @@unique([cartId, materialId])
+  @@schema("marketplace")
+}
+
+model Order {
+  id              String @id @default(uuid()) @db.Uuid
+  legacyId        String? @unique
+  internalOrderId String @unique
+  clientOrderId   String @unique
+  gatewayOrderId  String? @unique
+  userId          String @db.Uuid
+  user            User @relation(fields: [userId], references: [id], onDelete: Restrict)
+  subtotal        Decimal @db.Decimal(12, 2)
+  gst             Decimal @db.Decimal(12, 2)
+  discount        Decimal @db.Decimal(12, 2) @default(0)
+  total           Decimal @db.Decimal(12, 2)
+  currency        String @default("INR") @db.Char(3)
+  environment     PaymentEnvironment @default(SANDBOX)
+  paymentStatus   PaymentStatus @default(CREATED)
+  gatewayEventSequence Int @default(0)
+  paymentUrl      String?
+  upiIntent       String?
+  paymentExpiresAt DateTime?
+  paidAt          DateTime?
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+
+  items           OrderItem[]
+  payments        Payment[]
+  reviews         Review[]
+  ledgerEntries   SellerLedger[]
+  refunds         Refund[]
+
+  @@index([userId, createdAt])
+  @@index([paymentStatus, createdAt])
+  @@index([environment, paymentStatus])
+  @@schema("marketplace")
+}
+
+model OrderItem {
+  id         String @id @default(uuid()) @db.Uuid
+  orderId    String @db.Uuid
+  order      Order @relation(fields: [orderId], references: [id], onDelete: Cascade)
+  materialId String @db.Uuid
+  material   Material @relation(fields: [materialId], references: [id], onDelete: Restrict)
+  title      String
+  unitPrice  Decimal @db.Decimal(12, 2)
+  sellerId   String @db.Uuid
+
+  @@index([orderId])
+  @@index([sellerId])
+  @@schema("marketplace")
+}
+
+model Payment {
+  id          String @id @default(uuid()) @db.Uuid
+  legacyId    String? @unique
+  orderId     String @db.Uuid
+  order       Order @relation(fields: [orderId], references: [id], onDelete: Restrict)
+  gatewayOrderId String? @unique
+  providerReference String?
+  amount      Decimal @db.Decimal(12, 2)
+  currency    String @db.Char(3)
+  environment PaymentEnvironment
+  status      GatewayPaymentStatus
+  verifiedAt  DateTime?
+  failedAt    DateTime?
+  metadata    Json?
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  @@unique([orderId, gatewayOrderId])
+  @@index([status, environment, createdAt])
+  @@schema("marketplace")
+}
+
+model Review {
+  id         String @id @default(uuid()) @db.Uuid
+  legacyId   String? @unique
+  materialId String @db.Uuid
+  material   Material @relation(fields: [materialId], references: [id], onDelete: Cascade)
+  userId     String @db.Uuid
+  user       User @relation(fields: [userId], references: [id], onDelete: Cascade)
+  orderId    String @db.Uuid
+  order      Order @relation(fields: [orderId], references: [id], onDelete: Restrict)
+  rating     Int
+  comment    String?
+  reported   Boolean @default(false)
+  helpfulUserIds String[] @default([])
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+
+  @@unique([userId, materialId, orderId])
+  @@index([materialId, rating])
+  @@schema("marketplace")
+}
+
+model SubscriptionPlan {
+  id             String @id @default(uuid()) @db.Uuid
+  legacyId       String? @unique
+  name           String @unique @db.VarChar(20)
+  price          Decimal @db.Decimal(12, 2)
+  activeListings Int
+  commissionRate Decimal @db.Decimal(5, 4)
+  featured       Boolean @default(false)
+  features       String[] @default([])
+  active         Boolean @default(true)
+  createdAt      DateTime @default(now())
+  updatedAt      DateTime @updatedAt
+  subscriptions  Subscription[]
+
+  @@schema("marketplace")
+}
+
+model Subscription {
+  id        String @id @default(uuid()) @db.Uuid
+  legacyId  String? @unique
+  userId    String @db.Uuid
+  user      User @relation(fields: [userId], references: [id], onDelete: Cascade)
+  planId    String? @db.Uuid
+  planRecord SubscriptionPlan? @relation(fields: [planId], references: [id], onDelete: SetNull)
+  planName  String @db.VarChar(20)
+  active    Boolean @default(true)
+  environment PaymentEnvironment @default(SANDBOX)
+  startsAt  DateTime @default(now())
+  expiresAt DateTime?
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([userId, active, expiresAt])
+  @@schema("marketplace")
+}
+
+model SellerLedger {
+  id             String @id @default(uuid()) @db.Uuid
+  legacyId       String? @unique
+  sellerId       String @db.Uuid
+  seller         User @relation(fields: [sellerId], references: [id], onDelete: Restrict)
+  orderId        String @db.Uuid
+  order          Order @relation(fields: [orderId], references: [id], onDelete: Restrict)
+  originalPrice  Decimal @db.Decimal(12, 2)
+  discount       Decimal @db.Decimal(12, 2)
+  gst            Decimal @db.Decimal(12, 2)
+  customerPayment Decimal @db.Decimal(12, 2)
+  commission     Decimal @db.Decimal(12, 2)
+  gatewayCost    Decimal @db.Decimal(12, 2) @default(0)
+  sellerPayable  Decimal @db.Decimal(12, 2)
+  refundAmount   Decimal @db.Decimal(12, 2) @default(0)
+  platformRevenue Decimal @db.Decimal(12, 2)
+  settlementStatus SettlementStatus @default(PENDING)
+  immutableHash  String?
+  createdAt      DateTime @default(now())
+  updatedAt      DateTime @updatedAt
+
+  adjustments    LedgerAdjustment[]
+  settlementRequests SettlementRequest[]
+
+  @@unique([sellerId, orderId])
+  @@index([sellerId, settlementStatus])
+  @@index([createdAt])
+  @@schema("marketplace")
+}
+
+model LedgerAdjustment {
+  id          String @id @default(uuid()) @db.Uuid
+  ledgerId    String @db.Uuid
+  ledger      SellerLedger @relation(fields: [ledgerId], references: [id], onDelete: Restrict)
+  type        String
+  amount      Decimal @db.Decimal(12, 2)
+  reason      String?
+  referenceId String?
+  createdAt   DateTime @default(now())
+
+  @@unique([ledgerId, type, referenceId])
+  @@index([ledgerId, createdAt])
+  @@schema("marketplace")
+}
+
+model SettlementRequest {
+  id          String @id @default(uuid()) @db.Uuid
+  legacyId    String? @unique
+  sellerId    String @db.Uuid
+  seller      User @relation(fields: [sellerId], references: [id], onDelete: Restrict)
+  ledgerId    String? @db.Uuid
+  ledger      SellerLedger? @relation(fields: [ledgerId], references: [id], onDelete: Restrict)
+  amount      Decimal @db.Decimal(12, 2)
+  status      SettlementStatus @default(PENDING)
+  providerReference String?
+  approvedAt  DateTime?
+  processedAt DateTime?
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  @@index([sellerId, status])
+  @@schema("marketplace")
+}
+
+model Refund {
+  id          String @id @default(uuid()) @db.Uuid
+  legacyId    String? @unique
+  orderId     String @db.Uuid
+  order       Order @relation(fields: [orderId], references: [id], onDelete: Restrict)
+  requestedById String @db.Uuid
+  requestedBy User @relation(fields: [requestedById], references: [id], onDelete: Restrict)
+  amount      Decimal @db.Decimal(12, 2)
+  reason      String?
+  status      String @default("REQUESTED")
+  providerRefundId String?
+  providerConfirmed Boolean @default(false)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  @@index([orderId, status])
+  @@schema("marketplace")
+}
+
+model Notification {
+  id        String @id @default(uuid()) @db.Uuid
+  legacyId  String? @unique
+  userId    String @db.Uuid
+  user      User @relation(fields: [userId], references: [id], onDelete: Cascade)
+  title     String
+  message   String
+  read      Boolean @default(false)
+  type      String?
+  createdAt DateTime @default(now())
+
+  @@index([userId, read, createdAt])
+  @@schema("marketplace")
+}
+
+model SupportTicket {
+  id        String @id @default(uuid()) @db.Uuid
+  legacyId  String? @unique
+  userId    String? @db.Uuid
+  user      User? @relation(fields: [userId], references: [id], onDelete: SetNull)
+  subject   String
+  message   String
+  status    String @default("OPEN")
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([status, createdAt])
+  @@schema("marketplace")
+}
+
+model ActivityLog {
+  id        String @id @default(uuid()) @db.Uuid
+  legacyId  String? @unique
+  userId    String? @db.Uuid
+  user      User? @relation(fields: [userId], references: [id], onDelete: SetNull)
+  actorRole String?
+  action    String
+  entity    String?
+  entityId  String?
+  details   Json?
+  ip        String?
+  createdAt DateTime @default(now())
+
+  @@index([userId, createdAt])
+  @@index([action, createdAt])
+  @@schema("marketplace")
+}
+
+model AdminAudit {
+  id        String @id @default(uuid()) @db.Uuid
+  legacyId  String? @unique
+  actorId   String? @db.Uuid
+  action    String
+  entity    String?
+  entityId  String?
+  details   Json?
+  ip        String?
+  createdAt DateTime @default(now())
+
+  @@index([actorId, createdAt])
+  @@schema("marketplace")
+}
+
+model Merchant {
+  id             String @id @default(uuid()) @db.Uuid
+  name           String
+  slug           String @unique
+  businessName   String?
+  contactName    String?
+  contactEmail   String?
+  contactPhone   String?
+  businessType   String?
+  gstin          String?
+  website        String?
+  address        Json?
+  status         MerchantStatus @default(PENDING)
+  onboardingStep Int @default(0)
+  rejectionReason String?
+  reviewedAt     DateTime?
+  reviewedBy     String?
+  webhookUrl     String?
+  createdAt      DateTime @default(now())
+  updatedAt      DateTime @updatedAt
+
+  credentials    MerchantCredential[]
+  accounts       PaymentAccount[]
+  orders         PaymentOrder[]
+  webhookEndpoints WebhookEndpoint[]
+  webhookEvents  WebhookEvent[]
+  auditLogs      GatewayAuditLog[]
+  users          MerchantUser[]
+
+  @@index([status, createdAt])
+  @@index([contactEmail])
+  @@schema("gateway")
+}
+
+model MerchantUser {
+  id          String @id @default(uuid()) @db.Uuid
+  merchantId  String @db.Uuid
+  merchant    Merchant @relation(fields: [merchantId], references: [id], onDelete: Cascade)
+  name        String
+  email       String @unique
+  passwordHash String
+  role        MerchantRole @default(MERCHANT_VIEWER)
+  active      Boolean @default(true)
+  lastLoginAt DateTime?
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  @@unique([merchantId, email])
+  @@index([merchantId, role, active])
+  @@schema("gateway")
+}
+
+model MerchantCredential {
+  id              String @id @default(uuid()) @db.Uuid
+  merchantId      String @db.Uuid
+  merchant        Merchant @relation(fields: [merchantId], references: [id], onDelete: Cascade)
+  environment     PaymentEnvironment
+  apiKey          String @unique
+  apiSecretHash   String
+  secretVersion   Int @default(1)
+  active          Boolean @default(true)
+  webhookSecretHash String?
+  revokedAt       DateTime?
+  expiresAt       DateTime?
+  createdAt       DateTime @default(now())
+
+  @@index([merchantId, environment, active])
+  @@schema("gateway")
+}
+
+model PaymentAccount {
+  id              String @id @default(uuid()) @db.Uuid
+  merchantId      String @db.Uuid
+  merchant        Merchant @relation(fields: [merchantId], references: [id], onDelete: Cascade)
+  name            String
+  merchantIdentifier String?
+  provider        String
+  vpa             String?
+  encryptedCredentials Json?
+  status          String @default("INACTIVE")
+  verificationStatus String @default("PENDING")
+  dailyTransactionLimit Int?
+  dailyAmountLimit Decimal? @db.Decimal(12, 2)
+  priority        Int @default(100)
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+
+  paymentOrders   PaymentOrder[]
+
+  @@index([merchantId, status, priority])
+  @@schema("gateway")
+}
+
+model PaymentOrder {
+  id              String @id @default(uuid()) @db.Uuid
+  merchantId      String @db.Uuid
+  merchant        Merchant @relation(fields: [merchantId], references: [id], onDelete: Restrict)
+  paymentAccountId String? @db.Uuid
+  paymentAccount  PaymentAccount? @relation(fields: [paymentAccountId], references: [id], onDelete: Restrict)
+  gatewayOrderId  String @unique
+  clientOrderId   String
+  amount          Decimal @db.Decimal(12, 2)
+  currency        String @db.Char(3)
+  description     String?
+  environment     PaymentEnvironment
+  status          GatewayPaymentStatus @default(CREATED)
+  sequence        Int @default(0)
+  paymentUrl      String?
+  upiIntent       String?
+  expiresAt       DateTime
+  paidAt          DateTime?
+  metadata        Json?
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+
+  transactions    PaymentTransaction[]
+  verifications   PaymentVerification[]
+  refunds         RefundRecord[]
+  webhookEvents   WebhookEvent[]
+
+  @@unique([merchantId, environment, clientOrderId])
+  @@index([merchantId, environment, status])
+  @@index([expiresAt, status])
+  @@schema("gateway")
+}
+
+model PaymentTransaction {
+  id              String @id @default(uuid()) @db.Uuid
+  paymentOrderId  String @db.Uuid
+  paymentOrder    PaymentOrder @relation(fields: [paymentOrderId], references: [id], onDelete: Restrict)
+  providerReference String?
+  utr             String?
+  amount          Decimal @db.Decimal(12, 2)
+  currency        String @db.Char(3)
+  status          String
+  rawResponseHash String?
+  createdAt       DateTime @default(now())
+
+  @@index([paymentOrderId, createdAt])
+  @@index([utr])
+  @@schema("gateway")
+}
+
+model PaymentVerification {
+  id              String @id @default(uuid()) @db.Uuid
+  paymentOrderId  String @db.Uuid
+  paymentOrder    PaymentOrder @relation(fields: [paymentOrderId], references: [id], onDelete: Restrict)
+  method          String
+  status          String
+  evidence        Json?
+  reviewedBy      String? @db.Uuid
+  createdAt       DateTime @default(now())
+
+  @@index([paymentOrderId, createdAt])
+  @@schema("gateway")
+}
+
+model ProviderConfiguration {
+  id              String @id @default(uuid()) @db.Uuid
+  merchantId      String? @db.Uuid
+  environment     PaymentEnvironment
+  provider        String
+  name            String
+  encryptedConfig Json
+  active          Boolean @default(false)
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+
+  @@index([merchantId, environment, active])
+  @@schema("gateway")
+}
+
+model WebhookEndpoint {
+  id              String @id @default(uuid()) @db.Uuid
+  merchantId      String @db.Uuid
+  merchant        Merchant @relation(fields: [merchantId], references: [id], onDelete: Cascade)
+  environment     PaymentEnvironment
+  url             String
+  signingSecretHash String
+  signingSecretEncrypted String?
+  eventSubscriptions String[] @default([])
+  active          Boolean @default(true)
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+
+  deliveries      WebhookDelivery[]
+
+  @@unique([merchantId, environment, url])
+  @@index([merchantId, environment, active])
+  @@schema("gateway")
+}
+
+model WebhookEvent {
+  id              String @id @default(uuid()) @db.Uuid
+  merchantId      String @db.Uuid
+  merchant        Merchant @relation(fields: [merchantId], references: [id], onDelete: Cascade)
+  paymentOrderId  String? @db.Uuid
+  paymentOrder    PaymentOrder? @relation(fields: [paymentOrderId], references: [id], onDelete: SetNull)
+  eventId         String @unique
+  eventType       String
+  sequence        Int
+  payload         Json
+  createdAt       DateTime @default(now())
+  deliveries      WebhookDelivery[]
+
+  @@unique([paymentOrderId, eventType, sequence])
+  @@index([merchantId, createdAt])
+  @@schema("gateway")
+}
+
+model WebhookDelivery {
+  id              String @id @default(uuid()) @db.Uuid
+  endpointId      String @db.Uuid
+  endpoint        WebhookEndpoint @relation(fields: [endpointId], references: [id], onDelete: Cascade)
+  eventId         String @db.Uuid
+  event           WebhookEvent @relation(fields: [eventId], references: [id], onDelete: Cascade)
+  status          String @default("PENDING")
+  attempts        Int @default(0)
+  nextAttemptAt   DateTime @default(now())
+  responseStatus  Int?
+  responseBody    String?
+  deliveredAt     DateTime?
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+
+  @@unique([endpointId, eventId])
+  @@index([status, nextAttemptAt])
+  @@schema("gateway")
+}
+
+model WebhookOutbox {
+  id              String @id @default(uuid()) @db.Uuid
+  eventId         String @unique
+  eventType       String
+  payload         Json
+  availableAt     DateTime @default(now())
+  lockedAt        DateTime?
+  completedAt     DateTime?
+  attempts        Int @default(0)
+  lastError       String?
+  createdAt       DateTime @default(now())
+
+  @@index([completedAt, availableAt])
+  @@schema("gateway")
+}
+
+model RefundRecord {
+  id              String @id @default(uuid()) @db.Uuid
+  paymentOrderId  String @db.Uuid
+  paymentOrder    PaymentOrder @relation(fields: [paymentOrderId], references: [id], onDelete: Restrict)
+  amount          Decimal @db.Decimal(12, 2)
+  status          String @default("REQUESTED")
+  providerRefundId String?
+  providerConfirmed Boolean @default(false)
+  reason          String?
+  processedAt     DateTime?
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+
+  @@index([paymentOrderId, status])
+  @@schema("gateway")
+}
+
+model GatewayAuditLog {
+  id              String @id @default(uuid()) @db.Uuid
+  merchantId      String? @db.Uuid
+  merchant        Merchant? @relation(fields: [merchantId], references: [id], onDelete: SetNull)
+  actorType       String
+  actorId         String?
+  action          String
+  entity          String?
+  entityId        String?
+  ip              String?
+  details         Json?
+  createdAt       DateTime @default(now())
+
+  @@index([merchantId, createdAt])
+  @@index([action, createdAt])
+  @@schema("gateway")
+}

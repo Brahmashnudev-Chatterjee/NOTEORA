@@ -1,0 +1,28 @@
+[
+  {
+    "_id": {
+      "$oid": "000000000000000000000047"
+    },
+    "name": "PRO",
+    "price": 199,
+    "activeListings": 25,
+    "commissionRate": 20,
+    "featured": true,
+    "features": [
+      "25 listings"
+    ]
+  },
+  {
+    "_id": {
+      "$oid": "000000000000000000000048"
+    },
+    "name": "ULTRA",
+    "price": 499,
+    "activeListings": 100,
+    "commissionRate": 10,
+    "featured": true,
+    "features": [
+      "100 listings"
+    ]
+  }
+]

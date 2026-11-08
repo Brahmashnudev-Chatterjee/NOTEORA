@@ -1,0 +1,46 @@
+[
+  {
+    "_id": {
+      "$oid": "000000000000000000000015"
+    },
+    "title": "Physics Notes",
+    "description": "Migration verification fixture",
+    "price": 50,
+    "category": {
+      "$oid": "00000000000000000000000b"
+    },
+    "seller": {
+      "$oid": "000000000000000000000002"
+    },
+    "status": "APPROVED",
+    "pdfPath": "private/physics.pdf",
+    "createdAt": {
+      "$date": "2026-11-08T18:00:00.000Z"
+    },
+    "updatedAt": {
+      "$date": "2026-11-08T18:00:00.000Z"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "000000000000000000000016"
+    },
+    "title": "Signals Notes",
+    "description": "Migration verification fixture",
+    "price": 150,
+    "category": {
+      "$oid": "00000000000000000000000b"
+    },
+    "seller": {
+      "$oid": "000000000000000000000003"
+    },
+    "status": "APPROVED",
+    "pdfPath": "private/signals.pdf",
+    "createdAt": {
+      "$date": "2026-11-08T18:00:00.000Z"
+    },
+    "updatedAt": {
+      "$date": "2026-11-08T18:00:00.000Z"
+    }
+  }
+]

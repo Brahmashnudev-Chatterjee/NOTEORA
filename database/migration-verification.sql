@@ -1,0 +1,11 @@
+SELECT count(*) AS users FROM marketplace."User";
+SELECT count(*) AS materials FROM marketplace."Material";
+SELECT count(*) AS orders FROM marketplace."Order";
+SELECT count(*) AS order_items FROM marketplace."OrderItem";
+SELECT count(*) AS reviews FROM marketplace."Review";
+SELECT count(*) AS subscriptions FROM marketplace."Subscription";
+SELECT count(*) AS ledger_entries FROM marketplace."SellerLedger";
+SELECT count(*) AS payments FROM marketplace."Payment";
+SELECT count(*) AS refund_requests FROM marketplace."Refund";
+SELECT COALESCE(SUM("customerPayment"),0) AS ledger_customer_total FROM marketplace."SellerLedger";
+SELECT COUNT(*) AS orphaned_order_buyers FROM marketplace."Order" o LEFT JOIN marketplace."User" u ON u.id=o."userId" WHERE u.id IS NULL;

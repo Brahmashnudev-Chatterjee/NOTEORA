@@ -1,0 +1,185 @@
+services:
+  postgres:
+    image: postgres:16-alpine
+    environment:
+      POSTGRES_DB: ${POSTGRES_DB:-noteora}
+      POSTGRES_USER: ${POSTGRES_ADMIN_USER:-noteora_dev}
+      POSTGRES_PASSWORD: ${POSTGRES_ADMIN_PASSWORD:?Set POSTGRES_ADMIN_PASSWORD in the environment}
+      MARKETPLACE_APP_PASSWORD: ${MARKETPLACE_APP_PASSWORD:?Set MARKETPLACE_APP_PASSWORD in the environment}
+      WORKER_PASSWORD: ${WORKER_PASSWORD:?Set WORKER_PASSWORD in the environment}
+      MIGRATION_PASSWORD: ${MIGRATION_PASSWORD:?Set MIGRATION_PASSWORD in the environment}
+      DATABASE_ADMIN_PASSWORD: ${DATABASE_ADMIN_PASSWORD:?Set DATABASE_ADMIN_PASSWORD in the environment}
+    ports:
+      - "127.0.0.1:5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+      - ./database/security/10-setup-roles.sh:/docker-entrypoint-initdb.d/10-setup-roles.sh:ro
+      - ./database/security/setup-roles.sql:/docker-security/setup-roles.sql:ro
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U noteora_dev -d noteora"]
+      interval: 5s
+      timeout: 5s
+      retries: 20
+
+  redis:
+    image: redis:7-alpine
+    environment:
+      REDIS_PASSWORD: ${REDIS_PASSWORD:?Set REDIS_PASSWORD in the environment}
+    ports:
+      - "127.0.0.1:6379:6379"
+    volumes:
+      - redis_data:/data
+    command: ["redis-server", "--appendonly", "yes", "--requirepass", "${REDIS_PASSWORD:?Set REDIS_PASSWORD in the environment}"]
+    healthcheck:
+      test: ["CMD-SHELL", "redis-cli -a \"$${REDIS_PASSWORD}\" ping | grep PONG"]
+      interval: 5s
+      timeout: 3s
+      retries: 20
+
+  marketplace-api:
+    build:
+      context: ./server
+      dockerfile: Dockerfile
+    environment:
+      NODE_ENV: development
+      PORT: 5000
+      MONGO_URI: mongodb://mongo:27017/noteora
+      DATABASE_URL: postgresql://${MARKETPLACE_APP_USER:-noteora_app}:${MARKETPLACE_APP_PASSWORD}@postgres:5432/${POSTGRES_DB:-noteora}?schema=marketplace
+      REDIS_URL: redis://:${REDIS_PASSWORD}@redis:6379
+      CLIENT_URL: http://localhost:5173
+      JWT_ACCESS_SECRET: development-only-access-secret
+      JWT_REFRESH_SECRET: development-only-refresh-secret
+    depends_on:
+      postgres:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+      mongo:
+        condition: service_healthy
+    ports:
+      - "5000:5000"
+    volumes:
+      - ./server:/app
+      - /app/node_modules
+
+  marketplace-web:
+    build:
+      context: ./client
+      dockerfile: Dockerfile
+    environment:
+      VITE_API_URL: http://localhost:5000/api/v1
+    depends_on:
+      marketplace-api:
+        condition: service_started
+    ports:
+      - "5173:5173"
+    healthcheck:
+      test: ["CMD-SHELL", "wget -q -O - http://localhost:5173/ >/dev/null || exit 1"]
+      interval: 10s
+      timeout: 3s
+      retries: 20
+
+  workers:
+    build:
+      context: ./server
+      dockerfile: Dockerfile
+    command: ["npm", "run", "workers"]
+    environment:
+      NODE_ENV: development
+      DATABASE_URL: postgresql://${WORKER_USER:-noteora_worker}:${WORKER_PASSWORD}@postgres:5432/${POSTGRES_DB:-noteora}?schema=marketplace
+      REDIS_URL: redis://:${REDIS_PASSWORD}@redis:6379
+      MONGO_URI: mongodb://mongo:27017/noteora
+    depends_on:
+      postgres:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+      mongo:
+        condition: service_healthy
+    volumes:
+      - ./server:/app
+      - /app/node_modules
+    restart: unless-stopped
+
+  mongo:
+    image: mongo:7
+    ports:
+      - "127.0.0.1:27017:27017"
+    volumes:
+      - mongo_data:/data/db
+    healthcheck:
+      test: ["CMD", "mongosh", "--quiet", "--eval", "db.runCommand({ ping: 1 }).ok"]
+      interval: 5s
+      timeout: 5s
+      retries: 20
+
+  gateway-api:
+    build:
+      context: .
+      dockerfile: gateway-api/Dockerfile
+    profiles: ["gateway"]
+    environment:
+      DATABASE_URL: postgresql://${MARKETPLACE_APP_USER:-noteora_app}:${MARKETPLACE_APP_PASSWORD}@postgres:5432/${POSTGRES_DB:-noteora}?schema=gateway
+      REDIS_URL: redis://:${REDIS_PASSWORD}@redis:6379
+      GATEWAY_JWT_SECRET: ${GATEWAY_JWT_SECRET:-development-gateway-jwt-secret-change-me}
+      GATEWAY_WEBHOOK_ENCRYPTION_KEY: ${GATEWAY_WEBHOOK_ENCRYPTION_KEY:-development-webhook-key-change-me}
+      NOTEORA_ADMIN_TOKEN: ${NOTEORA_ADMIN_TOKEN:-}
+      GATEWAY_CLIENT_URL: http://localhost:5174
+      NODE_ENV: production
+      PORT: 5100
+    depends_on:
+      postgres:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+    ports:
+      - "127.0.0.1:5100:5100"
+    healthcheck:
+      test: ["CMD-SHELL", "wget -q -O - http://localhost:5100/api/health >/dev/null || exit 1"]
+      interval: 10s
+      timeout: 5s
+      retries: 20
+
+  gateway-worker:
+    build:
+      context: .
+      dockerfile: gateway-api/Dockerfile
+    profiles: ["gateway"]
+    command: ["node", "dist/index.js"]
+    environment:
+      DATABASE_URL: postgresql://${WORKER_USER:-noteora_worker}:${WORKER_PASSWORD}@postgres:5432/${POSTGRES_DB:-noteora}?schema=gateway
+      REDIS_URL: redis://:${REDIS_PASSWORD}@redis:6379
+      GATEWAY_JWT_SECRET: ${GATEWAY_JWT_SECRET:-development-gateway-jwt-secret-change-me}
+      GATEWAY_WEBHOOK_ENCRYPTION_KEY: ${GATEWAY_WEBHOOK_ENCRYPTION_KEY:-development-webhook-key-change-me}
+      NOTEORA_ADMIN_TOKEN: ${NOTEORA_ADMIN_TOKEN:-}
+      NODE_ENV: production
+      PORT: 5101
+    depends_on:
+      postgres:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+
+  gateway-web:
+    build:
+      context: ./client
+      dockerfile: Dockerfile
+    profiles: ["gateway"]
+    environment:
+      VITE_GATEWAY_API_URL: http://localhost:5100/api/v1
+      VITE_API_URL: http://localhost:5000/api/v1
+    depends_on:
+      gateway-api:
+        condition: service_started
+    ports:
+      - "127.0.0.1:5174:5173"
+    healthcheck:
+      test: ["CMD-SHELL", "wget -q -O - http://localhost:5173/ >/dev/null || exit 1"]
+      interval: 10s
+      timeout: 3s
+      retries: 20
+
+volumes:
+  postgres_data:
+  redis_data:
+  mongo_data:

@@ -1,0 +1,56 @@
+[
+  {
+    "_id": {
+      "$oid": "000000000000000000000001"
+    },
+    "name": "Buyer Verification",
+    "email": "buyer.verify@noteora.test",
+    "password": "$2b$12$fixturePasswordHashOnly",
+    "role": "USER",
+    "verified": true,
+    "active": true,
+    "plan": "FREE",
+    "createdAt": {
+      "$date": "2026-11-08T18:00:00.000Z"
+    },
+    "updatedAt": {
+      "$date": "2026-11-08T18:00:00.000Z"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "000000000000000000000002"
+    },
+    "name": "Seller One",
+    "email": "seller1.verify@noteora.test",
+    "password": "$2b$12$fixturePasswordHashOnly",
+    "role": "USER",
+    "verified": true,
+    "active": true,
+    "plan": "PRO",
+    "createdAt": {
+      "$date": "2026-11-08T18:00:00.000Z"
+    },
+    "updatedAt": {
+      "$date": "2026-11-08T18:00:00.000Z"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "000000000000000000000003"
+    },
+    "name": "Seller Two",
+    "email": "seller2.verify@noteora.test",
+    "password": "$2b$12$fixturePasswordHashOnly",
+    "role": "USER",
+    "verified": true,
+    "active": true,
+    "plan": "ULTRA",
+    "createdAt": {
+      "$date": "2026-11-08T18:00:00.000Z"
+    },
+    "updatedAt": {
+      "$date": "2026-11-08T18:00:00.000Z"
+    }
+  }
+]

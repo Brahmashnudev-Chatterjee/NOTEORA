@@ -1,0 +1,12 @@
+[
+  {
+    "_id": "6af0b45958d64c2fddb4f196",
+    "user": "6af0b3b858d64c2fddb4f17f",
+    "ip": "::1",
+    "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Code/1.143.1 Chrome/150.0.7871.250 Electron/43.7.7 Safari/537.36",
+    "loginAt": "2026-11-08T17:41:45.351Z",
+    "createdAt": "2026-11-08T17:41:45.352Z",
+    "updatedAt": "2026-11-08T17:41:45.352Z",
+    "__v": 0
+  }
+]

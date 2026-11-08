@@ -1,0 +1,66 @@
+{
+  "dryRun": false,
+  "startedAt": "2026-11-08T18:09:03.155Z",
+  "source": "D:\\NOTEORA\\database\\migration-fixtures",
+  "collections": {
+    "users": {
+      "exported": 3
+    },
+    "categories": {
+      "exported": 1
+    },
+    "materials": {
+      "exported": 2
+    },
+    "carts": {
+      "exported": 0
+    },
+    "orders": {
+      "exported": 3
+    },
+    "paymentwebhookevents": {
+      "exported": 3
+    },
+    "reviews": {
+      "exported": 1
+    },
+    "sellerledgers": {
+      "exported": 2
+    },
+    "subscriptionplans": {
+      "exported": 2
+    },
+    "subscriptions": {
+      "exported": 1
+    },
+    "notifications": {
+      "exported": 0
+    },
+    "adminaudits": {
+      "exported": 0
+    },
+    "supporttickets": {
+      "exported": 0
+    },
+    "usersessions": {
+      "exported": 1
+    },
+    "activitylogs": {
+      "exported": 1
+    },
+    "refunds": {
+      "exported": 1
+    }
+  },
+  "errors": [],
+  "financial": {
+    "mongodbLedgerCustomerPayments": "200.00",
+    "paidOrderTotals": "200.00"
+  },
+  "referentialIntegrity": {
+    "usersReferencedByMaterials": 0,
+    "usersReferencedByOrders": 0
+  },
+  "completedAt": "2026-11-08T18:09:03.412Z",
+  "success": true
+}

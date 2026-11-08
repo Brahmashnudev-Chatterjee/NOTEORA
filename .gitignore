@@ -1,0 +1,112 @@
+# Dependencies
+node_modules/
+**/node_modules/
+.pnp/
+.pnp.js
+
+# Build output
+dist/
+build/
+out/
+**/dist/
+**/build/
+*.tsbuildinfo
+.next/
+.vite/
+
+# Environment files and credentials
+.env
+.env.*
+.env.local
+.env.*.local
+server/.env
+server/.env.*
+gateway-api/.env
+gateway-api/.env.*
+client/.env
+client/.env.*
+!.env.example
+!server/.env.example
+!gateway-api/.env.example
+!client/.env.example
+
+# Private keys and certificates
+*.pem
+*.key
+*.p12
+*.pfx
+*.crt
+*.cer
+secrets/
+
+# Uploads and generated user data
+uploads/
+server/uploads/
+**/uploads/
+public/uploads/
+client/public/uploads/
+server/public/uploads/
+
+# Logs and debugging
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+*.pid
+*.pid.lock
+
+# Test output
+coverage/
+.nyc_output/
+playwright-report/
+test-results/
+**/coverage/
+
+# Database artifacts and backups
+*.sqlite
+*.sqlite3
+*.db
+*.db-journal
+*.dump
+*.backup
+*.bak
+mongo-backups/
+postgres-backups/
+database/backups/
+
+# Prisma generated output
+node_modules/.prisma/
+**/generated/prisma/
+
+# Docker and container runtime
+*.container.log
+
+# IDE and editor files
+.vscode/
+.idea/
+*.code-workspace
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw?
+
+# Operating system files
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# Temporary and cache files
+.tmp/
+tmp/
+temp/
+.cache/
+*.cache
+*.tmp
+*.temp
+
+# Package manager caches
+.npm/
+.yarn/
+.pnpm-store/

@@ -1,0 +1,66 @@
+{
+  "dryRun": false,
+  "startedAt": "2026-11-08T17:53:09.386Z",
+  "source": "D:\\NOTEORA\\database\\export",
+  "collections": {
+    "users": {
+      "exported": 2
+    },
+    "categories": {
+      "exported": 0
+    },
+    "materials": {
+      "exported": 0
+    },
+    "carts": {
+      "exported": 0
+    },
+    "orders": {
+      "exported": 0
+    },
+    "paymentwebhookevents": {
+      "exported": 0
+    },
+    "reviews": {
+      "exported": 0
+    },
+    "sellerledgers": {
+      "exported": 0
+    },
+    "subscriptionplans": {
+      "exported": 0
+    },
+    "subscriptions": {
+      "exported": 0
+    },
+    "notifications": {
+      "exported": 0
+    },
+    "adminaudits": {
+      "exported": 0
+    },
+    "supporttickets": {
+      "exported": 0
+    },
+    "usersessions": {
+      "exported": 1
+    },
+    "activitylogs": {
+      "exported": 1
+    },
+    "refunds": {
+      "exported": 0
+    }
+  },
+  "errors": [],
+  "financial": {
+    "mongodbLedgerCustomerPayments": "0.00",
+    "paidOrderTotals": "0.00"
+  },
+  "referentialIntegrity": {
+    "usersReferencedByMaterials": 0,
+    "usersReferencedByOrders": 0
+  },
+  "completedAt": "2026-11-08T17:53:09.665Z",
+  "success": true
+}

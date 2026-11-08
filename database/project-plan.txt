@@ -1,0 +1,245 @@
+Project Plan: Student Notes Marketplace
+Market and Competitor Survey
+Popular study-notes marketplaces (Docsity, Stuvia, DocMerit, etc.) illustrate key features to emulate. For
+example, Docsity boasts over 20 million users worldwide, allowing note-sellers to upload PDF/Word content
+and set prices in “points” with no hidden fees or revenue splits【22†L378-L387】. Stuvia (700,000+ sellers)
+charges a 30% commission per sale, handling marketing and payouts, so authors keep 70% of revenues
+【22†L399-L405】. DocMerit offers up to 85% of each sale to the seller , the highest payout in this niche
+【22†L420-L429】. Many platforms use similar models: a free tier for casual uploaders, with paid
+subscriptions offering premium benefits (e.g. featured listings, advanced analytics)【27†L319-L328】.
+Reviews, star ratings, and subject categorization (by course, level, etc.) are common features. Notes
+marketplaces often include search filters (subject, instructor , exam), seller profiles, and secure payment
+gateways. Platforms like Payhip go even further , letting users create their own store and keep ~95% of
+revenue【24†L486-L495】. 
+Key competitor takeaways: 
+Buyer experience: Browse notes by subject/course, view details (preview, rating, author info), add to
+cart, pay, and download. 
+Seller experience: Upload notes (PDF/Word), set price (e.g. Stuvia minimum $2.50), and earn
+commission on each sale【22†L399-L405】【24†L486-L495】. Sellers can earn passively once notes
+are live. 
+Admin features: Review and approve uploads, manage users, track sales, and generate reports.
+Quality control is typically enforced (content checks, duplication detection) before notes go live. 
+By studying these platforms, the new web app can combine: a clean notes-browsing UX, seller dashboards
+for uploads and sales, and robust admin oversight with analytics.
+User Workflow and CRUD Operations
+Registration & Profile: Users sign up (student, educator , or guest). Profile includes name, contact
+info, role (buyer/seller or both). After 5 free uploads, users must subscribe (see Pricing) to upload
+more. 
+Browse & Search: On login, users see the landing/home page with featured and new notes. They
+can filter by subject, level (undergrad, graduate, etc.), price, or instructor . Each note item lists title,
+short description, price, seller rating. 
+Note Details: Clicking a note shows full description, preview (if allowed), full price (e.g. up to ₹150),
+and seller info. Reviews and star-ratings from other users appear here. 
+Cart & Purchase: Users add notes to cart. Checkout uses a payment gateway. The system calculates
+final price = base price + taxes/fees. After payment confirmation, the PDF is available for download in
+the user’s account. Each purchase triggers an update (transaction record) in user history. 
+• 
+• 
+• 
+• 
+• 
+• 
+• 
+1
+Reviews: After purchase, users can rate the note (1–5 stars) and leave comments. Reviews are visible
+on the note’s detail page, encouraging quality content. 
+Seller Dashboard: Any user can become a seller by uploading notes. In their dashboard, sellers
+manage their notes (CRUD on their notes): they can Create (upload up to 5 free PDFs at a time with
+title, description, course tags), Read (view existing uploads and sales stats), Update (edit
+descriptions or price), or Delete (remove an unpublished note). Upload Approval: New uploads go
+to “Pending” and are only visible to buyers after admin approval (moderator must review content to
+avoid plagiarism or spam). 
+Sales History: Sellers see how many times each note sold, total earnings, and pending payouts.
+They can withdraw earnings via integrated payouts (e.g. PayPal/Indian local transfer) once a
+minimum balance is reached. 
+Overall, the user-side is a typical ecommerce marketplace: accounts, product listings (notes), cart, checkout,
+and personal dashboards for buying and selling.
+Admin Workflow and Dashboard
+Admin Login & Dashboard: A secure admin portal with a dashboard summarizing key metrics (total
+users, active sellers, monthly sales revenue, recent uploads, etc.). The dashboard could include
+charts of monthly sales and user signups. 
+User Management: Admin can view all user accounts (buyers and sellers). Features include
+searching/filtering users, viewing profile details, editing or deactivating accounts, and upgrading
+accounts (e.g. manually grant Pro/Ultra status). A log of user activity (last login, upload history,
+purchase history) is accessible per user . 
+Content Management: Admin reviews all uploaded notes. A queue shows “Pending Approval”
+items. Admin can approve (make note live) or reject with feedback. Approved notes become
+available for sale; rejected notes notify the seller . Admin can also manually edit or remove any note. 
+Order & Sales Management: View all transactions and orders: see which notes sold, to whom, and
+when. Admin can filter by date or user , and track total revenue. This section also displays commission
+collected vs. seller payouts. 
+Subscription & Plans: Admin sets pricing for the free tier and subscription plans (Pro ₹199/mo, Ultra
+₹499/mo). Admin defines plan benefits (upload limits, commission rate, featured status, etc.) and can
+change them over time. They also manage billing (seeing which users are on trial, active subs,
+overdue payments). 
+Site Configuration: Manage categories/subjects, site-wide announcements or blog posts, FAQs, and
+contact/support info. Admin also reviews reported reviews or users (flagged content) and takes
+action. 
+Analytics & Reporting: The admin panel includes reports like “Total notes uploaded”, “New users
+this month”, “Pending approvals”, etc. It may integrate charts for performance. 
+In summary, the admin panel is a CRUD hub for all data: Admin can Create/Edit site categories, Read all
+records, Update user/note status, and Delete inappropriate content, plus monitor system health. The built-
+in Django admin (if using Django) or a custom MERN admin UI can provide these features efficiently
+【34†L76-L81】.
+• 
+• 
+• 
+• 
+• 
+• 
+• 
+• 
+• 
+• 
+2
+Technical Stack Comparison: MERN vs. Django
+For the tech stack, we compare MERN (MongoDB, Express, React, Node) versus Django (Python backend)
+with React frontend:
+Django (with React frontend): Django is a mature Python framework with batteries included. It
+provides built‑in authentication, permissions, admin interface, and database migrations out of
+the box【34†L76-L81】, which accelerates development of a complex app with users, roles, and
+content. Django’s ORM (e.g. with PostgreSQL) suits relational data (users, notes, orders) well. It
+enforces structure and security best practices by default. According to experienced developers,
+Django+React (separating frontend) yields cleaner , maintainable code for LMS/edtech apps【34†L83-
+L90】. The downside is a steeper learning curve and more initial setup. 
+MERN: MERN is all-JavaScript: MongoDB as database, Express+Node for server , React for UI. It allows
+rapid prototyping (“fun at the start”) since the same language is used everywhere【34†L56-L60】.
+However , large apps may require building many features manually: authentication logic, user roles,
+security checks all must be coded from scratch【34†L64-L72】. MongoDB’s schemaless nature can
+make reporting (e.g. sales analytics) harder than a relational DB. MERN can be faster for an MVP , but
+Django’s robustness pays off long-term【34†L114-L120】. 
+Performance & Scalability: Both stacks can scale well. Real-world advice is to choose based on team
+expertise: “Use MERN for a quick MVP; use Django+React if you want the app to last”【34†L116-
+L120】. Django’s built-in admin panel immediately provides an interface for the dashboard needs
+(user and content management)【34†L76-L81】. MERN would require building a similar admin UI
+from scratch. 
+Recommendation: Given the need for user roles, admin dashboards, and content approval workflows,
+Django’s out-of-the-box features (auth, admin UI, ORM) make it a strong choice. A React frontend can
+provide a modern UI. If fast development and full-JS stack are preferred, MERN is viable, but expect more
+custom coding for admin features and security.
+Pricing, Commission, and Subscriptions
+Note Pricing & Commission: By design, each PDF note can be sold for up to ₹150. We must
+incorporate platform commission and taxes. For example, if a note sells at ₹150, an 18% GST (per
+Indian tax law on digital goods) adds ₹27, making the customer’s total ₹177【20†L48-L56】. If we
+follow a marketplace commission of 30% (as Stuvia does【22†L399-L405】), the platform keeps ₹45
+of the base ₹150, and the seller receives ₹105 before tax. The seller is responsible for the ₹27 GST
+(collected from buyer) and remits it to the government, so their net earnings from that sale are ₹78.
+The platform’s profit is the ₹45 commission (before any applicable tax on its earnings). A simple
+breakdown: 
+Sale Price: ₹150 (base) + ₹27 (GST) = ₹177 total paid. 
+Platform Commission: ₹45 (30% of ₹150). 
+Seller Revenue (pre-tax): ₹150 – ₹45 = ₹105. Seller then pays ₹27 GST, netting ₹78.
+These numbers can be adjusted: for example, if the platform charges a flat 20% commission, seller
+keeps ₹120, platform ₹30. Any chosen commission (15–30%) should be clearly stated in site terms.
+(Note: Docsity promises no hidden fees【22†L378-L387】, so you may opt for a very transparent
+split.) 
+• 
+• 
+• 
+• 
+• 
+• 
+• 
+3
+Portal Profit: The portal’s profit per sale is its commission (here ₹45). On ₹150 base, platform would
+record ₹45 revenue plus handle the ₹27 GST (passing it to tax authorities). Over many sales, monthly
+commission revenue can be tracked on the admin dashboard. 
+Subscription Plans: To encourage loyalty and monetize active sellers, offer tiered subscriptions after
+5 free uploads. For example: 
+Free (Basic): Up to 5 uploads. Standard 30% commission. Limited support. 
+Pro (₹199/month): Allow ~15 uploads/month, reduce commission to, say, 20%. Priority listing
+(seller’s notes get featured), basic analytics of sales. Possibly 24-hour admin support. 
+Ultra (₹499/month): Unlimited uploads, lowest commission (e.g. 10%), premium features like deep
+analytics (download stats, demographic insights), and marketing boosts (featured in newsletters or
+on homepage). Also maybe free content review (fast-track approvals). 
+Subscription models are common in edu-marketplaces【27†L319-L328】. At ₹199, Pro sellers get a tangible
+perk (e.g. more sales percentage and exposure). At ₹499, Ultra sellers get full control and extra services.
+These benefits should be explicitly detailed on the pricing page (e.g. “Pro: +10 uploads, 20% fee; Ultra:
+unlimited uploads, 10% fee, plus featured seller status”). Include Indian currency symbols (₹) in the UI for
+clarity. 
+Additional Fees: If external payment gateways charge transaction fees, these should be factored in
+(deducted from either seller payout or portal expense as per policy). Clearly communicate any GST
+handling: typically, sellers as service providers would be responsible for GST collection/remittance
+since both parties are in India【20†L48-L56】.
+Site Architecture and Pages
+Landing (Public) Page: A modern, responsive homepage in cream, black, and orange tones (per request)
+with slide-out cards or a carousel highlighting top subjects and notes. Key sections include: 
+Hero banner (“Buy & Sell Study Notes Easily – For Free!”) with CTA buttons (Sign Up, Browse Notes). 
+How It Works (3 steps: Upload Notes, Approve & List, Students Buy). 
+Featured Categories or Subjects (cards linking to search results). 
+Testimonials (quote from a student/instructor). 
+Pricing (free vs. Pro vs. Ultra with benefits summary). 
+FAQ (e.g. payment, security, support). 
+Footer (contact, terms, social links). 
+User Pages:
+Signup/Login: Standard forms with email (OTP/verification) or social login. CAPTCHA to avoid bots. 
+Dashboard (after login): Personalized. 
+My Purchases: List of bought notes with download links and revisit rating option. 
+My Uploads: List of notes uploaded by user , showing status (Pending, Live, Rejected) and stats
+(views/sales). Buttons to upload new note (form with title, course tags, price, PDF upload). After 5
+uploads, the button directs to subscription page. 
+Account Settings: Edit profile, payment methods, change password. 
+• 
+• 
+• 
+• 
+• 
+• 
+• 
+• 
+• 
+• 
+• 
+• 
+• 
+• 
+• 
+• 
+• 
+• 
+4
+Subscriptions: Current plan status, options to upgrade/downgrade, payment history. 
+Browse/Search Pages:
+Subject/Course Page: Shows notes filtered by category or search query. List or grid view of note
+cards (title, author , thumbnail/icon, price, rating). Sorting by popularity or date. 
+Note Detail Page: Full description, “Download Now” (if purchased) or price & “Add to Cart” (if not).
+Tabs for description, reviews, FAQ. Seller bio with average rating. Related notes suggestions. 
+Cart & Checkout: Summary of cart items, total price (with tax), payment form (credit card, UPI, etc.).
+Confirmation page redirects to a “Thank you” with download links. 
+Review Form: On a purchase page or in profile, a form to rate and comment. 
+Admin Pages (protected):
+Admin Dashboard: Statistics (number of users, active sellers, total sales this month, pending
+approvals, etc.) with charts. 
+User Management: Table of all users with filters (role, date joined). Actions: view profile, upgrade
+plan, deactivate. 
+Content Moderation: Table of uploaded notes awaiting review. Admin can click into a note to
+preview PDF and then Approve or Reject with message. A separate list of all notes (with search) for
+manual editing. 
+Transactions: List of all purchases, filter by date/user . Totals of revenue vs commission. 
+Plans & Settings: Forms to edit subscription tiers (pricing, upload limits, commission rates) and site
+settings (categories, featured items). 
+Reports: Exportable reports (CSV) for finance and usage (e.g. top-selling notes, monthly sales
+trends). 
+Visual Style: Use cream as a neutral background, black for text/headers, and orange highlights (buttons,
+icons). Implement smooth animations and slide cards on homepage (e.g. each subject card slides in). Use
+modern UI components (drop shadows, rounded corners). Examples of similar designs can be seen in
+educational apps (though none were directly cited, they follow standard SaaS marketplace patterns).
+In summary, the app will combine e-commerce and community features: public landing/marketing pages,
+rich user dashboards (browse, buy, sell), and robust admin panels. All pages should maintain the stated
+color scheme and clean, responsive design. 
+Sources: Data on existing platforms (Docsity, Stuvia, DocMerit) and their commission models【22†L378-
+L387】【22†L399-L405】; Indian GST rules【20†L48-L56】; and expert tech-stack advice comparing MERN
+and Django【34†L76-L81】【34†L114-L120】. These inform the decisions above. 
+• 
+• 
+• 
+• 
+• 
+• 
+• 
+• 
+• 
+• 
+• 
+• 
+5

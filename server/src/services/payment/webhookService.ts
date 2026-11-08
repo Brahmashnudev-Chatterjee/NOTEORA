@@ -1,0 +1,3 @@
+import crypto from 'crypto'
+import { getGatewayCredentials } from './paymentEnvironmentService.js'
+export function verifyGatewayWebhook(rawBody:Buffer|string,signature:string|undefined,environment:string){ const c=getGatewayCredentials(); if(environment!==c.environment) return false; if(!signature||!/^t=(\d+),v1=([a-f0-9]{64})$/.test(signature)) return false; const [,timestamp,digest]=signature.match(/^t=(\d+),v1=([a-f0-9]{64})$/)!; if(Math.abs(Math.floor(Date.now()/1000)-Number(timestamp))>300) return false; if(!c.webhookSecret) return false; const expected=crypto.createHmac('sha256',c.webhookSecret).update(`${timestamp}.${rawBody.toString()}`).digest('hex'); return crypto.timingSafeEqual(Buffer.from(digest,'hex'),Buffer.from(expected,'hex')) }
