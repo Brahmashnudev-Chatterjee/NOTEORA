@@ -17,21 +17,35 @@ app.use(cors({ origin: process.env.GATEWAY_CLIENT_URL || 'http://localhost:5174'
 app.use(express.json({ limit: '1mb' }))
 app.use(rateLimit({ windowMs: 60_000, max: 300, standardHeaders: true, legacyHeaders: false }))
 
-const jwtSecret = process.env.GATEWAY_JWT_SECRET || 'development-gateway-jwt-secret-change-me'
+function getGatewaySecret(name: 'GATEWAY_JWT_SECRET' | 'GATEWAY_WEBHOOK_ENCRYPTION_KEY') {
+  const secret = process.env[name]
+  if (!secret && process.env.NODE_ENV !== 'test') throw new Error(`${name} is required`)
+  return secret || (name === 'GATEWAY_JWT_SECRET' ? 'ci-test-only-gateway-secret' : 'ci-test-only-webhook-secret')
+}
+const jwtSecret = getGatewaySecret('GATEWAY_JWT_SECRET')
 const sha256 = (v: string) => crypto.createHash('sha256').update(v).digest('hex')
 const random = (n = 32) => crypto.randomBytes(n).toString('hex')
 const encrypt = (text: string) => {
-  const key = crypto.createHash('sha256').update(process.env.GATEWAY_WEBHOOK_ENCRYPTION_KEY || 'development-webhook-key-change-me').digest()
+  const key = crypto.createHash('sha256').update(getGatewaySecret('GATEWAY_WEBHOOK_ENCRYPTION_KEY')).digest()
   const iv = crypto.randomBytes(12); const cipher = crypto.createCipheriv('aes-256-gcm', key, iv)
   const encrypted = Buffer.concat([cipher.update(text, 'utf8'), cipher.final()]); const tag = cipher.getAuthTag()
   return Buffer.concat([iv, tag, encrypted]).toString('base64')
 }
 
 function sign(payload: object, expiresIn = '8h') { return jwt.sign(payload, jwtSecret, { expiresIn } as jwt.SignOptions) }
-function authMerchant(req: Request, res: Response, next: NextFunction) {
-  const token = String(req.headers.authorization || '').replace(/^Bearer /i, '')
+async function authMerchant(req: Request, res: Response, next: NextFunction) {
+  let token = String(req.headers.authorization || '')
+  if (token.toLowerCase().startsWith('bearer ')) token = token.slice(7).trim()
   if (!token) return res.status(401).json({ error: 'Merchant authentication required' })
-  try { (req as any).user = jwt.verify(token, jwtSecret); next() } catch { res.status(401).json({ error: 'Invalid or expired token' }) }
+  try {
+    const claims = jwt.verify(token, jwtSecret) as { merchantId: string; userId: string; role: MerchantRole }
+    const user = await prisma.merchantUser.findFirst({ where: { id: claims.userId, merchantId: claims.merchantId, active: true } })
+    if (!user) return res.status(401).json({ error: 'Merchant account is inactive or invalid' })
+    const merchant = await prisma.merchant.findUnique({ where: { id: claims.merchantId }, select: { status: true } })
+    if (!merchant || merchant.status === MerchantStatus.SUSPENDED || merchant.status === MerchantStatus.REJECTED) return res.status(403).json({ error: 'Merchant account is not permitted to access gateway resources' })
+    ;(req as any).user = { merchantId: user.merchantId, userId: user.id, role: user.role }
+    next()
+  } catch { res.status(401).json({ error: 'Invalid or expired token' }) }
 }
 function requireAdmin(req: Request, res: Response, next: NextFunction) {
   const token = String(req.headers.authorization || '').replace(/^Bearer /i, '')

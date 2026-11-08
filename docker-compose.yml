@@ -47,8 +47,8 @@ services:
       DATABASE_URL: postgresql://${MARKETPLACE_APP_USER:-noteora_app}:${MARKETPLACE_APP_PASSWORD}@postgres:5432/${POSTGRES_DB:-noteora}?schema=marketplace
       REDIS_URL: redis://:${REDIS_PASSWORD}@redis:6379
       CLIENT_URL: http://localhost:5173
-      JWT_ACCESS_SECRET: development-only-access-secret
-      JWT_REFRESH_SECRET: development-only-refresh-secret
+      JWT_ACCESS_SECRET: ${JWT_ACCESS_SECRET:?Set JWT_ACCESS_SECRET in the environment}
+      JWT_REFRESH_SECRET: ${JWT_REFRESH_SECRET:?Set JWT_REFRESH_SECRET in the environment}
     depends_on:
       postgres:
         condition: service_healthy
