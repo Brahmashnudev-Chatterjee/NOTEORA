@@ -482,6 +482,7 @@ The user selected **Fix all issues** after reviewing the security findings. The 
 
 Post-fix verification:
 
+- Phase 5B and Phase 5C SQL migrations both executed successfully in a fresh temporary PostgreSQL 16 database; both `marketplace` and `gateway` schemas were created and retained.
 - Backend tests: 14/14 passed.
 - Gateway security tests: 4/4 passed.
 - Backend, gateway and frontend builds passed.

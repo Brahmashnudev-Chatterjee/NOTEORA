@@ -95,9 +95,12 @@ jobs:
           GATEWAY_WEBHOOK_ENCRYPTION_KEY: ci-only-test-webhook-key
 
       - name: Create PostgreSQL schemas and apply migrations
+        env:
+          PGPASSWORD: ci_postgres_password
         run: |
-          psql postgresql://noteora_dev:ci_postgres_password@127.0.0.1:5432/noteora -v ON_ERROR_STOP=1 -f database/prisma/migrations/20261108175257_phase5b/migration.sql
-          psql postgresql://noteora_dev:ci_postgres_password@127.0.0.1:5432/noteora -v ON_ERROR_STOP=1 -f database/prisma/migrations/20261108_phase5c/migration.sql
+          psql -h 127.0.0.1 -p 5432 -U noteora_dev -d noteora -v ON_ERROR_STOP=1 -c 'CREATE SCHEMA IF NOT EXISTS marketplace; CREATE SCHEMA IF NOT EXISTS gateway;'
+          psql -h 127.0.0.1 -p 5432 -U noteora_dev -d noteora -v ON_ERROR_STOP=1 -f database/prisma/migrations/20261108175257_phase5b/migration.sql
+          psql -h 127.0.0.1 -p 5432 -U noteora_dev -d noteora -v ON_ERROR_STOP=1 -f database/prisma/migrations/20261108_phase5c/migration.sql
 
       - name: Validate Prisma schema
         run: npm run prisma:validate

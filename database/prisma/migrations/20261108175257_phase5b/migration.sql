@@ -1,4 +1,5 @@
 -- CreateSchema
+CREATE SCHEMA IF NOT EXISTS "marketplace";
 CREATE SCHEMA IF NOT EXISTS "gateway";
 
 -- CreateEnum
