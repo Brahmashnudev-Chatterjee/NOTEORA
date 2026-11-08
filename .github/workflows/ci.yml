@@ -103,7 +103,10 @@ jobs:
           psql -h 127.0.0.1 -p 5432 -U noteora_dev -d noteora -v ON_ERROR_STOP=1 -f database/prisma/migrations/20261108_phase5c/migration.sql
 
       - name: Generate Prisma clients before validation and build
-        run: npm run prisma:generate
+        run: |
+          npm --prefix server run prisma:generate
+          npx prisma generate --schema database/prisma/schema.prisma
+          npm --prefix gateway-api run prisma:generate
 
       - name: Validate Prisma schema
         run: npm run prisma:validate
