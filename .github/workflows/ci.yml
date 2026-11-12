@@ -54,11 +54,10 @@ jobs:
       TEST_DATABASE_URL: postgresql://noteora_dev:ci_postgres_password@127.0.0.1:5432/noteora?schema=marketplace
       MONGO_URI: mongodb://127.0.0.1:27017/noteora
       REDIS_URL: redis://127.0.0.1:6379
-      JWT_ACCESS_SECRET: ci-only-test-access-secret
+      JWT_ACCESS_SECRET: ci-only-test-access-secret-at-least-32-characters
       JWT_REFRESH_SECRET: ci-only-test-refresh-secret
-      GATEWAY_JWT_SECRET: ci-only-test-gateway-secret
+      GATEWAY_JWT_SECRET: ci-only-test-gateway-secret-at-least-32-characters
       GATEWAY_WEBHOOK_ENCRYPTION_KEY: ci-only-test-webhook-key
-      NOTEORA_ADMIN_TOKEN: ci-only-test-admin-token
 
     steps:
       - name: Checkout repository
@@ -89,9 +88,9 @@ jobs:
           MIGRATION_PASSWORD: ci_migration_password
           DATABASE_ADMIN_PASSWORD: ci_database_admin_password
           REDIS_PASSWORD: ci_redis_password
-          JWT_ACCESS_SECRET: ci-only-test-access-secret
+          JWT_ACCESS_SECRET: ci-only-test-access-secret-at-least-32-characters
           JWT_REFRESH_SECRET: ci-only-test-refresh-secret
-          GATEWAY_JWT_SECRET: ci-only-test-gateway-secret
+          GATEWAY_JWT_SECRET: ci-only-test-gateway-secret-at-least-32-characters
           GATEWAY_WEBHOOK_ENCRYPTION_KEY: ci-only-test-webhook-key
 
       - name: Create PostgreSQL schemas and apply migrations
@@ -101,6 +100,7 @@ jobs:
           psql -h 127.0.0.1 -p 5432 -U noteora_dev -d noteora -v ON_ERROR_STOP=1 -c 'CREATE SCHEMA IF NOT EXISTS marketplace; CREATE SCHEMA IF NOT EXISTS gateway;'
           psql -h 127.0.0.1 -p 5432 -U noteora_dev -d noteora -v ON_ERROR_STOP=1 -f database/prisma/migrations/20261108175257_phase5b/migration.sql
           psql -h 127.0.0.1 -p 5432 -U noteora_dev -d noteora -v ON_ERROR_STOP=1 -f database/prisma/migrations/20261108_phase5c/migration.sql
+          psql -h 127.0.0.1 -p 5432 -U noteora_dev -d noteora -v ON_ERROR_STOP=1 -f database/prisma/migrations/20261112_phase_b_gateway_auth/migration.sql
 
       - name: Generate Prisma clients for root, server, and gateway
         run: npm run prisma:generate

@@ -14,3 +14,5 @@ table td{vertical-align:middle}
 input,select,textarea{background-color:#fff;transition:border-color .15s ease,box-shadow .15s ease}
 input:hover,select:hover,textarea:hover{border-color:rgba(23,23,23,.24)}
 @media(max-width:767px){.container{width:calc(100% - 32px)}h1{overflow-wrap:anywhere}.card{border-radius:.875rem}.card table{min-width:680px}}
+
+button:disabled{cursor:not-allowed;opacity:.55;box-shadow:none;transform:none}.card h2,.card p{overflow-wrap:anywhere}

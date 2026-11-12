@@ -110,3 +110,6 @@ temp/
 .npm/
 .yarn/
 .pnpm-store/
+
+# Local development account email links (never served over HTTP)
+**/.dev-mail/

@@ -531,6 +531,10 @@ model MerchantUser {
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt
 
+  authVersion Int @default(0)
+  authFamily String?
+  authExpiresAt DateTime?
+
   @@unique([merchantId, email])
   @@index([merchantId, role, active])
   @@schema("gateway")

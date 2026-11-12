@@ -121,10 +121,10 @@ services:
     environment:
       DATABASE_URL: postgresql://${MARKETPLACE_APP_USER:-noteora_app}:${MARKETPLACE_APP_PASSWORD}@postgres:5432/${POSTGRES_DB:-noteora}?schema=gateway
       REDIS_URL: redis://:${REDIS_PASSWORD}@redis:6379
-      GATEWAY_JWT_SECRET: ${GATEWAY_JWT_SECRET:-development-gateway-jwt-secret-change-me}
-      GATEWAY_WEBHOOK_ENCRYPTION_KEY: ${GATEWAY_WEBHOOK_ENCRYPTION_KEY:-development-webhook-key-change-me}
-      NOTEORA_ADMIN_TOKEN: ${NOTEORA_ADMIN_TOKEN:-}
-      GATEWAY_CLIENT_URL: http://localhost:5174
+      GATEWAY_JWT_SECRET: ${GATEWAY_JWT_SECRET:?Set GATEWAY_JWT_SECRET}
+      GATEWAY_WEBHOOK_ENCRYPTION_KEY: ${GATEWAY_WEBHOOK_ENCRYPTION_KEY:?Set GATEWAY_WEBHOOK_ENCRYPTION_KEY}
+      MARKETPLACE_AUTH_URL: http://marketplace-api:5000
+      GATEWAY_CLIENT_URL: http://localhost:5173,http://localhost:5174
       NODE_ENV: production
       PORT: 5100
     depends_on:
@@ -149,9 +149,9 @@ services:
     environment:
       DATABASE_URL: postgresql://${WORKER_USER:-noteora_worker}:${WORKER_PASSWORD}@postgres:5432/${POSTGRES_DB:-noteora}?schema=gateway
       REDIS_URL: redis://:${REDIS_PASSWORD}@redis:6379
-      GATEWAY_JWT_SECRET: ${GATEWAY_JWT_SECRET:-development-gateway-jwt-secret-change-me}
-      GATEWAY_WEBHOOK_ENCRYPTION_KEY: ${GATEWAY_WEBHOOK_ENCRYPTION_KEY:-development-webhook-key-change-me}
-      NOTEORA_ADMIN_TOKEN: ${NOTEORA_ADMIN_TOKEN:-}
+      GATEWAY_JWT_SECRET: ${GATEWAY_JWT_SECRET:?Set GATEWAY_JWT_SECRET}
+      GATEWAY_WEBHOOK_ENCRYPTION_KEY: ${GATEWAY_WEBHOOK_ENCRYPTION_KEY:?Set GATEWAY_WEBHOOK_ENCRYPTION_KEY}
+      MARKETPLACE_AUTH_URL: http://marketplace-api:5000
       NODE_ENV: production
       PORT: 5101
     depends_on:

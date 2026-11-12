@@ -17,11 +17,11 @@ type MerchantStatusValue = typeof MerchantStatus[keyof typeof MerchantStatus]
 type MerchantRoleValue = typeof MerchantRole[keyof typeof MerchantRole]
 type PaymentEnvironmentValue = typeof PaymentEnvironment[keyof typeof PaymentEnvironment]
 
-const prisma = new PrismaClient({ log: ['error'] })
+const prisma = new PrismaClient({ log: [] })
 export const app = express()
-app.set('trust proxy', 1)
+app.set('trust proxy', Number(process.env.TRUST_PROXY_HOPS || 0))
 app.use(helmet())
-app.use(cors({ origin: process.env.GATEWAY_CLIENT_URL || 'http://localhost:5174', credentials: true }))
+app.use(cors({ origin: (process.env.GATEWAY_CLIENT_URL || 'http://localhost:5173,http://localhost:5174').split(',').map(x=>x.trim()), credentials: true }))
 app.use(express.json({ limit: '1mb' }))
 app.use(rateLimit({ windowMs: 60_000, max: 300, standardHeaders: true, legacyHeaders: false }))
 
@@ -31,6 +31,7 @@ function getGatewaySecret(name: 'GATEWAY_JWT_SECRET' | 'GATEWAY_WEBHOOK_ENCRYPTI
   return secret || (name === 'GATEWAY_JWT_SECRET' ? 'ci-test-only-gateway-secret' : 'ci-test-only-webhook-secret')
 }
 const jwtSecret = getGatewaySecret('GATEWAY_JWT_SECRET')
+if (process.env.NODE_ENV !== 'test' && jwtSecret.length < 32) throw new Error('GATEWAY_JWT_SECRET must contain at least 32 characters')
 const sha256 = (v: string) => crypto.createHash('sha256').update(v).digest('hex')
 const random = (n = 32) => crypto.randomBytes(n).toString('hex')
 const encrypt = (text: string) => {
@@ -40,14 +41,24 @@ const encrypt = (text: string) => {
   return Buffer.concat([iv, tag, encrypted]).toString('base64')
 }
 
-function sign(payload: object, expiresIn = '8h') { return jwt.sign(payload, jwtSecret, { expiresIn } as jwt.SignOptions) }
+function sign(payload: object, refresh = false) { return jwt.sign(payload, jwtSecret, { algorithm:'HS256', expiresIn:refresh?'7d':'15m', issuer:'noteora-gateway', audience:refresh?'noteora-gateway-refresh':'noteora-gateway-merchant' }) }
+const sessionCookie = 'noteora_gateway_refresh'
+function cookie(value: string, expires?: Date) { return `${sessionCookie}=${value}; HttpOnly; SameSite=Strict; Path=/api/v1/auth; ${expires?`Expires=${expires.toUTCString()}`:'Max-Age=0'}${process.env.NODE_ENV==='production'?'; Secure':''}` }
+function sessionCsrf(req: Request,res: Response,next: NextFunction) {
+  const origins=(process.env.GATEWAY_CLIENT_URL||'http://localhost:5173,http://localhost:5174').split(',').map(x=>x.trim())
+  if(!origins.includes(String(req.headers.origin||''))||req.headers['x-noteora-csrf']!=='1')return res.status(403).json({error:'Untrusted session request'})
+  res.setHeader('Cache-Control','no-store');next()
+}
+app.use('/api/v1/auth',rateLimit({windowMs:15*60*1000,limit:30,standardHeaders:true,legacyHeaders:false}))
+
 async function authMerchant(req: Request, res: Response, next: NextFunction) {
-  let token = String(req.headers.authorization || '')
-  if (token.toLowerCase().startsWith('bearer ')) token = token.slice(7).trim()
+  const bearer=/^Bearer ([^\s]+)$/i.exec(String(req.headers.authorization||''))
+  const token=bearer?.[1]
   if (!token) return res.status(401).json({ error: 'Merchant authentication required' })
   try {
-    const claims = jwt.verify(token, jwtSecret) as { merchantId: string; userId: string; role: MerchantRoleValue }
-    const user = await prisma.merchantUser.findFirst({ where: { id: claims.userId, merchantId: claims.merchantId, active: true } })
+    const claims = jwt.verify(token, jwtSecret, {algorithms:['HS256'],issuer:'noteora-gateway',audience:'noteora-gateway-merchant'}) as { merchantId: string; userId: string; version:number; family:string }
+    if(typeof claims.userId!=='string'||typeof claims.merchantId!=='string'||typeof claims.family!=='string'||!Number.isInteger(claims.version))return res.status(401).json({error:'Invalid merchant claims'})
+    const user = await prisma.merchantUser.findFirst({ where: { id: claims.userId, merchantId: claims.merchantId, active: true, authVersion:claims.version, authFamily:claims.family, authExpiresAt:{gt: new Date()} } })
     if (!user) return res.status(401).json({ error: 'Merchant account is inactive or invalid' })
     const merchant = await prisma.merchant.findUnique({ where: { id: claims.merchantId }, select: { status: true } })
     if (!merchant || merchant.status === MerchantStatus.SUSPENDED || merchant.status === MerchantStatus.REJECTED) return res.status(403).json({ error: 'Merchant account is not permitted to access gateway resources' })
@@ -55,11 +66,19 @@ async function authMerchant(req: Request, res: Response, next: NextFunction) {
     next()
   } catch { res.status(401).json({ error: 'Invalid or expired token' }) }
 }
-function requireAdmin(req: Request, res: Response, next: NextFunction) {
-  const token = String(req.headers.authorization || '').replace(/^Bearer /i, '')
-  const expected = process.env.NOTEORA_ADMIN_TOKEN
-  if (!expected || token !== expected) return res.status(403).json({ error: 'Administrator access required' })
-  next()
+async function requireAdmin(req: Request, res: Response, next: NextFunction) {
+  // Administrator identities are marketplace sessions, never merchant JWTs or a browser-shipped shared secret.
+  const match=/^Bearer ([^\s]+)$/i.exec(req.headers.authorization||'')
+  const base=process.env.MARKETPLACE_AUTH_URL
+  const claims=match?jwt.decode(match[1]) as jwt.JwtPayload|null:null
+  if(!match||!base||!claims||claims.iss!=='noteora-marketplace'||claims.aud!=='noteora-marketplace-api')return res.status(403).json({error:'Administrator access required'})
+  try {
+    const response=await fetch(`${base.replace(/\/$/,'')}/api/v1/auth/gateway-admin`,{headers:{Authorization:`Bearer ${match[1]}`},signal:AbortSignal.timeout(5000),redirect:'error'})
+    if(!response.ok)return res.status(403).json({error:'Administrator access required'})
+    const identity=await response.json() as {id?:string;role?:string}
+    if(!identity.id||!['ADMIN','SUPER_ADMIN'].includes(identity.role||''))return res.status(403).json({error:'Administrator access required'})
+    ;(req as any).admin=identity;next()
+  }catch{return res.status(503).json({error:'Administrator authentication unavailable'})}
 }
 function requireMerchantPermission(...roles: MerchantRoleValue[]) {
   return (req: Request, res: Response, next: NextFunction) => {
@@ -77,8 +96,8 @@ app.get('/api/health', async (_req, res) => {
   catch { res.status(503).json({ status: 'unavailable', service: 'Noteora Gateway API' }) }
 })
 
-const registerSchema = z.object({ name: z.string().min(2).max(120), businessName: z.string().min(2).max(160), contactName: z.string().min(2).max(120), contactEmail: z.string().email(), contactPhone: z.string().min(8).max(30), businessType: z.string().min(2).max(80), website: z.string().url().optional(), password: z.string().min(12).max(72) })
-app.post('/api/v1/merchants/register', async (req, res, next) => {
+const registerSchema = z.object({ name: z.string().min(2).max(120), businessName: z.string().min(2).max(160), contactName: z.string().min(2).max(120), contactEmail: z.string().email(), contactPhone: z.string().min(8).max(30), businessType: z.string().min(2).max(80), website: z.string().url().optional(), password: z.string().min(12).refine(x=>Buffer.byteLength(x,'utf8')<=72) })
+app.post('/api/v1/merchants/register', rateLimit({windowMs:15*60*1000,limit:10,standardHeaders:true,legacyHeaders:false}), async (req, res, next) => {
   try {
     const input = registerSchema.parse(req.body); const base = input.businessName.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)/g, '')
     const result = await prisma.$transaction(async (tx: Prisma.TransactionClient) => {
@@ -91,14 +110,46 @@ app.post('/api/v1/merchants/register', async (req, res, next) => {
   } catch (e) { next(e) }
 })
 
-app.post('/api/v1/auth/login', async (req, res) => {
-  const parsed = z.object({ email: z.string().email(), password: z.string() }).safeParse(req.body)
+app.post('/api/v1/auth/login', sessionCsrf, async (req, res) => {
+  const parsed = z.object({ email: z.string().email(), password: z.string().max(1024) }).safeParse(req.body)
   if (!parsed.success) return res.status(400).json({ error: 'Invalid login request' })
   const user = await prisma.merchantUser.findUnique({ where: { email: parsed.data.email.toLowerCase() } })
-  if (!user || !user.active || !(await bcrypt.compare(parsed.data.password, user.passwordHash))) return res.status(401).json({ error: 'Invalid credentials' })
-  await prisma.merchantUser.update({ where: { id: user.id }, data: { lastLoginAt: new Date() } })
+  if (!user || !user.active || !(await bcrypt.compare(parsed.data.password, user.passwordHash))) { await audit(null,'ANONYMOUS',null,'MERCHANT_LOGIN_FAILED',undefined,undefined,req); return res.status(401).json({ error: 'Invalid credentials' }) }
+  const merchant=await prisma.merchant.findUnique({where:{id:user.merchantId},select:{status:true}})
+  if(!merchant||['SUSPENDED','REJECTED'].includes(merchant.status))return res.status(403).json({error:'Merchant account is inactive'})
+  const family=random(24); const expires=new Date(Date.now()+7*86400000)
+  const updated=await prisma.merchantUser.update({where:{id:user.id},data:{lastLoginAt:new Date(),authVersion:{increment:1},authFamily:family,authExpiresAt:expires}})
+  const claims={merchantId:user.merchantId,userId:user.id,version:updated.authVersion,family}
   await audit(user.merchantId, 'MERCHANT_USER', user.id, 'MERCHANT_LOGIN', 'MERCHANT_USER', user.id, req)
-  res.json({ token: sign({ merchantId: user.merchantId, userId: user.id, role: user.role }), merchantId: user.merchantId, role: user.role })
+  res.setHeader('Set-Cookie',cookie(sign(claims,true),expires))
+  res.json({ token:sign(claims),merchantId:user.merchantId,role:user.role })
+})
+app.post('/api/v1/auth/refresh',sessionCsrf,async(req,res)=>{
+  try{
+    const raw=String(req.headers.cookie||'').split(';').map(x=>x.trim()).find(x=>x.startsWith(sessionCookie+'='))?.slice(sessionCookie.length+1)
+    if(!raw)throw new Error('Missing refresh')
+    const claims=jwt.verify(raw,jwtSecret,{algorithms:['HS256'],issuer:'noteora-gateway',audience:'noteora-gateway-refresh'}) as {userId:string;merchantId:string;version:number;family:string}
+    if(typeof claims.userId!=='string'||typeof claims.merchantId!=='string'||typeof claims.family!=='string'||!Number.isInteger(claims.version))throw new Error('Invalid claims')
+    const user=await prisma.merchantUser.findFirst({where:{id:claims.userId,merchantId:claims.merchantId,active:true,authFamily:claims.family,authExpiresAt:{gt:new Date()}}})
+    const merchant=await prisma.merchant.findUnique({where:{id:claims.merchantId},select:{status:true}})
+    if(!user||!merchant||['REJECTED','SUSPENDED'].includes(merchant.status))throw new Error('Inactive account')
+    const updated=await prisma.merchantUser.updateMany({where:{id:user.id,authVersion:claims.version,authFamily:claims.family},data:{authVersion:{increment:1}}})
+    if(!updated.count){
+      await prisma.merchantUser.updateMany({where:{id:user.id,authFamily:claims.family},data:{authFamily:null,authVersion:{increment:1}}})
+      await audit(user.merchantId,'MERCHANT_USER',user.id,'REFRESH_REUSE_DETECTED','MERCHANT_USER',user.id,req)
+      throw new Error('Refresh reuse')
+    }
+    const next={userId:user.id,merchantId:user.merchantId,version:claims.version+1,family:claims.family}
+    const refresh=jwt.sign(next,jwtSecret,{algorithm:'HS256',expiresIn:Math.max(1,Math.floor((user.authExpiresAt!.getTime()-Date.now())/1000)),issuer:'noteora-gateway',audience:'noteora-gateway-refresh'})
+    res.setHeader('Set-Cookie',cookie(refresh,user.authExpiresAt!))
+    res.json({token:sign(next),role:user.role,merchantId:user.merchantId})
+  }catch{res.setHeader('Set-Cookie',cookie(''));res.status(401).json({error:'Invalid or revoked refresh session'})}
+})
+app.post('/api/v1/auth/logout',sessionCsrf,authMerchant,async(req,res)=>{
+  const {userId,merchantId}=(req as any).user
+  await prisma.merchantUser.update({where:{id:userId},data:{authVersion:{increment:1},authFamily:null,authExpiresAt:null}})
+  await audit(merchantId,'MERCHANT_USER',userId,'MERCHANT_LOGOUT','MERCHANT_USER',userId,req)
+  res.setHeader('Set-Cookie',cookie(''));res.json({signedOut:true})
 })
 
 app.post('/api/v1/credentials/verify', async (req, res) => {
@@ -121,7 +172,7 @@ app.get('/api/v1/merchant/me', authMerchant, async (req, res) => {
 
 app.patch('/api/v1/merchant/me', authMerchant, requireMerchantPermission(MerchantRole.MERCHANT_OWNER, MerchantRole.MERCHANT_ADMIN), async (req, res, next) => {
   try {
-    const input = z.object({ businessName: z.string().min(2).optional(), contactName: z.string().min(2).optional(), contactPhone: z.string().min(8).optional(), website: z.string().url().optional(), address: z.record(z.unknown()).optional() }).parse(req.body)
+    const input = z.object({ businessName: z.string().min(2).optional(), contactName: z.string().min(2).optional(), contactPhone: z.string().min(8).optional(), website: z.string().url().optional(), address: z.record(z.string(), z.unknown()).optional() }).parse(req.body)
     const { merchantId, userId } = (req as any).user
     const merchant = await prisma.merchant.update({ where: { id: merchantId }, data: { ...input, address: input.address ? input.address as any : undefined } })
     await audit(merchantId, 'MERCHANT_USER', userId, 'MERCHANT_PROFILE_UPDATED', 'MERCHANT', merchantId, req)
@@ -144,7 +195,8 @@ app.patch('/api/v1/admin/merchants/:id/status', requireAdmin, async (req, res, n
     const input = z.object({ status: z.enum(['UNDER_REVIEW','APPROVED','REJECTED','SUSPENDED']), reason: z.string().max(500).optional() }).parse(req.body)
     if (input.status === 'REJECTED' && !input.reason) return res.status(400).json({ error: 'Rejection reason is required' })
     const merchant = await prisma.merchant.update({ where: { id: String(req.params.id) }, data: { status: input.status as MerchantStatusValue, rejectionReason: input.reason || null, reviewedAt: new Date(), onboardingStep: input.status === 'APPROVED' ? 4 : undefined } })
-    await audit(merchant.id, 'ADMIN', null, `MERCHANT_${input.status}`, 'MERCHANT', merchant.id, req)
+    if(['REJECTED','SUSPENDED'].includes(input.status))await prisma.merchantUser.updateMany({where:{merchantId:merchant.id},data:{authFamily:null,authExpiresAt:null,authVersion:{increment:1}}})
+    await audit(merchant.id, 'ADMIN', (req as any).admin.id, `MERCHANT_${input.status}`, 'MERCHANT', merchant.id, req)
     res.json(merchant)
   } catch (e) { next(e) }
 })
@@ -206,8 +258,9 @@ app.get('/api/v1/merchant/activity', authMerchant, async (req, res) => {
 
 app.use((err: any, _req: Request, res: Response, _next: NextFunction) => {
   if (err instanceof z.ZodError) return res.status(400).json({ error: 'Validation failed', fields: err.flatten() })
-  console.error('Gateway API error', { message: err.message })
-  res.status(err.status || 500).json({ error: err.message || 'Internal gateway error' })
+  const status=err.status||500
+  console.error('Gateway request failed',{status})
+  res.status(status).json({error:status>=500?'Internal gateway error':'Invalid request'})
 })
 
 if (process.env.NODE_ENV !== 'test') {

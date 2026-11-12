@@ -11,19 +11,19 @@ afterAll(async()=>{await mongoose.disconnect();await mongo.stop()})
 describe('authentication API integration',()=>{
   it('registers, rejects duplicate email, and logs in',async()=>{
     const email='buyer.noteora@example.com'
-    const first=await request(app).post('/api/v1/auth/register').send({name:'Buyer One',email,password:'StrongPass1!',confirmPassword:'StrongPass1!',acceptedTerms:true})
+    const first=await request(app).post('/api/v1/auth/register').set('Origin','http://localhost:5173').set('X-Noteora-CSRF','1').send({name:'Buyer One',email,password:'StrongPass1!',confirmPassword:'StrongPass1!',acceptedTerms:true})
     expect(first.status).toBe(201)
     expect(first.body.accessToken).toBeTruthy()
-    const duplicate=await request(app).post('/api/v1/auth/register').send({name:'Buyer Two',email,password:'StrongPass1!',confirmPassword:'StrongPass1!',acceptedTerms:true})
+    const duplicate=await request(app).post('/api/v1/auth/register').set('Origin','http://localhost:5173').set('X-Noteora-CSRF','1').send({name:'Buyer Two',email,password:'StrongPass1!',confirmPassword:'StrongPass1!',acceptedTerms:true})
     expect(duplicate.status).toBe(409)
-    const login=await request(app).post('/api/v1/auth/login').send({email,password:'StrongPass1!'})
+    const login=await request(app).post('/api/v1/auth/login').set('Origin','http://localhost:5173').set('X-Noteora-CSRF','1').send({email,password:'StrongPass1!'})
     expect(login.status).toBe(200)
     expect(login.body.user.email).toBe(email)
   })
   it('rejects protected access without a token and invalid credentials',async()=>{
     const protectedResponse=await request(app).get('/api/v1/users/me')
     expect(protectedResponse.status).toBe(401)
-    const login=await request(app).post('/api/v1/auth/login').send({email:'missing@example.com',password:'WrongPass1!'})
+    const login=await request(app).post('/api/v1/auth/login').set('Origin','http://localhost:5173').set('X-Noteora-CSRF','1').send({email:'missing@example.com',password:'WrongPass1!'})
     expect(login.status).toBe(401)
   })
   it('returns a non-disclosing forgot-password response',async()=>{
