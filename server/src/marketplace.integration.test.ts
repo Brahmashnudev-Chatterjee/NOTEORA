@@ -170,6 +170,12 @@ describe('Phase C real MongoDB marketplace integration',()=>{
     expect(r.status).toBe(200);expect(r.body.role).toBe('USER');expect(r.body.verified).toBe(false);expect(r.body.bio).toBe('Teaching math')
     expect((await get('/users/me',seller)).body.notificationPreferences.email).toBe(false)
   })
+  it('honors persisted in-app preferences when recording moderation notifications',async()=>{
+    await patch('/users/me').send({notificationPreferences:{email:true,inApp:false}})
+    const m=await material({status:'PENDING'})
+    expect((await patch('/admin/materials/'+m._id+'/status',admin).send({status:'APPROVED'})).status).toBe(200)
+    expect(await Notification.countDocuments({user:seller.user._id})).toBe(0)
+  })
   it('stores and scopes support tickets and rejects empty messages',async()=>{
     expect((await post('/support',seller).send({subject:'  ',message:'Empty'})).status).toBe(400)
     const r=await post('/support',seller).send({subject:'Upload help',message:'Need assistance',status:'RESOLVED',user:other.user._id})

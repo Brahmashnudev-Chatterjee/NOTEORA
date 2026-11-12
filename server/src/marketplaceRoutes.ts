@@ -169,7 +169,8 @@ marketplaceRoutes.patch('/admin/materials/:id/status',auth,allow('ADMIN','SUPER_
   const m=await Material.findOneAndUpdate({_id:req.params.id,status:status==='ARCHIVED'?'APPROVED':'PENDING'},{$set:{status,moderationNote}},{new:true})
   if(!m)return res.status(409).json({message:'Only pending materials may be approved/rejected; only approved materials may be archived'})
   await AdminAudit.create({actor:req.user!.id,action:'MODERATE_MATERIAL',entity:'Material',entityId:String(m._id),details:parsed.data,ip:req.ip})
-  await Notification.create({user:m.seller,type:'MODERATION',title:`Material ${status.toLowerCase()}`,message:`${m.title}: ${moderationNote||status}`})
+  const owner=await User.findById(m.seller).select('notificationPreferences')
+  if(owner?.notificationPreferences?.inApp!==false)await Notification.create({user:m.seller,type:'MODERATION',title:`Material ${status.toLowerCase()}`,message:`${m.title}: ${moderationNote||status}`})
   res.json(safeMaterial(m))
 })
 marketplaceRoutes.get('/orders/:orderId/download-token/:materialId',auth,async(req:AuthRequest,res)=>{
