@@ -1,0 +1,198 @@
+Prisma schema loaded from database\prisma\schema.prisma
+Datasource "db": PostgreSQL database "noteora_gateway_test", schemas "gateway, marketplace" at "127.0.0.1:52050"
+
+Migration 20261108175257_phase5b marked as applied.
+node : ┌─────────────────────────────────────────────────────────┐
+At line:14 char:94
++ ... +$env:PATH; node scripts/verify-phase-e-postgres.mjs *> docs/evidence ...
++                 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : NotSpecified: (┌──────────────...──────────────┐:String) [], RemoteException
+    + FullyQualifiedErrorId : NativeCommandError
+ 
+│  Update available 6.19.0 -> 8.0.0-rc.33                 │
+│                                                         │
+│  This is a major update - please follow the guide at    │
+│  https://pris.ly/d/major-version-upgrade                │
+│                                                         │
+│  Run the following to update                            │
+│    npm i --save-dev prisma@latest                       │
+│    npm i @prisma/client@latest                          │
+└─────────────────────────────────────────────────────────┘
+
+Prisma schema loaded from database\prisma\schema.prisma
+Datasource "db": PostgreSQL database "noteora_gateway_test", schemas "gateway, marketplace" at "127.0.0.1:52050"
+
+4 migrations found in prisma/migrations
+
+Applying migration `20261108_phase5c`
+Applying migration `20261112_phase_b_gateway_auth`
+Applying migration `20261113_phase_e_merchant_management`
+
+The following migration(s) have been applied:
+
+migrations/
+  └─ 20261108_phase5c/
+    └─ migration.sql
+  └─ 20261112_phase_b_gateway_auth/
+    └─ migration.sql
+  └─ 20261113_phase_e_merchant_management/
+    └─ migration.sql
+      
+All migrations have been successfully applied.
+Prisma schema loaded from database\prisma\schema.prisma
+Datasource "db": PostgreSQL database "noteora_gateway_test", schemas "gateway, marketplace" at "127.0.0.1:52050"
+
+4 migrations found in prisma/migrations
+
+
+No pending migrations to apply.
+Fresh and repeated Prisma migration deployment passed.
+
+ RUN  v3.2.7 D:/NOTEORA/gateway-api
+
+ ✓ test/auth.postgres.test.ts (4 tests) 2541ms
+   ✓ Gateway authentication on isolated PostgreSQL > registers a merchant with an owner and initialized auth version  681ms
+   ✓ Gateway authentication on isolated PostgreSQL > persists login and rotated refresh state  540ms
+   ✓ Gateway authentication on isolated PostgreSQL > refuses suspended merchants and records security audit history  504ms
+
+ Test Files  1 passed (1)
+      Tests  4 passed (4)
+   Start at  12:23:28
+   Duration  3.49s (transform 221ms, setup 0ms, collect 315ms, tests 2.54s, environment 0ms, prepare 375ms)
+
+
+ RUN  v3.2.7 D:/NOTEORA/server
+
+ ✓ src/postgres.integration.test.ts (5 tests) 247ms
+
+ Test Files  1 passed (1)
+      Tests  5 passed (5)
+   Start at  12:23:32
+   Duration  725ms (transform 60ms, setup 0ms, collect 103ms, tests 247ms, environment 0ms, prepare 144ms)
+
+
+ RUN  v3.2.7 D:/NOTEORA/gateway-api
+
+stderr | test/management.postgres.test.ts > Phase E real PostgreSQL merchant management > keeps registration pending 
+and denies credential provisioning before review
+Gateway request failed { status: 409 }
+
+stderr | test/management.postgres.test.ts > Phase E real PostgreSQL merchant management > requires real administrator 
+identity and recorded reasons; rejects stale review
+Gateway request failed { status: 409 }
+
+stderr | test/management.postgres.test.ts > Phase E real PostgreSQL merchant management > creates expiring hashed 
+invitations; acceptance is single-use
+Gateway request failed { status: 400 }
+
+stderr | test/management.postgres.test.ts > Phase E real PostgreSQL merchant management > rejects expired and revoked 
+invitations
+Gateway request failed { status: 400 }
+
+stderr | test/management.postgres.test.ts > Phase E real PostgreSQL merchant management > rejects expired and revoked 
+invitations
+Gateway request failed { status: 400 }
+
+stderr | test/management.postgres.test.ts > Phase E real PostgreSQL merchant management > enforces role permissions 
+and prevents administrator privilege escalation
+Gateway request failed { status: 403 }
+
+stderr | test/management.postgres.test.ts > Phase E real PostgreSQL merchant management > enforces role permissions 
+and prevents administrator privilege escalation
+Gateway request failed { status: 403 }
+
+stderr | test/management.postgres.test.ts > Phase E real PostgreSQL merchant management > protects the final owner and 
+enforces cross-merchant member isolation
+Gateway request failed { status: 409 }
+
+stderr | test/management.postgres.test.ts > Phase E real PostgreSQL merchant management > protects the final owner and 
+enforces cross-merchant member isolation
+Gateway request failed { status: 404 }
+
+stderr | test/management.postgres.test.ts > Phase E real PostgreSQL merchant management > denies wrong secrets, 
+expired keys and live environment access
+Gateway request failed { status: 400 }
+
+stderr | test/management.postgres.test.ts > Phase E real PostgreSQL merchant management > serializes simultaneous 
+rotations and supports scoped revocation
+Gateway request failed { status: 404 }
+
+stderr | test/management.postgres.test.ts > Phase E real PostgreSQL merchant management > rejects unsafe destinations 
+and fabricated payment event subscriptions
+Gateway request failed { status: 400 }
+
+stderr | test/management.postgres.test.ts > Phase E real PostgreSQL merchant management > rejects unsafe destinations 
+and fabricated payment event subscriptions
+Gateway request failed { status: 400 }
+
+stderr | test/management.postgres.test.ts > Phase E real PostgreSQL merchant management > rejects unsafe destinations 
+and fabricated payment event subscriptions
+Gateway request failed { status: 400 }
+
+stderr | test/management.postgres.test.ts > Phase E real PostgreSQL merchant management > rejects unsafe destinations 
+and fabricated payment event subscriptions
+Gateway request failed { status: 400 }
+
+stderr | test/management.postgres.test.ts > Phase E real PostgreSQL merchant management > stores encrypted webhook 
+secrets and prevents cross-merchant endpoint changes
+Gateway request failed { status: 404 }
+
+stderr | test/management.postgres.test.ts > Phase E real PostgreSQL merchant management > cancels delivery when 
+configuration is disabled and disallows live test events
+Gateway request failed { status: 409 }
+
+stderr | test/management.postgres.test.ts > Phase E real PostgreSQL merchant management > requires renewed review for 
+business identity changes and has no audit mutation endpoint
+Gateway request failed { status: 409 }
+
+ ✓ test/management.postgres.test.ts (18 tests) 11949ms
+   ✓ Phase E real PostgreSQL merchant management > requires real administrator identity and recorded reasons; rejects stale review  590ms
+   ✓ Phase E real PostgreSQL merchant management > creates expiring hashed invitations; acceptance is single-use  4305ms
+   ✓ Phase E real PostgreSQL merchant management > rejects expired and revoked invitations  1075ms
+   ✓ Phase E real PostgreSQL merchant management > revokes sessions immediately after member role changes and access removal  750ms
+   ✓ Phase E real PostgreSQL merchant management > denies wrong secrets, expired keys and live environment access  314ms
+   ✓ Phase E real PostgreSQL merchant management > rechecks merchant status for sessions and keys and records auditable transitions  1476ms
+
+ Test Files  1 passed (1)
+      Tests  18 passed (18)
+   Start at  12:23:34
+   Duration  12.83s (transform 190ms, setup 0ms, collect 385ms, tests 11.95s, environment 0ms, prepare 140ms)
+
+
+ RUN  v3.2.7 D:/NOTEORA/gateway-api
+
+ ✓ test/queue.postgres.test.ts (1 test) 1464ms
+   ✓ Real Redis BullMQ and PostgreSQL delivery > recovers a durable pending delivery, retries a 503 and logs signed test delivery exactly once on success  1373ms
+
+ Test Files  1 passed (1)
+      Tests  1 passed (1)
+   Start at  12:23:48
+   Duration  2.46s (transform 122ms, setup 0ms, collect 597ms, tests 1.46s, environment 1ms, prepare 131ms)
+
+Prisma schema loaded from database\prisma\schema.prisma
+Datasource "db": PostgreSQL database "noteora_restore_test", schemas "gateway, marketplace" at "127.0.0.1:52050"
+
+Migration 20261108175257_phase5b marked as applied.
+
+Prisma schema loaded from database\prisma\schema.prisma
+Datasource "db": PostgreSQL database "noteora_restore_test", schemas "gateway, marketplace" at "127.0.0.1:52050"
+
+4 migrations found in prisma/migrations
+
+Applying migration `20261108_phase5c`
+Applying migration `20261112_phase_b_gateway_auth`
+Applying migration `20261113_phase_e_merchant_management`
+
+The following migration(s) have been applied:
+
+migrations/
+  └─ 20261108_phase5c/
+    └─ migration.sql
+  └─ 20261112_phase_b_gateway_auth/
+    └─ migration.sql
+  └─ 20261113_phase_e_merchant_management/
+    └─ migration.sql
+      
+All migrations have been successfully applied.
+Gateway logical fixture backup/restore: 16 tables identical; no production database used.
+Disposable PostgreSQL and Redis stopped. No existing service was used.

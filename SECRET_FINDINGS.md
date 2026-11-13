@@ -1,0 +1,11 @@
+# Secret and export review - Phase E.1
+
+Gitleaks scanned19 Git commits with redaction enabled. It reported two generic-key matches in historical `database/export/users.json` at commit `cb18b42a0200b608f9f2754a393baf42589232b3`. The corresponding current export contains account verification-token material and password hashes. Its provenance, production relevance and current token validity have not been established. Treat the snapshot as sensitive; do not assume it is harmless test data.
+
+The initial working-tree scan reported those same two private-export matches plus a log-checksum entry in `docs/evidence/phase-e/verification-summary.json`. The checksum is a SHA-256 evidence digest, not an API credential; it remains unchanged. No scanner allowlist was added. Raw reports are redacted in `docs/evidence/phase-e1/secrets-history.json` and `secrets-working-tree.json`.
+
+**Implemented:** all16 database export JSON files were removed from the Git index using `git rm --cached`, added to `.gitignore` and excluded from Docker build contexts. They remain intact on the user's local disk. No account, source database, export contents, production token or password was changed. This is a reviewable staged removal from future snapshots, not deletion of the local data. Use `git ls-files database/export` to verify no export remains tracked in the new index.
+
+**Still open:** the historical commit remains accessible to anyone with repository-history access. Removing current tracking does not revoke a credential or erase old commits. The owner must determine affected deployments/accounts and revoke/regenerate any potentially active verification material. Password hashes may warrant password/security review if the source was a real deployment. Approved coordinated history cleanup and any hosting-provider cache/fork review remain separate actions. No history rewrite, remote push, production revocation or secret rotation was attempted in this phase.
+
+The repository cannot be certified as never having contained production-sensitive material. The executed heuristic scans and these reviewed findings are the evidence; absence of further matches is not proof that every credential has been identified. Never publish local export files or raw unredacted scanner output.

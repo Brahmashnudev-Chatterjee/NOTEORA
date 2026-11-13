@@ -1,0 +1,16 @@
+
+> test:auth-browser
+> node -e "if(process.env.RUN_AUTH_BROWSER!=='1')throw new Error('Set RUN_AUTH_BROWSER=1')" && vitest run src/auth.browser.test.ts
+
+
+ RUN  v3.2.7 D:/NOTEORA/server
+
+ ✓ src/auth.browser.test.ts (2 tests) 9938ms
+   ✓ Phase B real browser authentication journey > registers through the existing form, verifies email, and revokes on logout  4933ms
+   ✓ Phase B real browser authentication journey > recovers, resets and logs in using the new password  2340ms
+
+ Test Files  1 passed (1)
+      Tests  2 passed (2)
+   Start at  12:35:44
+   Duration  13.31s (transform 376ms, setup 0ms, collect 2.88s, tests 9.94s, environment 0ms, prepare 170ms)
+

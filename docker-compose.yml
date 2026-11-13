@@ -1,6 +1,7 @@
+# Development only. Production prerequisites: DEPLOYMENT_SECURITY_CHECKLIST.md
 services:
   postgres:
-    image: postgres:16-alpine
+    image: postgres:16-alpine@sha256:f377d590e5474681d4d7838635031a2b50647923b7abfa803ce9b5ff35d5c663
     environment:
       POSTGRES_DB: ${POSTGRES_DB:-noteora}
       POSTGRES_USER: ${POSTGRES_ADMIN_USER:-noteora_dev}
@@ -8,6 +9,8 @@ services:
       MARKETPLACE_APP_PASSWORD: ${MARKETPLACE_APP_PASSWORD:?Set MARKETPLACE_APP_PASSWORD in the environment}
       WORKER_PASSWORD: ${WORKER_PASSWORD:?Set WORKER_PASSWORD in the environment}
       MIGRATION_PASSWORD: ${MIGRATION_PASSWORD:?Set MIGRATION_PASSWORD in the environment}
+      GATEWAY_APP_PASSWORD: ${GATEWAY_APP_PASSWORD:?Set GATEWAY_APP_PASSWORD}
+      GATEWAY_WORKER_PASSWORD: ${GATEWAY_WORKER_PASSWORD:?Set GATEWAY_WORKER_PASSWORD}
       DATABASE_ADMIN_PASSWORD: ${DATABASE_ADMIN_PASSWORD:?Set DATABASE_ADMIN_PASSWORD in the environment}
     ports:
       - "127.0.0.1:5432:5432"
@@ -16,30 +19,40 @@ services:
       - ./database/security/10-setup-roles.sh:/docker-entrypoint-initdb.d/10-setup-roles.sh:ro
       - ./database/security/setup-roles.sql:/docker-security/setup-roles.sql:ro
     healthcheck:
-      test: ["CMD-SHELL", "pg_isready -U noteora_dev -d noteora"]
+      test: ["CMD-SHELL", "pg_isready -U $${POSTGRES_USER} -d $${POSTGRES_DB}"]
       interval: 5s
       timeout: 5s
       retries: 20
 
   redis:
-    image: redis:7-alpine
+    image: redis:7-alpine@sha256:7f7d30b7fdd09467bac58198a1f166dd69789d348d4fe859cccb20e0cf287fbe
     environment:
       REDIS_PASSWORD: ${REDIS_PASSWORD:?Set REDIS_PASSWORD in the environment}
     ports:
       - "127.0.0.1:6379:6379"
     volumes:
       - redis_data:/data
-    command: ["redis-server", "--appendonly", "yes", "--requirepass", "${REDIS_PASSWORD:?Set REDIS_PASSWORD in the environment}"]
+      - ./deployment/redis-start.sh:/run/noteora-redis.sh:ro
+    user: redis
+    command: ["sh", "/run/noteora-redis.sh"]
+    security_opt: ["no-new-privileges:true"]
+    cap_drop: ["ALL"]
     healthcheck:
-      test: ["CMD-SHELL", "redis-cli -a \"$${REDIS_PASSWORD}\" ping | grep PONG"]
+      test: ["CMD-SHELL", "REDISCLI_AUTH=\"$${REDIS_PASSWORD}\" redis-cli ping | grep PONG"]
       interval: 5s
       timeout: 3s
       retries: 20
 
   marketplace-api:
+    init: true
+    stop_grace_period: 20s
+    security_opt: ["no-new-privileges:true"]
+    cap_drop: ["ALL"]
+    volumes:
+      - marketplace_uploads:/app/server/uploads
     build:
-      context: ./server
-      dockerfile: Dockerfile
+      context: .
+      dockerfile: server/Dockerfile
     environment:
       NODE_ENV: development
       PORT: 5000
@@ -57,33 +70,43 @@ services:
       mongo:
         condition: service_healthy
     ports:
-      - "5000:5000"
-    volumes:
-      - ./server:/app
-      - /app/node_modules
+      - "127.0.0.1:5000:5000"
 
   marketplace-web:
+    init: true
+    stop_grace_period: 20s
+    security_opt: ["no-new-privileges:true"]
+    cap_drop: ["ALL"]
     build:
-      context: ./client
-      dockerfile: Dockerfile
+      context: .
+      dockerfile: client/Dockerfile
     environment:
       VITE_API_URL: http://localhost:5000/api/v1
     depends_on:
       marketplace-api:
         condition: service_started
     ports:
-      - "5173:5173"
+      - "127.0.0.1:5173:8080"
     healthcheck:
-      test: ["CMD-SHELL", "wget -q -O - http://localhost:5173/ >/dev/null || exit 1"]
+      test: ["CMD-SHELL", "wget -q -O - http://localhost:8080/healthz >/dev/null || exit 1"]
       interval: 10s
       timeout: 3s
       retries: 20
 
   workers:
+    init: true
+    stop_grace_period: 20s
+    security_opt: ["no-new-privileges:true"]
+    cap_drop: ["ALL"]
     build:
-      context: ./server
-      dockerfile: Dockerfile
-    command: ["npm", "run", "workers"]
+      context: .
+      dockerfile: server/Dockerfile
+    command: ["node", "dist/workers/index.js"]
+    healthcheck:
+      test: ["CMD", "node", "-e", "process.exit(Date.now()-Number(require('node:fs').readFileSync('/tmp/noteora-marketplace-worker-health'))<30000?0:1)"]
+      interval: 15s
+      timeout: 5s
+      retries: 3
     environment:
       NODE_ENV: development
       DATABASE_URL: postgresql://${WORKER_USER:-noteora_worker}:${WORKER_PASSWORD}@postgres:5432/${POSTGRES_DB:-noteora}?schema=marketplace
@@ -96,13 +119,10 @@ services:
         condition: service_healthy
       mongo:
         condition: service_healthy
-    volumes:
-      - ./server:/app
-      - /app/node_modules
     restart: unless-stopped
 
   mongo:
-    image: mongo:7
+    image: mongo:7@sha256:9896df581dfd0718b7abe112f4c37598d0986c54060e4ec1384997e6503c8c71
     ports:
       - "127.0.0.1:27017:27017"
     volumes:
@@ -114,18 +134,22 @@ services:
       retries: 20
 
   gateway-api:
+    init: true
+    stop_grace_period: 20s
+    security_opt: ["no-new-privileges:true"]
+    cap_drop: ["ALL"]
     build:
       context: .
       dockerfile: gateway-api/Dockerfile
     profiles: ["gateway"]
     environment:
-      DATABASE_URL: postgresql://${MARKETPLACE_APP_USER:-noteora_app}:${MARKETPLACE_APP_PASSWORD}@postgres:5432/${POSTGRES_DB:-noteora}?schema=gateway
-      REDIS_URL: redis://:${REDIS_PASSWORD}@redis:6379
+      DATABASE_URL: postgresql://noteora_gateway_api:${GATEWAY_APP_PASSWORD:?Set GATEWAY_APP_PASSWORD}@postgres:5432/${POSTGRES_DB:-noteora}?schema=gateway
+      GATEWAY_REDIS_URL: redis://:${REDIS_PASSWORD}@redis:6379/1
       GATEWAY_JWT_SECRET: ${GATEWAY_JWT_SECRET:?Set GATEWAY_JWT_SECRET}
       GATEWAY_WEBHOOK_ENCRYPTION_KEY: ${GATEWAY_WEBHOOK_ENCRYPTION_KEY:?Set GATEWAY_WEBHOOK_ENCRYPTION_KEY}
       MARKETPLACE_AUTH_URL: http://marketplace-api:5000
       GATEWAY_CLIENT_URL: http://localhost:5173,http://localhost:5174
-      NODE_ENV: production
+      NODE_ENV: development
       PORT: 5100
     depends_on:
       postgres:
@@ -141,18 +165,27 @@ services:
       retries: 20
 
   gateway-worker:
+    init: true
+    stop_grace_period: 20s
+    security_opt: ["no-new-privileges:true"]
+    cap_drop: ["ALL"]
     build:
       context: .
       dockerfile: gateway-api/Dockerfile
     profiles: ["gateway"]
-    command: ["node", "dist/index.js"]
+    command: ["node", "dist/workerMain.js"]
+    healthcheck:
+      test: ["CMD", "node", "-e", "process.exit(Date.now()-Number(require('node:fs').readFileSync('/tmp/noteora-gateway-worker-health'))<30000?0:1)"]
+      interval: 15s
+      timeout: 5s
+      retries: 3
     environment:
-      DATABASE_URL: postgresql://${WORKER_USER:-noteora_worker}:${WORKER_PASSWORD}@postgres:5432/${POSTGRES_DB:-noteora}?schema=gateway
-      REDIS_URL: redis://:${REDIS_PASSWORD}@redis:6379
+      DATABASE_URL: postgresql://noteora_gateway_worker:${GATEWAY_WORKER_PASSWORD:?Set GATEWAY_WORKER_PASSWORD}@postgres:5432/${POSTGRES_DB:-noteora}?schema=gateway
+      GATEWAY_REDIS_URL: redis://:${REDIS_PASSWORD}@redis:6379/1
       GATEWAY_JWT_SECRET: ${GATEWAY_JWT_SECRET:?Set GATEWAY_JWT_SECRET}
       GATEWAY_WEBHOOK_ENCRYPTION_KEY: ${GATEWAY_WEBHOOK_ENCRYPTION_KEY:?Set GATEWAY_WEBHOOK_ENCRYPTION_KEY}
       MARKETPLACE_AUTH_URL: http://marketplace-api:5000
-      NODE_ENV: production
+      NODE_ENV: development
       PORT: 5101
     depends_on:
       postgres:
@@ -162,8 +195,8 @@ services:
 
   gateway-web:
     build:
-      context: ./client
-      dockerfile: Dockerfile
+      context: .
+      dockerfile: client/Dockerfile
     profiles: ["gateway"]
     environment:
       VITE_GATEWAY_API_URL: http://localhost:5100/api/v1
@@ -172,14 +205,15 @@ services:
       gateway-api:
         condition: service_started
     ports:
-      - "127.0.0.1:5174:5173"
+      - "127.0.0.1:5174:8080"
     healthcheck:
-      test: ["CMD-SHELL", "wget -q -O - http://localhost:5173/ >/dev/null || exit 1"]
+      test: ["CMD-SHELL", "wget -q -O - http://localhost:8080/healthz >/dev/null || exit 1"]
       interval: 10s
       timeout: 3s
       retries: 20
 
 volumes:
+  marketplace_uploads:
   postgres_data:
   redis_data:
   mongo_data:

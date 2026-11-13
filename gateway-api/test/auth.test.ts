@@ -5,7 +5,7 @@ import jwt from 'jsonwebtoken'
 
 const db = vi.hoisted(() => ({
   merchantUser: { findUnique: vi.fn(), findFirst: vi.fn(), update: vi.fn(), updateMany: vi.fn() },
-  merchant: { findUnique: vi.fn(), findMany: vi.fn() },
+  merchant: { findUnique: vi.fn(), findMany: vi.fn(), count: vi.fn() },
   gatewayAuditLog: { create: vi.fn() }
 }))
 vi.mock('@prisma/client', () => ({ PrismaClient: class { merchantUser = db.merchantUser; merchant = db.merchant; gatewayAuditLog = db.gatewayAuditLog } }))
@@ -35,6 +35,7 @@ beforeEach(() => {
   db.merchantUser.updateMany.mockImplementation(async ({ where, data }) => { if (!matches(where)) return { count: 0 }; mutate(data); return { count: 1 } })
   db.merchant.findUnique.mockImplementation(async () => merchant)
   db.merchant.findMany.mockResolvedValue([])
+  db.merchant.count.mockResolvedValue(0)
   db.gatewayAuditLog.create.mockResolvedValue({})
   process.env.MARKETPLACE_AUTH_URL = 'http://marketplace.test'
 })

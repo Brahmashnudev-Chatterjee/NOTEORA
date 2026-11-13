@@ -1,0 +1,52 @@
+{
+  "date": "2026-11-13",
+  "scope": "Phase E isolated development only",
+  "executedDistinctTests": 167,
+  "marketplaceBackend": 102,
+  "gatewayAllWithPostgresAndRedis": 40,
+  "marketplacePostgres": 5,
+  "gatewayBrowser": 5,
+  "authBrowser": 2,
+  "marketplaceBrowser": 9,
+  "financialBrowser": 4,
+  "ordinaryGateway17IncludedInGateway40": true,
+  "freshRepeatedPrismaDeployment": "passed with documented empty-database baseline bootstrap",
+  "logicalRestoreGatewayTablesCompared": 16,
+  "productionDatabaseChanged": false,
+  "livePaymentsEnabled": false,
+  "rawLogCounts": {
+    "server-tests": [
+      102
+    ],
+    "gateway-tests": [
+      17
+    ],
+    "auth-browser": [
+      2
+    ],
+    "marketplace-browser": [
+      9
+    ],
+    "financial-browser": [
+      4
+    ],
+    "postgres-browser-tests": [
+      40,
+      5,
+      5
+    ]
+  },
+  "logsSHA256": {
+    "auth-browser.log": "356633ee9f2c9a839dda08f758e52dd221dcd63640577649b1cc50550c05ad62",
+    "client-build.log": "9e9b68a5bdea8899ce0a80c7d700744bd3a1b96c90ff584df8c55396e216afce",
+    "financial-browser.log": "8c30944e2c12227fab511ede3c319e2c2e5e4ec2dda8c7a1812d74fcbe8a3d22",
+    "gateway-build.log": "335f2dd2d415071c91d2fddb7097c51f001a336d2efab20ccf7c8fd96ae8dc31",
+    "gateway-tests.log": "0be452b48b383fd9e812d2a5c3b6e9312c160efc36664b2b8f28f991487a7368",
+    "marketplace-browser.log": "249c6c520131f6f1573c464b002445886aaf9e028f8cfabd94bebc39bf1fb255",
+    "postgres-browser-tests.log": "530219492cbae6340b59f6fbfd692d38fb545d51ae94995d75a81e7586ad2577",
+    "postgres-tests.log": "52bdb8e02dab8e8307090565e38541ef2c31f655488330ca22411d254bbd9c78",
+    "prisma-validation.log": "d294e35469376819609f31c049a80e61bbef6b8a7ebdd554264e385f7c39c182",
+    "server-build.log": "4734601a64dc8ea8c618d779fa7c88bdc4c89a11ff3a51361489dd831b3ade66",
+    "server-tests.log": "8cbe12e0eaa58bd7841f9447fc8e427384093b27c4f141fc5d4fef50c07bde3d"
+  }
+}

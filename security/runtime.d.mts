@@ -1,0 +1,11 @@
+export function origins(value:string|undefined,production?:boolean):string[]
+export function validateDeployment(env:NodeJS.ProcessEnv,kind:'gateway'|'marketplace'):{allowed:string[];proxy:number}
+export function requireHttps(req:any,res:any,next:any):any
+export function corsOrigin(allowed:string[]|(()=>string[])):(origin:string|undefined,callback:any)=>void
+export function redact(value:any):any
+export function safeLog(event:string,details?:any):void
+export function requestError(error:any):{status:number;message:string}
+export function gracefulStop(server:any,cleanup:()=>Promise<void>):Promise<void>
+export function signals(cleanup:()=>Promise<void>):void
+export function redisOptions(raw:string):any
+export function workerHeartbeat(file:string,check:()=>Promise<boolean>):()=>Promise<void>

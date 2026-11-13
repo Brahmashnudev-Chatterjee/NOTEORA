@@ -113,3 +113,12 @@ temp/
 
 # Local development account email links (never served over HTTP)
 **/.dev-mail/
+
+# Reviewed development-only Phase E verification logs (no credentials).
+!docs/evidence/phase-e/*.log
+
+# Reviewed security-remediation evidence, no credentials.
+!docs/evidence/phase-e1/*.log
+
+# Private database snapshots may contain password hashes, account tokens and personal data.
+database/export/

@@ -1,0 +1,7 @@
+{
+  "node_modules/@prisma/client": "6.19.0",
+  "node_modules/@prisma/config": "6.19.0",
+  "node_modules/deepmerge-ts": "7.1.5",
+  "node_modules/effect": "3.18.4",
+  "node_modules/prisma": "6.19.0"
+}

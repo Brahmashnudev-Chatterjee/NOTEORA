@@ -1,0 +1,13 @@
+
+> test
+> vitest run
+
+
+ RUN  v4.1.12 D:/NOTEORA/gateway-api
+
+
+ Test Files  4 passed | 4 skipped (8)
+      Tests  20 passed | 26 skipped (46)
+   Start at  14:44:57
+   Duration  7.14s (transform 275ms, setup 0ms, import 2.30s, tests 3.28s, environment 1ms)
+

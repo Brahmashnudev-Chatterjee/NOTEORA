@@ -1,0 +1,30 @@
+{
+  "image-mongo.json": {
+    "MEDIUM": 78,
+    "LOW": 19,
+    "HIGH": 36,
+    "UNKNOWN": 18,
+    "CRITICAL": 1
+  },
+  "image-node.json": {
+    "MEDIUM": 13,
+    "HIGH": 10,
+    "LOW": 1
+  },
+  "image-postgres.json": {
+    "MEDIUM": 31,
+    "UNKNOWN": 2,
+    "CRITICAL": 1,
+    "HIGH": 25,
+    "LOW": 3
+  },
+  "image-redis.json": {
+    "MEDIUM": 1
+  },
+  "image-web.json": {
+    "CRITICAL": 1,
+    "HIGH": 12,
+    "MEDIUM": 4,
+    "LOW": 44
+  }
+}

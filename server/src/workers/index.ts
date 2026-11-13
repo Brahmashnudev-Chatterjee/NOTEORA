@@ -1,6 +1,8 @@
 import 'dotenv/config'
+import {safeLog,signals,validateDeployment,workerHeartbeat} from '../../../security/runtime.mjs'
+validateDeployment(process.env,'marketplace')
 import { Worker, type Job } from 'bullmq'
-import { createWorkers, queueNames, redisConnection, closeInfrastructure } from '../infrastructure/queues.js'
+import { createWorkers, queueNames, redisConnection, closeInfrastructure, redisPing } from '../infrastructure/queues.js'
 
 async function processJob(job: Job) {
   switch (job.queueName) {
@@ -26,15 +28,9 @@ async function processJob(job: Job) {
 
 const workers: Worker[] = createWorkers(processJob)
 workers.forEach(worker => {
-  worker.on('failed', (job, error) => console.error(JSON.stringify({ queue: worker.name, jobId: job?.id, error: error.message })))
+  worker.on('failed', (job, error) => safeLog('WORKER_JOB_FAILED',{queue:worker.name}))
 })
 
-async function shutdown(signal: string) {
-  console.log(`Worker shutdown requested: ${signal}`)
-  await Promise.all(workers.map(worker => worker.close()))
-  await closeInfrastructure()
-  process.exit(0)
-}
-process.on('SIGINT', () => shutdown('SIGINT'))
-process.on('SIGTERM', () => shutdown('SIGTERM'))
+const stopHeartbeat=workerHeartbeat('/tmp/noteora-marketplace-worker-health',redisPing)
+signals(async()=>{await stopHeartbeat();await Promise.all(workers.map(worker=>worker.close()));await closeInfrastructure()})
 console.log(`BullMQ workers started for ${Object.values(queueNames).join(', ')}`)

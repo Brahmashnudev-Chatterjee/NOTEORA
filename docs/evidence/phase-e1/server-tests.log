@@ -1,0 +1,13 @@
+
+> test
+> vitest run --exclude src/postgres.integration.test.ts
+
+
+ RUN  v4.1.12 D:/NOTEORA/server
+
+
+ Test Files  8 passed | 4 skipped (12)
+      Tests  111 passed | 20 skipped (131)
+   Start at  15:00:05
+   Duration  24.48s (transform 1.11s, setup 0ms, import 14.95s, tests 30.76s, environment 2ms)
+

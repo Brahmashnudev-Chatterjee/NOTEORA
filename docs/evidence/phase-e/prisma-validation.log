@@ -1,0 +1,6 @@
+
+> noteora@1.0.0 prisma:validate
+> npx prisma validate --schema database/prisma/schema.prisma
+
+Prisma schema loaded from database\prisma\schema.prisma
+The schema at database\prisma\schema.prisma is valid 🚀

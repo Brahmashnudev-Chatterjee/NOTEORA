@@ -1,0 +1,32 @@
+
+> prisma:generate
+> prisma generate --schema ../database/prisma/schema.prisma
+
+Prisma schema loaded from ..\database\prisma\schema.prisma
+npm.cmd : ┌─────────────────────────────────────────────────────────┐
+At line:2 char:446
++ ... nstall.log; npm.cmd --prefix server run prisma:generate *> docs/evide ...
++                 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : NotSpecified: (┌──────────────...──────────────┐:String) [], RemoteException
+    + FullyQualifiedErrorId : NativeCommandError
+ 
+│  Update available 6.19.3 -> 8.0.0-rc.33                 │
+│                                                         │
+│  This is a major update - please follow the guide at    │
+│  https://pris.ly/d/major-version-upgrade                │
+│                                                         │
+│  Run the following to update                            │
+│    npm i -g prisma@latest                               │
+│    npm i @prisma/client@latest                          │
+└─────────────────────────────────────────────────────────┘
+
+✔ Generated Prisma Client (v6.19.3) to .\..\node_modules\.prisma\client in 299ms
+
+✔ Generated Prisma Client (v6.19.3) to .\node_modules\.prisma\client in 195ms
+
+✔ Generated Prisma Client (v6.19.3) to .\..\gateway-api\node_modules\.prisma\client in 189ms
+
+Start by importing your Prisma Client (See: https://pris.ly/d/importing-client)
+
+Tip: Want to turn off tips and other hints? https://pris.ly/tip-4-nohints
+

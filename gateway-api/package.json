@@ -9,11 +9,14 @@
     "prisma:generate": "prisma generate --schema ../database/prisma/schema.prisma",
     "start": "node dist/index.js",
     "test": "vitest run",
-    "test:auth-postgres": "node -e \"if(!process.env.TEST_GATEWAY_DATABASE_URL)throw new Error('Set TEST_GATEWAY_DATABASE_URL to an isolated test database')\" && vitest run test/auth.postgres.test.ts"
+    "test:auth-postgres": "node -e \"if(!process.env.TEST_GATEWAY_DATABASE_URL)throw new Error('Set TEST_GATEWAY_DATABASE_URL to an isolated test database')\" && vitest run test/auth.postgres.test.ts",
+    "worker": "tsx src/workerMain.ts",
+    "test:management-postgres": "node -e \"if(!process.env.TEST_GATEWAY_DATABASE_URL)throw new Error('Set an isolated TEST_GATEWAY_DATABASE_URL')\" && vitest run test/management.postgres.test.ts"
   },
   "dependencies": {
-    "@prisma/client": "^6.19.0",
+    "@prisma/client": "6.19.3",
     "bcryptjs": "^3.0.2",
+    "bullmq": "^6.7.2",
     "cors": "^2.8.5",
     "dotenv": "^17.2.3",
     "express": "^5.1.0",
@@ -30,10 +33,20 @@
     "@types/jsonwebtoken": "^9.0.10",
     "@types/node": "^24.10.0",
     "@types/supertest": "^7.2.1",
-    "prisma": "^6.19.0",
+    "prisma": "6.19.3",
     "supertest": "^7.1.4",
     "tsx": "^4.20.6",
     "typescript": "^5.9.3",
-    "vitest": "^3.2.4"
+    "vitest": "4.1.12",
+    "vite": "7.3.7"
+  },
+  "overrides": {
+    "@prisma/config": {
+      "deepmerge-ts": "8.0.2"
+    }
+  },
+  "packageManager": "npm@11.21.2",
+  "engines": {
+    "node": "^20.19.0 || >=22.12.0"
   }
 }

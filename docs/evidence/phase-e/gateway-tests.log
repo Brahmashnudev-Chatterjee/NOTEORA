@@ -1,0 +1,26 @@
+
+> test
+> vitest run
+
+
+ RUN  v3.2.7 D:/NOTEORA/gateway-api
+
+ ↓ test/auth.postgres.test.ts (4 tests | 4 skipped)
+ ↓ test/management.postgres.test.ts (18 tests | 18 skipped)
+ ↓ test/queue.postgres.test.ts (1 test | 1 skipped)
+ ✓ test/security.test.ts (4 tests) 90ms
+ ✓ test/webhook-security.test.ts (4 tests) 21ms
+ ✓ test/auth.test.ts (9 tests) 3859ms
+   ✓ Gateway authentication behavior with mocked persistence > logs in with a purpose-bound token and an HttpOnly refresh cookie  548ms
+   ✓ Gateway authentication behavior with mocked persistence > rejects disabled users, suspended and rejected merchants at login  774ms
+   ✓ Gateway authentication behavior with mocked persistence > rechecks merchant status and current database role on protected requests  399ms
+   ✓ Gateway authentication behavior with mocked persistence > rotates refresh tokens and revokes the family on replay  412ms
+   ✓ Gateway authentication behavior with mocked persistence > logs out and immediately revokes merchant access and refresh  400ms
+   ✓ Gateway authentication behavior with mocked persistence > rejects expired access and refresh tokens and cross-purpose refresh tokens  398ms
+   ✓ Gateway authentication behavior with mocked persistence > never accepts a merchant token or a legacy shared token as administrator authentication  376ms
+
+ Test Files  3 passed | 3 skipped (6)
+      Tests  17 passed | 23 skipped (40)
+   Start at  12:39:31
+   Duration  5.11s (transform 467ms, setup 0ms, collect 2.60s, tests 3.97s, environment 2ms, prepare 1.10s)
+

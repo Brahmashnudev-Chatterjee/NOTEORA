@@ -1,0 +1,36 @@
+
+> test:marketplace-browser
+> node -e "if(process.env.RUN_MARKETPLACE_BROWSER!=='1')throw new Error('Set RUN_MARKETPLACE_BROWSER=1')" && vitest run src/marketplace.browser.test.ts
+
+
+ RUN  v3.2.7 D:/NOTEORA/server
+
+stdout | src/marketplace.browser.test.ts > Phase C browser journeys with real isolated MongoDB
+Buyer, seller and administrator browser sessions ready.
+
+npm.cmd : stderr | src/marketplace.browser.test.ts > Phase C browser journeys with real isolated MongoDB > retains 
+paid download access after archive and supports mobile buyer/seller navigation
+At line:2 char:352
++ ... ROWSER='1'; npm.cmd --prefix server run test:marketplace-browser *> d ...
++                 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : NotSpecified: (stderr | src/ma...ller navigation:String) [], RemoteException
+    + FullyQualifiedErrorId : NativeCommandError
+ 
+API request failed { status: 409 }
+
+ ✓ src/marketplace.browser.test.ts (9 tests) 38533ms
+   ✓ Phase C browser journeys with real isolated MongoDB > seller uploads a draft with thumbnail and preview, edits it and submits for review  1600ms
+   ✓ Phase C browser journeys with real isolated MongoDB > admin previews and rejects, seller resubmits, admin approves and verifies seller  5220ms
+   ✓ Phase C browser journeys with real isolated MongoDB > buyer filters, paginates, reads detail/preview and adds/removes cart items  3973ms
+   ✓ Phase C browser journeys with real isolated MongoDB > buyer downloads an existing paid purchase, writes a review and seller sees actual sales analytics  2904ms
+   ✓ Phase C browser journeys with real isolated MongoDB > seller manages promotions, support, profile and persisted preferences  3231ms
+   ✓ Phase C browser journeys with real isolated MongoDB > retains paid download access after archive and supports mobile buyer/seller navigation  2512ms
+   ✓ Phase C browser journeys with real isolated MongoDB > shows genuine empty and transport-error states and recovers using Retry  1834ms
+   ✓ Phase C browser journeys with real isolated MongoDB > never treats a success URL as proof that an unpaid purchase was paid  657ms
+   ✓ Phase C browser journeys with real isolated MongoDB > keeps sales, earnings and subscription pages functional without claiming payouts or activating paid plans  1671ms
+
+ Test Files  1 passed (1)
+      Tests  9 passed (9)
+   Start at  12:35:59
+   Duration  41.78s (transform 399ms, setup 0ms, collect 2.83s, tests 38.53s, environment 0ms, prepare 140ms)
+

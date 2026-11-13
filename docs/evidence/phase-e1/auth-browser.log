@@ -1,0 +1,13 @@
+
+> test:auth-browser
+> node -e "if(process.env.RUN_AUTH_BROWSER!=='1')throw new Error('Set RUN_AUTH_BROWSER=1')" && vitest run src/auth.browser.test.ts
+
+
+ RUN  v4.1.12 D:/NOTEORA/server
+
+
+ Test Files  1 passed (1)
+      Tests  2 passed (2)
+   Start at  14:34:00
+   Duration  10.22s (transform 348ms, setup 0ms, import 2.12s, tests 7.91s, environment 0ms)
+

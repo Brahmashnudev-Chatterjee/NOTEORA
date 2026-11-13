@@ -1,0 +1,83 @@
+{
+  "date": "2026-11-13",
+  "phase": "E.1",
+  "distinctTestsPassed": 182,
+  "counts": {
+    "server-tests": [
+      111
+    ],
+    "gateway-tests": [
+      20
+    ],
+    "auth-browser": [
+      2
+    ],
+    "marketplace-browser": [
+      9
+    ],
+    "financial-browser": [
+      4
+    ],
+    "postgres-browser-tests": [
+      46,
+      5,
+      5
+    ]
+  },
+  "ordinaryGateway20IncludedInService46": true,
+  "npmFullAndRuntimeAllFourTrees": 0,
+  "trivyLockfiles": 0,
+  "baseImageOccurrenceCounts": {
+    "image-mongo.json": {
+      "MEDIUM": 78,
+      "LOW": 19,
+      "HIGH": 36,
+      "UNKNOWN": 18,
+      "CRITICAL": 1
+    },
+    "image-node.json": {
+      "MEDIUM": 13,
+      "HIGH": 10,
+      "LOW": 1
+    },
+    "image-postgres.json": {
+      "MEDIUM": 31,
+      "UNKNOWN": 2,
+      "CRITICAL": 1,
+      "HIGH": 25,
+      "LOW": 3
+    },
+    "image-redis.json": {
+      "MEDIUM": 1
+    },
+    "image-web.json": {
+      "CRITICAL": 1,
+      "HIGH": 12,
+      "MEDIUM": 4,
+      "LOW": 44
+    }
+  },
+  "imageRebuildVerified": false,
+  "freshRepeatedGuardedMigrationAnd16TableLogicalRestore": "passed",
+  "historicalAuthMaterialNeedsOwnerReview": true,
+  "productionStateChanged": false,
+  "phaseFStarted": false,
+  "logChecksums": {
+    "auth-browser.log": "0995a923be0baf667f604c2d974e84c652e955b4deebd6f7b81d1558c0a3b2f5",
+    "clean-install.log": "f058eb6e75943f4219610cd7a8b4ae2f85a4c4d4ddb375663347e1c05ef6e3e1",
+    "client-build.log": "51b7e208b7ede700148331abeac934b618e0674a459dd9989093c56274e605af",
+    "compose-validation.log": "cf92544c1ff62186b98516756948a5d00d63219720be3cb3984538c05c565fd3",
+    "financial-browser.log": "db5585946f717d8d50e4ed3b012c750803df583896214185338bdf2842885727",
+    "gateway-build.log": "335f2dd2d415071c91d2fddb7097c51f001a336d2efab20ccf7c8fd96ae8dc31",
+    "gateway-tests.log": "2d4a28bf6d3cc7149bf6e907158254b56836f96cd1aa80b8e49ef159af0c5d8e",
+    "initial-gateway-tests.log": "0df28c1785f87b42ad01514f40a7835d0f5cc8fa67e0e7697921758054aac469",
+    "initial-server-tests.log": "5520bc4e3ff505947f099f23542066316ec1d359cfb2c49e6082f650338afddc",
+    "marketplace-browser.log": "e84bfb0a8ea1e741fa01cc971f138267dd023b5d9e497eaa15d35fcd6b743685",
+    "postgres-browser-tests.log": "ebf00537d8694f0f963dd735451f5bcc5ef00e4b0f368c0c6548b5ebe385c605",
+    "prisma-config-smoke.log": "8b71f6fa9b7ab4c696c8696b1262e7f7f2713fffcd76f585fbf471aad4d3453b",
+    "prisma-generation.log": "047f910275b6689d24ac8659575e0b59c7523191b2d881f09c5667882da75058",
+    "prisma-validation.log": "fb0d76aa08de89b4472b8ba9c0f75fd3250d18694d2748128b12edc0155d8e8e",
+    "server-build.log": "335f2dd2d415071c91d2fddb7097c51f001a336d2efab20ccf7c8fd96ae8dc31",
+    "server-tests.log": "9ee1565a2a8d4f65f43d09721227e2b85cf94f7aabcd5cdbfa66e6cffdb0ea89"
+  }
+}

@@ -1,8 +1,8 @@
-# Noteora remaining work audit - through Phase D
+# Noteora remaining work audit - through Phase E.1
 
-Baseline audit: 2026-11-12. Updated 2026-11-13 (Asia/Calcutta), Phase D. Decision: **incomplete; not production ready**.
+Baseline audit: 2026-11-12. Updated 2026-11-13 (Asia/Calcutta), Phase E.1. Decision: **incomplete; not production ready**.
 
-This document retains the dated Phase A baseline and incorporates Phase B/C/D verification. Phase C is delivered for review after conditional Phase B approval. Only a fresh disposable PostgreSQL authentication cluster was migrated; no production data, existing database or live payment configuration changed. Phase D is now delivered; Phase E requires approval.
+This document retains the dated Phase A baseline and incorporates Phase B/C/D/E verification. Phase E.1 remediation is delivered after acceptance of Phase E. Fresh isolated PostgreSQL databases received gateway migrations and a logical restore check; temporary Redis, MongoDB and real browser suites supplied development evidence. No production data, existing database or live payment configuration changed. Phase F requires approval.
 
 ## Evidence and scope
 
@@ -123,19 +123,19 @@ At the original Phase A review no full product requirement was classified C beca
 | R11 | Seller subscription/profile/settings/support | P | Profile/preferences/password/support retained; subscription status/history and cancellation tested in D. Operational support replies/profile assets remain H. | B,C,H |
 | R12 | Central plan config; purchase/expiry/renewal/history | P | Canonical versioned catalog and verified contract purchase linkage/expiry/queued renewals/history tested; real provider collection/automatic billing remain blocked. | D,F |
 | R13 | Decimal-safe central finance and refund/settlement math | P | Central exact minor-unit finance and confirmed-refund adjustments tested; actual provider refund and settlement workflows remain G. | D,G |
-| R14 | Authenticated gateway admin approval/rejection UI | P | Phase B removes shared-admin-token auth; adds live marketplace admin introspection and authenticated frontend fetch. Approval/rejection controls still Phase E. | E |
-| R15 | Merchant registration/login/profile backend | U | Registration/login/refresh persistent tests pass on fresh PostgreSQL; merchant profile editing still lacks its own real DB acceptance journey. Team lifecycle remains E. | E |
-| R16 | Merchant team endpoints and UI | N | MerchantUser model/roles exist; no team lifecycle API/UI. | E |
-| R17 | API-key creation/rotation/revoke/list | U | Hashing, approval checks and merchant scoping exist; DB journey untested. | E |
-| R18 | API-key request authentication middleware | P | `/credentials/verify` validates body only; no reusable credential authentication for payment resources. | E |
-| R19 | Cross-merchant isolation acceptance tests | N | Four gateway tests do not exercise two merchant databases/identities. | E |
-| R20 | Merchant audit history and actionable developer UI | P | Phase B adds separate merchant login/logout and admin authentication; profile/key/webhook/team management cards still need Phase E actions. | E |
-| R21 | Webhook configuration | U | Scoped configuration, encrypted secret, one-time response and metadata listing exist; no current DB test. | E |
-| R22 | Fresh migration deployment and repeat deploy | P | Fresh Phase 5B/5C/auth SQL applied and auth columns verified in disposable PostgreSQL. Repeated Prisma migrate-deploy/rollback remains E. | E,I |
+| R14 | Authenticated gateway admin approval/rejection UI | C | Real marketplace admin introspection, search/detail and reason-required expected-status approval/rejection/suspension/reactivation tested in API/browser; transactional audit history. | E |
+| R15 | Merchant registration/login/profile backend | C | Registration, hashed owner credentials, sessions, business/contact profile and renewed review on identity changes exercised against isolated PostgreSQL. | E |
+| R16 | Merchant team endpoints and UI | C | Single-use expiring hashed invitations, owner/admin/developer/viewer roles, scoped role/revocation checks and last-owner protection tested; invitation/viewer UI browser passed. Email dispatch not configured. | E |
+| R17 | API-key creation/rotation/revoke/list | C | Crypto key generation, hashed persistence, once-only response, serialized per-environment rotation, expiry, scoped revocation and metadata listing tested. LIVE is provisioning only, no resource access. | E |
+| R18 | API-key request authentication middleware | C | Reusable API-key middleware protects integration/context and compatibility verify, enforces exact environment/current approval/expiry; live resources denied. | E |
+| R19 | Cross-merchant isolation acceptance tests | C | Two real merchant identities in one isolated PostgreSQL database exercise member, credential, endpoint, delivery and admin boundaries; separate merchant/admin authentication retained. | E |
+| R20 | Merchant audit history and actionable developer UI | C | Functional merchant profile/team/keys/webhooks/delivery/activity/docs and admin review/oversight UI; role/scoped audit entries and SQL audit immutability tested. | E |
+| R21 | Webhook configuration | C | Scoped endpoint registration/edit/disable/subscriptions, validated destinations and encrypted once-only secrets tested; only gateway.test subscriptions supported until future payment phase. | E |
+| R22 | Fresh migration deployment and repeat deploy | C | Guarded explicit development entrypoint preserves history/checksums and passes fresh/repeat deployment, rejection of nonlocal/untracked/failed history, isolated bare-ordering reproduction and16-table logical restore. Production procedure remains separately unapproved. | E,I |
 | R23 | Gateway payment orders, dynamic QR, intent/status | N | Prisma models only; gateway API implements no order/payment endpoints. | F |
 | R24 | Isolated sandbox provider and authorized adapter interface | N | Marketplace client calls an external contract; no local sandbox/provider abstraction. | F |
 | R25 | Production provider verification | X | Authorized arrangements, sandbox/live credentials, signing contracts and approvals unavailable/unverified. | F |
-| R26 | Signed outbound delivery, durable outbox/retries | P | Schema/queue scaffolding; no producer/dispatcher/decrypt/delivery workflow. | F |
+| R26 | Signed outbound delivery, durable outbox/retries | P | Signed gateway.test producer, durable delivery/outbox, BullMQ Redis recovery/retry/attempt logs and duplicate prevention tested; actual payment event producers/live delivery remain Phase F. | F |
 | R27 | Incoming idempotent payment/ledger processing | P | Signed sandbox exact amount/currency/env and atomic event/order/all-item ledger processing/replay conflict tests pass. Production provider delivery remains F. | F |
 | R28 | Reconciliation | P | Version-2 snapshot/ledger/refund reconciliation implemented/tested; operational provider reconciliation worker and legacy remediation remain later. | F,G |
 | R29 | Refund request/approve/reject/status/provider adjustments | P | Audited request/approve/reject review with exact amounts and no COMPLETED override; internal confirmed accounting tested. Buyer/provider execution lifecycle remains G. | G |
@@ -149,11 +149,11 @@ At the original Phase A review no full product requirement was classified C beca
 | R37 | Operational malware scanning | X | Scanner service/engine and policy required; missing interface remains software work. | H |
 | R38 | Email/in-app notifications and history | P | Moderation emits preference-aware in-app records; settings/history work. Email/realtime/read-state notification delivery still H/external SMTP. | H |
 | R39 | Preserve MongoDB authority and separate gateway | U | Marketplace uses Mongoose; gateway Prisma; no application dual-write path found. Schema parity still needs reconciliation. | All |
-| R40 | Buyer/seller/admin/gateway E2E suites | P | 15 Chrome cases pass: auth2, marketplace9, subscriptions/financial4. Full gateway/provider/refund/payout E2E remains later. | I |
-| R41 | MongoDB integration coverage | P | 102 server tests pass, including26 subscription/financial real replica-set MongoDB cases and18 exact arithmetic cases. Actual provider/payout acceptance remains later. | B–I |
-| R42 | PostgreSQL integration coverage | P | Fresh disposable PostgreSQL applies existing migrations; gateway auth4 and schema5 tests pass. Broader gateway management/payment suites remain later. | E,I |
-| R43 | CI builds/schema/database/security/browser checks | P | Local builds/tests pass; CI test database name/URL guard aligned and gateway DB URL supplied. Remote Actions result/security/full browser automation not certified. | I |
-| R44 | Deployment/monitoring/secrets/backup/restore evidence | P | Compose/security/backup scripts exist; production observability/retention/recovery and current runtime evidence absent. | I |
+| R40 | Buyer/seller/admin/gateway E2E suites | P | 20 real Chrome cases pass under patched tooling: auth2, marketplace9, finance4, gateway5; provider/refund/payout E2E remains later. | I |
+| R41 | MongoDB integration coverage | P | 111 ordinary backend cases pass including new deployment controls; existing real MongoDB and all browser regressions retained. Provider/payout acceptance remains later. | B–I |
+| R42 | PostgreSQL integration coverage | P | 46 gateway cases include real PostgreSQL/Redis/role suites;5 separate marketplace schema cases pass. API/worker least-privilege grants, fresh/repeat/bootstrap/restore verified on disposable DBs only. | E,I |
+| R43 | CI builds/schema/database/security/browser checks | P | 182 distinct tests, three builds, schema/config loader and clean installs pass; application full/runtime npm audits and lockfile scan0. CI procedure updated but remote run/container builds not executed. | I |
+| R44 | Deployment/monitoring/secrets/backup/restore evidence | P | Deployment policy, safe logs/errors, loopback Compose, non-root Dockerfiles, health/shutdown and explicit runtime grants implemented/prepared. Container critical/high findings, historical export exposure, real TLS/ACL rollout and full backup/PITR remain production blockers. | I |
 
 ## Phase A findings (historical; resolutions tracked in dated updates)
 
@@ -261,3 +261,11 @@ Financial/subscription plan rules, payment processing, payouts/refunds, object s
 ## Phase D reconciliation addendum (current)
 
 See [Phase D report](PHASE_D_SUBSCRIPTION_FINANCIAL_REPORT.md), [financial specification](FINANCIAL_CALCULATIONS.md) and [subscription specification](SUBSCRIPTIONS.md). Earlier dated observations about fixed30%, zero GST, lost same-seller lines or manual status overrides are historical findings now corrected for version-2 paths. Legacy data is not migrated or certified. Both tax and fee policies remain UNRESOLVED until approved. No live provider, payout, production migration or cutover was performed. MongoDB transactions require a replica set; standalone writes fail closed. Phase E has not begun.
+
+## Phase E reconciliation addendum (current)
+
+[Delivery report](PHASE_E_GATEWAY_MERCHANT_REPORT.md) and [API documentation](docs/gateway/API.md) supersede historical statements that team management, key middleware, administrator controls and outbound webhook infrastructure are absent. The only implemented producer is explicitly nonfinancial gateway.test; payment orders/providers and live event production remain N/X in Phase F. Merchant status is administratively reviewed, not regulatory authorisation. SMTP invitation dispatch, production deployment/egress/backup operations and dependency remediation remain blockers. MongoDB authority is unchanged. Stop after E; F requires approval.
+
+## Phase E.1 current remediation evidence
+
+[Security remediation report](PHASE_E1_SECURITY_REMEDIATION_REPORT.md): application advisory nodes resolved with patched dependencies; final npm/lockfile scans0. Actual image scanning retains3 critical/83 high base-image occurrences, with proposed changes unverified until builds/rescans. Historical export authentication material was found; current exports are untracked/preserved locally but history/revocation review remains open. No clean-production/security-clear claim. Migration ordering remains documented; shared guarded development deployment/recovery checks pass. No Phase F or provider integration has begun.

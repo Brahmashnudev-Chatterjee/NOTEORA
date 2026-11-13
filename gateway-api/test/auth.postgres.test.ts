@@ -17,7 +17,7 @@ describe.skipIf(!url).sequential('Gateway authentication on isolated PostgreSQL'
   beforeAll(async () => {
     const parsed = new URL(url!)
     if (!['127.0.0.1','localhost','[::1]'].includes(parsed.hostname) || !parsed.pathname.endsWith('_test')) throw new Error('TEST_GATEWAY_DATABASE_URL must name a loopback database ending in _test')
-    process.env.DATABASE_URL = url
+    process.env.DATABASE_URL = process.env.TEST_GATEWAY_RUNTIME_URL || url
     prisma = new PrismaClient({datasources:{db:{url}}})
     await prisma.$queryRaw`SELECT 1`
     app = (await import('../src/index.js')).app

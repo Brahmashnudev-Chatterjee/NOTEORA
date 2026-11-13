@@ -56,6 +56,7 @@ enum SettlementStatus {
 }
 
 enum MerchantStatus {
+  DISABLED
   PENDING
   UNDER_REVIEW
   APPROVED
@@ -512,6 +513,7 @@ model Merchant {
   webhookEvents  WebhookEvent[]
   auditLogs      GatewayAuditLog[]
   users          MerchantUser[]
+  invitations    MerchantInvitation[]
 
   @@index([status, createdAt])
   @@index([contactEmail])
@@ -710,6 +712,8 @@ model WebhookDelivery {
   responseStatus  Int?
   responseBody    String?
   deliveredAt     DateTime?
+  leaseUntil      DateTime?
+  attemptLogs     WebhookAttempt[]
   createdAt       DateTime @default(now())
   updatedAt       DateTime @updatedAt
 
@@ -766,5 +770,33 @@ model GatewayAuditLog {
 
   @@index([merchantId, createdAt])
   @@index([action, createdAt])
+  @@schema("gateway")
+}
+
+model MerchantInvitation {
+  id String @id @default(uuid()) @db.Uuid
+  merchantId String @db.Uuid
+  merchant Merchant @relation(fields:[merchantId], references:[id], onDelete:Cascade)
+  email String
+  name String
+  role MerchantRole
+  tokenHash String @unique
+  expiresAt DateTime
+  acceptedAt DateTime?
+  revokedAt DateTime?
+  createdAt DateTime @default(now())
+  @@index([merchantId, email])
+  @@schema("gateway")
+}
+model WebhookAttempt {
+  id String @id @default(uuid()) @db.Uuid
+  deliveryId String @db.Uuid
+  delivery WebhookDelivery @relation(fields:[deliveryId], references:[id], onDelete:Cascade)
+  number Int
+  status String
+  responseStatus Int?
+  startedAt DateTime @default(now())
+  completedAt DateTime?
+  @@unique([deliveryId, number])
   @@schema("gateway")
 }

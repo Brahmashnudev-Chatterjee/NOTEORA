@@ -1,0 +1,120 @@
+Script executed successfully.
+Prisma schema loaded from database\prisma\schema.prisma
+Datasource "db": PostgreSQL database "noteora_gateway_test", schemas "gateway, marketplace" at "127.0.0.1:54046"
+
+Migration 20261108175257_phase5b marked as applied.
+
+Prisma schema loaded from database\prisma\schema.prisma
+Datasource "db": PostgreSQL database "noteora_gateway_test", schemas "gateway, marketplace" at "127.0.0.1:54046"
+
+4 migrations found in prisma/migrations
+
+Applying migration `20261108_phase5c`
+Applying migration `20261112_phase_b_gateway_auth`
+Applying migration `20261113_phase_e_merchant_management`
+
+The following migration(s) have been applied:
+
+migrations/
+  └─ 20261108_phase5c/
+    └─ migration.sql
+  └─ 20261112_phase_b_gateway_auth/
+    └─ migration.sql
+  └─ 20261113_phase_e_merchant_management/
+    └─ migration.sql
+      
+All migrations have been successfully applied.
+Prisma schema loaded from database\prisma\schema.prisma
+Datasource "db": PostgreSQL database "noteora_gateway_test", schemas "gateway, marketplace" at "127.0.0.1:54046"
+
+4 migrations found in prisma/migrations
+
+
+No pending migrations to apply.
+Fresh and repeated Prisma migration deployment passed.
+Prisma schema loaded from database\prisma\schema.prisma
+Datasource "db": PostgreSQL database "noteora_ordering_failure_test", schemas "gateway, marketplace" at "127.0.0.1:54046"
+
+4 migrations found in prisma/migrations
+
+Applying migration `20261108_phase5c`
+node : Error: P3018
+At line:18 char:198
++ ... hrome.exe'; node scripts/verify-phase-e1-postgres.mjs *> docs/evidenc ...
++                 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : NotSpecified: (Error: P3018:String) [], RemoteException
+    + FullyQualifiedErrorId : NativeCommandError
+ 
+
+A migration failed to apply. New migrations cannot be applied before the error is recovered from. Read more about how 
+to resolve migration issues in a production database: https://pris.ly/d/migrate-resolve
+
+Migration name: 20261108_phase5c
+
+Database error code: 42704
+
+Database error:
+ERROR: type "gateway.MerchantStatus" does not exist
+
+DbError { severity: "ERROR", parsed_severity: Some(Error), code: SqlState(E42704), message: "type 
+\"gateway.MerchantStatus\" does not exist", detail: None, hint: None, position: None, where_: None, schema: None, 
+table: None, column: None, datatype: None, constraint: None, file: Some("parse_type.c"), line: Some(274), routine: 
+Some("typenameType") }
+
+
+Migration guards verified: nonlocal/nonempty/failed-history rejected; original bare-deploy ordering defect reproduced. Expected failure was isolated.
+
+ RUN  v4.1.12 D:/NOTEORA/gateway-api
+
+
+ Test Files  8 passed (8)
+      Tests  46 passed (46)
+   Start at  14:36:45
+   Duration  17.76s (transform 380ms, setup 0ms, import 2.23s, tests 14.00s, environment 1ms)
+
+
+ RUN  v4.1.12 D:/NOTEORA/server
+
+
+ Test Files  1 passed (1)
+      Tests  5 passed (5)
+   Start at  14:37:03
+   Duration  505ms (transform 47ms, setup 0ms, import 107ms, tests 200ms, environment 0ms)
+
+
+ RUN  v4.1.12 D:/NOTEORA/server
+
+
+ Test Files  1 passed (1)
+      Tests  5 passed (5)
+   Start at  14:37:05
+   Duration  16.12s (transform 459ms, setup 0ms, import 2.09s, tests 13.83s, environment 0ms)
+
+Script executed successfully.
+Prisma schema loaded from database\prisma\schema.prisma
+Datasource "db": PostgreSQL database "noteora_restore_test", schemas "gateway, marketplace" at "127.0.0.1:54046"
+
+Migration 20261108175257_phase5b marked as applied.
+
+Prisma schema loaded from database\prisma\schema.prisma
+Datasource "db": PostgreSQL database "noteora_restore_test", schemas "gateway, marketplace" at "127.0.0.1:54046"
+
+4 migrations found in prisma/migrations
+
+Applying migration `20261108_phase5c`
+Applying migration `20261112_phase_b_gateway_auth`
+Applying migration `20261113_phase_e_merchant_management`
+
+The following migration(s) have been applied:
+
+migrations/
+  └─ 20261108_phase5c/
+    └─ migration.sql
+  └─ 20261112_phase_b_gateway_auth/
+    └─ migration.sql
+  └─ 20261113_phase_e_merchant_management/
+    └─ migration.sql
+      
+All migrations have been successfully applied.
+Gateway logical fixture backup/restore: 16 tables identical; no production database used.
+Disposable PostgreSQL and Redis stopped. No existing service was used.

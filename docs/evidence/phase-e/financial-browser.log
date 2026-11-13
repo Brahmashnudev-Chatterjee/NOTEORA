@@ -1,0 +1,18 @@
+
+> test:financial-browser
+> node -e "if(process.env.RUN_FINANCIAL_BROWSER!=='1')throw new Error('Set RUN_FINANCIAL_BROWSER=1')" && vitest run src/financial.browser.test.ts
+
+
+ RUN  v3.2.7 D:/NOTEORA/server
+
+ ✓ src/financial.browser.test.ts (4 tests) 18214ms
+   ✓ Phase D browser subscription and accounting journeys > shows the same authoritative Free/Pro/Ultra terms publicly and in the seller workspace  1733ms
+   ✓ Phase D browser subscription and accounting journeys > retains Free on an unpaid order, activates only on signed test evidence and cancels at term end  1140ms
+   ✓ Phase D browser subscription and accounting journeys > shows seller-only net earnings and a reconciliation result without exposing payment override controls  1368ms
+   ✓ Phase D browser subscription and accounting journeys > versions administrator plan changes while preserving current paid terms and displays financial periods  1842ms
+
+ Test Files  1 passed (1)
+      Tests  4 passed (4)
+   Start at  12:36:43
+   Duration  23.74s (transform 582ms, setup 0ms, collect 4.93s, tests 18.21s, environment 2ms, prepare 222ms)
+

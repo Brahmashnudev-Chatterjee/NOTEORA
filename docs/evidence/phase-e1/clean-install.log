@@ -1,0 +1,30 @@
+
+added 61 packages, and audited 62 packages in 6s
+
+12 packages are looking for funding
+  run `npm fund` for details
+
+found 0 vulnerabilities
+
+added 325 packages, and audited 326 packages in 9s
+
+70 packages are looking for funding
+  run `npm fund` for details
+
+found 0 vulnerabilities
+node : npm warn deprecated node-abort-controller@3.1.1: This package is no longer needed on supported Node.js 
+versions. Node.js 16+ includes AbortController and AbortSignal as built-in globals. All Node.js versions requiring 
+this polyfill are end-of-life. Use the built-in globals instead.
+At line:2 char:345
++ ... nstall.log; node $npmTool --prefix gateway-api ci --ignore-scripts *> ...
++                 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : NotSpecified: (npm warn deprec...lobals instead.:String) [], RemoteException
+    + FullyQualifiedErrorId : NativeCommandError
+ 
+
+added 231 packages, and audited 232 packages in 18s
+
+62 packages are looking for funding
+  run `npm fund` for details
+
+found 0 vulnerabilities

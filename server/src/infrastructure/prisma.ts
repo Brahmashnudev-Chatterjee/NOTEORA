@@ -2,7 +2,7 @@ import { PrismaClient } from '@prisma/client'
 
 const globalForPrisma = globalThis as unknown as { noteoraPrisma?: PrismaClient }
 
-export const prisma = globalForPrisma.noteoraPrisma || new PrismaClient({ log: process.env.NODE_ENV === 'development' ? ['error', 'warn'] : ['error'] })
+export const prisma = globalForPrisma.noteoraPrisma || new PrismaClient({ log: [] })
 if (process.env.NODE_ENV !== 'production') globalForPrisma.noteoraPrisma = prisma
 
 export async function postgresPing(): Promise<boolean> {

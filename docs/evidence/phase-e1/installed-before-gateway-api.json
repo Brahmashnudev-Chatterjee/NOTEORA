@@ -1,0 +1,11 @@
+{
+  "node_modules/@prisma/client": "6.19.3",
+  "node_modules/@prisma/config": "6.19.3",
+  "node_modules/@vitest/mocker": "3.2.7",
+  "node_modules/deepmerge-ts": "7.1.5",
+  "node_modules/effect": "3.21.0",
+  "node_modules/prisma": "6.19.3",
+  "node_modules/tinypool": "1.1.1",
+  "node_modules/vite": "7.3.7",
+  "node_modules/vitest": "3.2.7"
+}
