@@ -1,3 +1,4 @@
+import {entitlement} from './services/subscriptionService.js'
 import { Router, type Request } from 'express'
 import rateLimit from 'express-rate-limit'
 import bcrypt from 'bcryptjs'
@@ -49,7 +50,7 @@ authRoutes.post('/auth/register', sessionCsrf, rate(10), async (req, res) => {
   let delivery = 'submitted-to-adapter'
   try { await issueVerification(user) } catch { delivery = 'unavailable'; await activity(req, 'VERIFICATION_DELIVERY_FAILED', user) }
   await activity(req, 'REGISTER', user)
-  res.status(201).json({ message: 'Account created. Email verification is pending.', emailTransport: process.env.EMAIL_TRANSPORT || (process.env.NODE_ENV === 'production' ? 'smtp' : 'development'), verificationDelivery: delivery, accessToken: await newSession(req, user, res), requiresEmailVerification: true, user: publicUser(user) })
+  res.status(201).json({ message: 'Account created. Email verification is pending.', emailTransport: process.env.EMAIL_TRANSPORT || (process.env.NODE_ENV === 'production' ? 'smtp' : 'development'), verificationDelivery: delivery, accessToken: await newSession(req, user, res), requiresEmailVerification: true, user: {...publicUser(user),plan:(await entitlement(String(user._id))).plan.name} })
 })
 authRoutes.post('/auth/login', sessionCsrf, async (req, res) => {
   const input = z.object({ email, password: z.string().max(1024) }).safeParse(req.body)
@@ -58,7 +59,7 @@ authRoutes.post('/auth/login', sessionCsrf, async (req, res) => {
   if (!user || !await bcrypt.compare(input.data.password, user.password)) { await activity(req, 'LOGIN_FAILED'); return res.status(401).json({ message: 'Invalid credentials' }) }
   if (!user.active || user.suspended) return res.status(403).json({ message: 'Account inactive or suspended' })
   await activity(req, 'LOGIN', user)
-  res.json({ accessToken: await newSession(req, user, res), user: publicUser(user) })
+  res.json({ accessToken: await newSession(req, user, res), user: {...publicUser(user),plan:(await entitlement(String(user._id))).plan.name} })
 })
 authRoutes.post('/auth/verify', async (req, res) => {
   const input = tokenSchema.safeParse(req.body.token)
@@ -111,7 +112,7 @@ authRoutes.post('/auth/refresh', sessionCsrf, async (req, res) => {
     return res.status(401).json({ message: 'Account or session inactive' })
   }
   setSessionCookie(res, `${id}.${nextSecret}`, session.expiresAt)
-  res.json({ accessToken: signToken(user, id), user: publicUser(user) })
+  res.json({ accessToken: signToken(user, id), user: {...publicUser(user),plan:(await entitlement(String(user._id))).plan.name} })
 })
 authRoutes.post('/auth/logout', sessionCsrf, auth, async (req: AuthRequest, res) => {
   await AuthSession.updateOne({ _id: req.user!.sessionId }, { $set: { revokedAt: new Date() } })

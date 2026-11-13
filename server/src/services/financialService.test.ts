@@ -1,18 +1,17 @@
-import { describe,it,expect } from 'vitest'
-import { calculateFinancials } from './financialService.js'
-
-describe('financial calculations',()=>{
-  it.each([50,100,150])('calculates ₹%i with configurable defaults',price=>{
-    const result=calculateFinancials({basePrice:price,commissionRate:30,gstRate:0,gatewayFee:2})
-    expect(result.customerPayment).toBe(price)
-    expect(result.commission).toBe(price*0.3)
-    expect(result.sellerPayable).toBe(price*0.7)
-    expect(result.platformRevenue).toBe(price*0.3-2)
-  })
-  it('rejects prices outside the marketplace range',()=>{
-    expect(()=>calculateFinancials({basePrice:151,commissionRate:30})).toThrow('Invalid base price')
-  })
-  it('supports subscription prices without treating them as PDF sales',()=>{
-    for(const price of [199,499]) expect(calculateFinancials({basePrice:price>150?150:price,commissionRate:10}).basePrice).toBeLessThanOrEqual(150)
-  })
+import {describe,it,expect} from 'vitest'
+import {calculateOrder,calculateFinancials,refundCumulative,financialHash,type FinancialRules} from './financialService.js'
+import {toMinor,decimal,allocate} from './money.js'
+const policy:FinancialRules={version:1,tax:{status:'APPROVED',mode:'NONE',rateBps:0,approvalReference:'TEST-ONLY no-tax fixture'},gatewayFee:{status:'APPROVED',rateBps:100,fixedMinor:1,approvalReference:'TEST-ONLY accounting fixture'}}
+const line={id:'a',sellerId:'seller',title:'Notes',unitPriceMinor:10000,commissionBps:3000,planVersion:1}
+describe('Integer minor-unit finance engine',()=>{
+  it.each(['0.01','0.10','1.01','150.00'])('round-trips %s exactly',value=>{expect(decimal(toMinor(value))).toBe(value.length<4?'0'+value:value)})
+  it.each(['1.001','-1','NaN','1e3','Infinity'])('rejects non-canonical money %s',value=>expect(()=>toMinor(value)).toThrow())
+  it('uses deterministic residual allocation and snapshots rates',()=>{expect(allocate(2,[1,1,1])).toEqual([1,1,0]);const result=calculateOrder([line,{...line,id:'b',sellerId:'second',unitPriceMinor:5000,commissionBps:1000}],policy);expect(result.totalMinor).toBe(15000);expect(result.commissionMinor).toBe(3500);expect(result.sellerPayableMinor).toBe(11500);expect(result.gatewayFeeMinor).toBe(151);expect(result.platformRevenueMinor).toBe(3349);expect(result.lines.map(x=>x.gatewayFeeMinor)).toEqual([101,50]);expect(financialHash(result)).toBe(financialHash(structuredClone(result)))})
+  it('never silently assumes unresolved tax/fee rates',()=>{expect(()=>calculateOrder([line],{...policy,tax:{status:'UNRESOLVED'}})).toThrow('tax policy');expect(()=>calculateOrder([line],{...policy,gatewayFee:{status:'UNRESOLVED'}})).toThrow('fee accounting')})
+  it.each(['EXCLUSIVE','INCLUSIVE'] as const)('calculates hypothetical %s tax with explicit approved test policy',mode=>{const result=calculateOrder([{...line,unitPriceMinor:11000}],{...policy,tax:{status:'APPROVED',mode,rateBps:1000,approvalReference:'TEST-ONLY hypothetical 10%; not a GST determination'}});expect(result.taxMinor).toBe(mode==='EXCLUSIVE'?1100:1000);expect(result.totalMinor).toBe(mode==='EXCLUSIVE'?12100:11000);expect(result.totalMinor).toBe(result.sellerPayableMinor+result.platformRevenueMinor+result.gatewayFeeMinor+result.taxMinor)})
+  it('applies discounts before tax and commissions without floating arithmetic',()=>{const r=calculateOrder([{...line,unitPriceMinor:9999,discountBps:1250}],policy);expect(r.discountMinor).toBe(1250);expect(r.netBaseMinor).toBe(8749);expect(r.commissionMinor).toBe(2625)})
+  it('handles subscription prices separately from material caps',()=>{expect(()=>calculateOrder([{...line,unitPriceMinor:19900}],policy)).toThrow('Invalid base price');expect(calculateOrder([{...line,unitPriceMinor:49900,sellerId:null,commissionBps:10000}],policy,'SUBSCRIPTION').totalMinor).toBe(49900)})
+  it('reverses partial refunds cumulatively so the final residual reconciles exactly',()=>{const original=calculateOrder([{...line,unitPriceMinor:1}],{...policy,gatewayFee:{...policy.gatewayFee,fixedMinor:0,rateBps:0}}).lines[0];expect(refundCumulative(original,1).sellerDebitMinor).toBe(original.sellerPayableMinor);expect(()=>refundCumulative(original,2)).toThrow();const r=calculateOrder([{...line,unitPriceMinor:101}],policy).lines[0];const all=refundCumulative(r,101);expect(all.sellerDebitMinor+all.commissionReversalMinor+all.taxReversalMinor).toBe(101)})
+  it('rejects out-of-range rates, unsafe integers and duplicate financial lines',()=>{expect(()=>calculateOrder([{...line,commissionBps:10001}],policy)).toThrow();expect(()=>calculateOrder([line,line],policy)).toThrow();expect(()=>calculateOrder([{...line,unitPriceMinor:Number.MAX_SAFE_INTEGER+1}],policy)).toThrow()})
+  it('supports the explicit legacy presentation adapter while forbidding implicit tax',()=>{expect(calculateFinancials({basePrice:100,commissionRate:30,gstRate:0,gatewayFee:2}).platformRevenue).toBe(28);expect(()=>calculateFinancials({basePrice:100,commissionRate:30})).toThrow('Explicit tax')})
 })

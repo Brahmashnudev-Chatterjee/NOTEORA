@@ -1,0 +1,104 @@
+{
+  "evidenceType": "PURE_CALCULATION_TEST_ONLY",
+  "productionPayment": false,
+  "currency": "INR",
+  "unit": "paise",
+  "snapshot": {
+    "version": 2,
+    "currency": "INR",
+    "policy": {
+      "version": 1,
+      "tax": {
+        "status": "APPROVED",
+        "mode": "NONE",
+        "rateBps": 0,
+        "approvalReference": "PURE TEST FIXTURE: not a tax determination"
+      },
+      "gatewayFee": {
+        "status": "APPROVED",
+        "rateBps": 100,
+        "fixedMinor": 1,
+        "approvalReference": "PURE TEST FIXTURE: hypothetical platform-borne fee"
+      }
+    },
+    "lines": [
+      {
+        "id": "a1",
+        "sellerId": "test-seller-a",
+        "title": "Example A1",
+        "unitPriceMinor": 10000,
+        "discountBps": 1000,
+        "commissionBps": 3000,
+        "planVersion": 1,
+        "discountMinor": 1000,
+        "netBaseMinor": 9000,
+        "taxMinor": 0,
+        "customerPaymentMinor": 9000,
+        "commissionMinor": 2700,
+        "gatewayFeeMinor": 90,
+        "sellerPayableMinor": 6300,
+        "platformRevenueMinor": 2610
+      },
+      {
+        "id": "a2",
+        "sellerId": "test-seller-a",
+        "title": "Example A2",
+        "unitPriceMinor": 5000,
+        "commissionBps": 3000,
+        "planVersion": 1,
+        "discountMinor": 0,
+        "netBaseMinor": 5000,
+        "taxMinor": 0,
+        "customerPaymentMinor": 5000,
+        "commissionMinor": 1500,
+        "gatewayFeeMinor": 50,
+        "sellerPayableMinor": 3500,
+        "platformRevenueMinor": 1450
+      },
+      {
+        "id": "b1",
+        "sellerId": "test-seller-b",
+        "title": "Example B1",
+        "unitPriceMinor": 10000,
+        "commissionBps": 2000,
+        "planVersion": 1,
+        "discountMinor": 0,
+        "netBaseMinor": 10000,
+        "taxMinor": 0,
+        "customerPaymentMinor": 10000,
+        "commissionMinor": 2000,
+        "gatewayFeeMinor": 101,
+        "sellerPayableMinor": 8000,
+        "platformRevenueMinor": 1899
+      }
+    ],
+    "subtotalMinor": 25000,
+    "totalMinor": 24000,
+    "discountMinor": 1000,
+    "netBaseMinor": 24000,
+    "taxMinor": 0,
+    "commissionMinor": 6200,
+    "gatewayFeeMinor": 241,
+    "sellerPayableMinor": 17800,
+    "platformRevenueMinor": 5959
+  },
+  "hash": "963d60ff848c684a961a6dc2c3d8bb27d50eeae521d2ece97fcf26833feb841b",
+  "identity": {
+    "customer": 24000,
+    "seller": 17800,
+    "platform": 5959,
+    "fees": 241,
+    "tax": 0,
+    "balanced": true
+  },
+  "refundExample": {
+    "lineId": "a1",
+    "cumulative": {
+      "customerRefundMinor": 3000,
+      "taxReversalMinor": 0,
+      "commissionReversalMinor": 900,
+      "sellerDebitMinor": 2100,
+      "feeRefundMinor": 0
+    }
+  }
+}

@@ -1,6 +1,6 @@
 import { afterAll, beforeAll, describe, expect, it } from 'vitest'
 import mongoose from 'mongoose'
-import { MongoMemoryServer } from 'mongodb-memory-server'
+import { MongoMemoryReplSet } from 'mongodb-memory-server'
 import { chromium, type Browser, type Page } from '@playwright/test'
 import type { ViteDevServer } from '../../client/node_modules/vite/dist/node/index.js'
 import type { Server } from 'node:http'
@@ -13,14 +13,14 @@ import { app } from './index.js'
 import { Material, Category, Order, User, Review, Promotion } from './models.js'
 import { testActor, testPdf, testPng } from './testFixtures.js'
 
-let mongo:MongoMemoryServer,browser:Browser,vite:ViteDevServer,apiServer:Server,base:string,directory:string
+let mongo:MongoMemoryReplSet,browser:Browser,vite:ViteDevServer,apiServer:Server,base:string,directory:string
 let seller:Awaited<ReturnType<typeof testActor>>,buyer:typeof seller,admin:typeof seller,sellerPage:Page,buyerPage:Page,adminPage:Page,materialId:string,categoryId:string
 const title='Browser linear algebra notes'
 const evidence=fileURLToPath(new URL('../../docs/evidence/phase-c/',import.meta.url))
 const login=async(page:Page,actor:typeof seller)=>{await page.goto(base+'/login');await page.locator('#email').fill(actor.user.email);await page.locator('#password').fill('BrowserPassword1!');await page.locator('form button').last().click();await page.waitForURL(actor.user.role==='ADMIN'?'**/admin':'**/dashboard')}
 describe.skipIf(process.env.RUN_MARKETPLACE_BROWSER!=='1').sequential('Phase C browser journeys with real isolated MongoDB',()=>{
   beforeAll(async()=>{
-    mongo=await MongoMemoryServer.create();await mongoose.connect(mongo.getUri())
+    mongo=await MongoMemoryReplSet.create({replSet:{count:1}});await mongoose.connect(mongo.getUri())
     directory=await fs.mkdtemp(path.join(os.tmpdir(),'noteora-browser-marketplace-'));process.env.PRIVATE_UPLOAD_DIR=directory
     await fs.mkdir(evidence,{recursive:true})
     const hash=await bcrypt.hash('BrowserPassword1!',12)
@@ -71,6 +71,7 @@ describe.skipIf(process.env.RUN_MARKETPLACE_BROWSER!=='1').sequential('Phase C b
   it('admin previews and rejects, seller resubmits, admin approves and verifies seller',async()=>{
     await adminPage.goto(base+'/admin/materials');await adminPage.getByRole('heading',{name:title,exact:true}).waitFor()
     const popupPromise=adminPage.waitForEvent('popup');await adminPage.getByRole('button',{name:'Review PDF',exact:true}).click();const popup=await popupPromise;await popup.waitForURL(url=>url.protocol==='blob:');await popup.close()
+    const excerptPromise=adminPage.waitForEvent('popup');await adminPage.getByRole('button',{name:'Review preview',exact:true}).click();const excerpt=await excerptPromise;await excerpt.waitForURL(url=>url.protocol==='blob:');await excerpt.close()
     await adminPage.getByLabel('Feedback',{exact:true}).fill('Please improve the description.');await adminPage.getByRole('button',{name:'Reject',exact:true}).click()
     await adminPage.getByRole('status').filter({hasText:'Moderation decision saved.'}).waitFor()
     await sellerPage.reload();await sellerPage.getByText('Feedback: Please improve the description.').waitFor()
@@ -80,6 +81,10 @@ describe.skipIf(process.env.RUN_MARKETPLACE_BROWSER!=='1').sequential('Phase C b
     await adminPage.reload();await adminPage.getByRole('button',{name:'Approve',exact:true}).click();await adminPage.getByRole('status').filter({hasText:'Moderation decision saved.'}).waitFor()
     expect((await Material.findById(materialId))!.status).toBe('APPROVED')
     await adminPage.getByLabel('Material status').selectOption('APPROVED');await adminPage.getByRole('heading',{name:title,exact:true}).waitFor();await adminPage.screenshot({path:path.join(evidence,'admin-moderation.png'),fullPage:true})
+    await adminPage.locator('article').filter({hasText:title}).getByRole('button',{name:'Edit material',exact:true}).click();await adminPage.getByLabel('Description',{exact:true}).fill('Administrator-reviewed worked examples and chapter descriptions.')
+    await adminPage.getByRole('button',{name:'Save material',exact:true}).click();await adminPage.getByRole('status').filter({hasText:'Material edited.'}).waitFor()
+    expect((await Material.findById(materialId))!.status).toBe('PENDING')
+    await adminPage.getByLabel('Material status').selectOption('PENDING');await adminPage.getByRole('button',{name:'Approve',exact:true}).click();await adminPage.getByRole('status').filter({hasText:'Moderation decision saved.'}).waitFor()
     await adminPage.goto(base+'/admin/sellers');await adminPage.locator('article').filter({hasText:'Browser Seller'}).getByRole('button',{name:'Verify seller',exact:true}).click()
     await adminPage.getByRole('status').filter({hasText:'Seller status updated.'}).waitFor()
     expect((await User.findById(seller.user._id))!.sellerVerified).toBe(true)
@@ -89,6 +94,9 @@ describe.skipIf(process.env.RUN_MARKETPLACE_BROWSER!=='1').sequential('Phase C b
     await buyerPage.goto(base+'/materials');await buyerPage.getByLabel('Search notes',{exact:true}).fill('linear algebra');await buyerPage.getByRole('button',{name:'Search',exact:true}).click()
     await buyerPage.getByLabel('Subject',{exact:true}).selectOption('Mathematics');await buyerPage.getByLabel('Category',{exact:true}).selectOption(categoryId);await buyerPage.getByLabel('Academic level',{exact:true}).selectOption('Undergraduate')
     await buyerPage.getByLabel('Minimum price').fill('50');await buyerPage.getByLabel('Maximum price').fill('100');await buyerPage.getByLabel('Sort',{exact:true}).selectOption('rating')
+    await buyerPage.waitForURL(url=>url.searchParams.get('search')==='linear algebra'&&url.searchParams.get('sort')==='rating')
+    expect(new URL(buyerPage.url()).searchParams.get('search')).toBe('linear algebra')
+    expect(await buyerPage.getByLabel('Search notes',{exact:true}).inputValue()).toBe('linear algebra')
     await buyerPage.getByRole('heading',{name:title,exact:true}).waitFor();await buyerPage.screenshot({path:path.join(evidence,'buyer-marketplace.png'),fullPage:true})
     await buyerPage.getByRole('heading',{name:title,exact:true}).click();await buyerPage.getByRole('heading',{name:'Seller',exact:true}).waitFor()
     await buyerPage.getByText('Browser Seller · Verified seller').waitFor();expect(await buyerPage.locator('iframe[title="Material preview"]').count()).toBe(1)
@@ -126,4 +134,41 @@ describe.skipIf(process.env.RUN_MARKETPLACE_BROWSER!=='1').sequential('Phase C b
     expect(await sellerPage.evaluate(()=>document.documentElement.scrollWidth<=window.innerWidth)).toBe(true)
     await sellerPage.screenshot({path:path.join(evidence,'seller-mobile.png'),fullPage:true})
   },30000)
+  it('shows genuine empty and transport-error states and recovers using Retry',async()=>{
+    await buyerPage.setViewportSize({width:1365,height:950})
+    await buyerPage.goto(base+'/materials?search=no-resource-matches-this-query')
+    await buyerPage.getByText('No records found.',{exact:true}).waitFor()
+    await buyerPage.getByRole('button',{name:'Clear filters',exact:true}).click()
+    await buyerPage.getByRole('heading',{name:'Other resource 0',exact:true}).waitFor()
+    await buyerPage.route('**/api/v1/materials?*',route=>route.fulfill({status:503,contentType:'application/json',body:JSON.stringify({message:'Test service temporarily unavailable'})}))
+    await buyerPage.reload();await buyerPage.getByRole('alert').filter({hasText:'Test service temporarily unavailable'}).waitFor()
+    expect(await buyerPage.locator('h2').filter({hasText:'Other resource'}).count()).toBe(0)
+    await buyerPage.unroute('**/api/v1/materials?*')
+    await buyerPage.getByRole('button',{name:'Retry',exact:true}).click()
+    await buyerPage.getByRole('heading',{name:'Other resource 0',exact:true}).waitFor()
+    await buyerPage.screenshot({path:path.join(evidence,'buyer-retry-recovered.png'),fullPage:true})
+  },30000)
+
+  it('never treats a success URL as proof that an unpaid purchase was paid',async()=>{
+    const m=await Material.findById(materialId)
+    const order=await Order.create({internalOrderId:'BROWSER-PENDING-FIXTURE',clientOrderId:'BROWSER-PENDING-FIXTURE',user:buyer.user._id,items:[{material:m!._id,title:m!.title,unitPrice:m!.price,seller:seller.user._id}],subtotal:m!.price,total:m!.price,environment:'sandbox',paymentStatus:'PENDING'})
+    await buyerPage.goto(base+'/payment/success?order='+order._id)
+    await buyerPage.getByText('Recorded status:',{exact:false}).waitFor()
+    await buyerPage.getByRole('heading',{name:'Payment not confirmed',exact:true}).waitFor()
+    expect((await Order.findById(order._id))!.paymentStatus).toBe('PENDING')
+    await buyerPage.getByRole('button',{name:'Refresh purchase records',exact:true}).click()
+    await buyerPage.getByText('Recorded status:',{exact:false}).waitFor()
+    await buyerPage.screenshot({path:path.join(evidence,'payment-return-unconfirmed.png'),fullPage:true})
+  },30000)
+
+  it('keeps sales, earnings and subscription pages functional without claiming payouts or activating paid plans',async()=>{
+    await sellerPage.setViewportSize({width:1440,height:1000})
+    await sellerPage.goto(base+'/seller/sales');await sellerPage.getByText(title,{exact:false}).waitFor()
+    await sellerPage.goto(base+'/seller/earnings');await sellerPage.getByText('No records found.',{exact:true}).waitFor()
+    await sellerPage.getByText('Payout execution is not available yet',{exact:false}).waitFor()
+    await sellerPage.goto(base+'/seller/subscription');await sellerPage.getByRole('heading',{name:'PRO',exact:true}).waitFor()
+    expect(await sellerPage.getByText('Paid activation unavailable.',{exact:true}).count()).toBe(2)
+    expect((await User.findById(seller.user._id))!.plan).toBe('FREE')
+  },30000)
+
 })

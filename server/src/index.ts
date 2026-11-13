@@ -16,5 +16,5 @@ app.get('/api/health',async(_req,res)=>{
   const status = mongo && redis && postgres ? 'ok' : mongo ? 'degraded' : 'starting'
   res.status(status === 'ok' ? 200 : 503).json({status,service:'Noteora API',dependencies:{mongodb:mongo?'healthy':'unavailable',postgres:postgres?'healthy':'unavailable',redis:redis?'healthy':'unavailable'}})
 })
-app.use((err:any,_req:any,res:any,_next:any)=>{const status=err.name==='ZodError'||err.name==='CastError'?400:err.status||500;console.error('API request failed', {status});res.status(status).json({message:status>=500?'Internal server error':'Invalid request'})})
+app.use((err:any,_req:any,res:any,_next:any)=>{const status=err.name==='ZodError'||err.name==='CastError'?400:err.status||500;console.error('API request failed', {status});res.status(status).json({message:status>=500?'Internal server error':err.status?err.message:'Invalid request'})})
 if(process.env.NODE_ENV!=='test'){getJwtSecret();const port=Number(process.env.PORT||5000);mongoose.connect(process.env.MONGO_URI||'mongodb://127.0.0.1:27017/noteora').then(()=>app.listen(port,()=>console.log(`Noteora API listening on ${port}`))).catch(e=>{console.error('MongoDB connection failed');process.exit(1)})}

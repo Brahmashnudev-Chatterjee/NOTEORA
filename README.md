@@ -1,5 +1,12 @@
 # Noteora - Educational Notes Marketplace
 
+> **Current Phase D status (2026-11-13):** subscriptions and integer-paise accounting are implemented and locally tested; the product is not production-ready. See [Phase D report](PHASE_D_SUBSCRIPTION_FINANCIAL_REPORT.md), [current audit](REMAINING_WORK_AUDIT.md), [subscription rules](SUBSCRIPTIONS.md) and [financial rules](FINANCIAL_CALCULATIONS.md).
+>
+> Canonical initial plans: Free 5 lifetime uploads / 30% commission; Pro INR199 per month / 15 uploads per paid term / 20%; Ultra INR499 / unlimited / 10%. Historical 25/100 limits and financial claims in consolidated excerpts below are superseded. Paid benefits require verified, accounted payment evidence. Tax and gateway-fee policies default UNRESOLVED, not zero; no live billing/provider processing is enabled.
+>
+> Upload quota and financial writes now require MongoDB replica-set transactions. Use the isolated development setup in the Phase D report; do not repurpose production databases or volumes.
+
+
 
 
 **Learn. Share. Earn.**

@@ -1,0 +1,16 @@
+# Opt-in, separate development volume. Never points at the existing marketplace database.
+services:
+  mongo-phase-d:
+    image: mongo:7
+    command: ["mongod", "--replSet", "noteora-phase-d", "--bind_ip_all"]
+    ports:
+      - "127.0.0.1:27018:27017"
+    volumes:
+      - phase_d_development_mongo:/data/db
+    healthcheck:
+      test: ["CMD", "mongosh", "--quiet", "--eval", "db.adminCommand({ping:1}).ok"]
+      interval: 5s
+      timeout: 5s
+      retries: 20
+volumes:
+  phase_d_development_mongo:

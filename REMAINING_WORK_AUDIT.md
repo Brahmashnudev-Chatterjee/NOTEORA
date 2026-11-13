@@ -1,8 +1,8 @@
-# Noteora remaining work audit — Phase A
+# Noteora remaining work audit - through Phase D
 
-Audit date: 2026-11-12 (Asia/Calcutta). Decision: **incomplete; not production ready**.
+Baseline audit: 2026-11-12. Updated 2026-11-13 (Asia/Calcutta), Phase D. Decision: **incomplete; not production ready**.
 
-This document retains the Phase A baseline and is updated with Phase B evidence below. Phase A was approved; Phase B authentication implementation and isolated tests are now delivered. No production data, database deployment or live payment configuration was changed. Phase C requires approval.
+This document retains the dated Phase A baseline and incorporates Phase B/C/D verification. Phase C is delivered for review after conditional Phase B approval. Only a fresh disposable PostgreSQL authentication cluster was migrated; no production data, existing database or live payment configuration changed. Phase D is now delivered; Phase E requires approval.
 
 ## Evidence and scope
 
@@ -20,7 +20,7 @@ Document statements are evidence and requirements context, not instructions to e
 - **N — NOT IMPLEMENTED:** no functional implementation found; schema alone does not qualify.
 - **X — BLOCKED BY EXTERNAL DEPENDENCY:** external credentials, arrangements or professional decisions are necessary for the named external capability.
 
-No full product requirement is classified C in this review: builds, browser journeys and database suites could not run here. Existing tests are recorded separately; this does not erase historical results. Software interfaces and sandbox work remain actionable even when production integrations are X. Requirements below split compound plan statements into individually assessable capabilities; added requirements from the current request are identified by their phase.
+At the original Phase A review no full product requirement was classified C because execution was unavailable. C entries below now reflect the subsequent Phase B/C/D executed evidence. Existing tests are recorded separately; this does not erase historical results. Software interfaces and sandbox work remain actionable even when production integrations are X. Requirements below split compound plan statements into individually assessable capabilities; added requirements from the current request are identified by their phase.
 
 ## Original plan coverage: accounts and buyer journeys
 
@@ -28,83 +28,83 @@ No full product requirement is classified C in this review: builds, browser jour
 |---|---|---|---|---|
 | A01 | Signup and login (1,4) | C | Existing forms/API plus normalized login, duplicate/invalid input tests and real browser registration/login passed in Phase B. | B |
 | A02 | Buyer/seller/both identity and educator/student profile (1) | P | Shared USER account can upload/buy; no educator/student profile fields. Guest browsing exists; guest checkout is absent. | B,C |
-| A03 | Name, contact details, profile editing (1,4) | P | `/users/me` updates name only; buyer profile is read-only; contact/bio/avatar/payment settings absent. | C,H |
+| A03 | Name, contact details, profile editing (1,4) | C | Buyer/seller name, bio, university and private phone editing persist; API/browser checks pass. Avatars remain later storage scope. | C,H |
 | A04 | Email verification or OTP/social alternative (4) | C | Secure single-use expiring email-token flow and browser verification passed. Actual SMTP delivery is separately blocked under R03; social login remains an optional alternative. | B |
 | A05 | CAPTCHA / signup bot prevention (4) | N | Generic API rate limit exists; no CAPTCHA integration. | B,I |
-| A06 | Personalized dashboard (4) | P | Seller summary exists; buyer dashboard journey and comprehensive error states incomplete. | C |
-| A07 | Browse approved notes (1,5) | U | Database query limits public listings to APPROVED. | C |
-| A08 | Search title/description/tags (1,5) | P | Backend regex search exists; uncontrolled regex input, no pagination/query limits; error becomes empty result. | C |
-| A09 | Subject/course/category filters (1,5) | P | Subject API filter exists; category links use text search rather than category identity; course/instructor model absent. | C |
-| A10 | Academic-level, price and instructor filters (1) | N | No backend filter handling for these fields; academic level stored only. | C |
-| A11 | Sorting popularity/date; grid/list (5) | P | Fixed newest-first sort; no selectable popularity/date or list/grid controls. | C |
-| A12 | Note cards: title, author, thumbnail, price, rating (1,5) | P | Title/author/price present; icon replaces uploaded thumbnail; rating hardcoded 0.0. | C,H |
-| A13 | Full description, seller bio and average rating (1,5) | P | Detail component displays title/description/price; populated seller is not rendered as a full seller panel. | C |
-| A14 | Permitted PDF preview (1,5) | N | No bounded/redacted public preview or authenticated moderator preview journey. | C,H |
-| A15 | Detail reviews/FAQ tabs and related notes (5) | N | No functional detail tabs, review list or related notes. | C |
-| A16 | Cart add/manage items (1,5) | P | Backend replaces cart; detail add overwrites existing items; UI lacks remove/update workflow. | C |
-| A17 | Checkout totals including configured taxes/fees (1,3,5) | P | Server reads prices; GST fixed zero; financial helper unused by checkout. Cart lacks final breakdown. | D,F |
-| A18 | Payment checkout and confirmation (1,5) | P | External client exists; cart ignores returned payment URL/intent; pending page has no polling. Success label depends on URL path. | F |
+| A06 | Personalized dashboard (4) | C | Personalized seller dashboard, owned purchases, profile and role-aware navigation exercised against real API/MongoDB. | C |
+| A07 | Browse approved notes (1,5) | C | Only approved notes returned by real database queries; integration/browser cases pass. | C |
+| A08 | Search title/description/tags (1,5) | C | Bounded escaped search through actual MongoDB, URL-preserved combined filters and browser error/Retry checks pass. | C |
+| A09 | Subject/course/category filters (1,5) | C | Subject/category/course filters query stored identities/values; real API/browser combination checks pass. | C |
+| A10 | Academic-level, price and instructor filters (1) | C | Academic-level, min/max price and instructor filters implemented in MongoDB; combined integration and browser filter checks pass. | C |
+| A11 | Sorting popularity/date; grid/list (5) | C | Grid browsing with six deterministic sort modes and bounded pagination passes real integration/browser tests; a separate list-toggle is optional. | C |
+| A12 | Note cards: title, author, thumbnail, price, rating (1,5) | C | Actual thumbnails, title/author/price and database review aggregates render; public DTO strips private paths. | C,H |
+| A13 | Full description, seller bio and average rating (1,5) | C | Detail description, seller biography/university, material and seller-wide review averages and published-note count derive from database records. | C |
+| A14 | Permitted PDF preview (1,5) | C | Separate explicitly permitted excerpt is public only after approval; unpublished assets require owner/moderator authentication. API/browser checks pass. | C,H |
+| A15 | Detail reviews/FAQ tabs and related notes (5) | P | Descriptions, verified reviews and related notes implemented/tested. FAQ content and a separate FAQ tab remain later site-content work. | C |
+| A16 | Cart add/manage items (1,5) | C | Multi-item cart preserves additions, deduplicates concurrent writes, removes items, caps 100 and rejects unavailable notes. API/browser tests pass. | C |
+| A17 | Checkout totals including configured taxes/fees (1,3,5) | P | Version-2 backend quotes/snapshots and UI breakdown tested. Tax and gateway policies explicitly unresolved by default; approved professional/business decisions required before checkout. | D,F |
+| A18 | Payment checkout and confirmation (1,5) | P | Read-only status/return never confers payment. Unpaid sandbox preparation and signed test evidence verified; no authorised-provider checkout/live collection. | F |
 | A19 | Live payment methods (UPI/card as supported) (5) | X | Requires authorized provider agreement, credentials and supported methods; no operational provider confirmed. | F |
-| A20 | Purchase transaction history (1,4) | U | Owned-order API and table exist; no current runtime evidence. | C,F |
-| A21 | Paid purchase download links (1,4,5) | P | API ownership/PAID/HMAC checks exist; purchase table exposes no download action. Malformed signature length can throw. | C,H |
-| A22 | Verified-purchase rating/comment form (2,5) | P | API validates purchase; no buyer review form. `/reviews` calls `/reviews/none` and returns empty data. | C |
-| A23 | Review display and seller ratings (1,2,5) | P | Public review API and seller review page exist; marketplace averages/details disconnected. | C |
+| A20 | Purchase transaction history (1,4) | C | Owned purchase history and status/actions tested; one buyer cannot view another buyer order history. | C,F |
+| A21 | Paid purchase download links (1,4,5) | C | Buyer/order/material/expiry-bound signed downloads work in browser and API, reject tampering and retain archived paid PDFs. | C,H |
+| A22 | Verified-purchase rating/comment form (2,5) | C | Buyer review form/API validates paid ownership, integer ratings and duplicates; real browser review journey passes. | C |
+| A23 | Review display and seller ratings (1,2,5) | C | Public material/seller averages, detail review list and buyer/seller review pages use stored paid-purchase review records. | C |
 | A24 | Account password/payment-method settings (4) | P | Password change/recovery and revocation tested in Phase B; payment-method management remains absent. | B,C,F |
-| A25 | Subscription status, change and payment history (4,5) | P | Plans visible; no paid billing/history/renewal journey. | D,F |
+| A25 | Subscription status, change and payment history (4,5) | P | Shared subscription status/history/cancellation and paid evidence-bound contract lifecycle tested. Actual payment collection remains external/later phase. | D,F |
 
 ## Original plan coverage: seller, plans and finance
 
 | ID | Requirement (PDF pages) | Status | Current evidence / remaining work | Phase |
 |---|---|---|---|---|
-| S01 | Any user becomes seller by uploading (2) | U | Authenticated USER uploads through `/materials`. | C |
-| S02 | PDF upload/title/description/course tags/price (1,2,4) | P | PDF upload, academic level, tags and cover exist; validation/cleanup and course categorization incomplete. Word upload mentioned in competitor discussion is not a mandatory format; PDF is the primary planned flow. | C,H |
-| S03 | Five free uploads then subscription (1,2,3,4) | P | Hardcoded count checks; free count includes all records; exhaustion shows error rather than upgrade journey. | D |
-| S04 | Read uploaded notes/status/stats (2,4) | P | Status table exists; sales counters are not maintained by payment processing. | C,F |
-| S05 | Edit note description/price (2) | U | Owner updates non-approved material via field allowlist; approved edits blocked. | C |
-| S06 | Delete unpublished material (2) | P | Owner delete and PDF deletion exist; cover cleanup missing; archive/delete UI wording ambiguous. | C,H |
-| S07 | Pending approval, publish, rejection feedback (2) | P | Moderation status/note stored; notification and PDF review workflow missing. | C,H |
+| S01 | Any user becomes seller by uploading (2) | C | Authenticated USER uploads via real multipart API/browser; buyer/seller shared identity preserved. | C |
+| S02 | PDF upload/title/description/course tags/price (1,2,4) | C | PDF/thumbnail/separate preview and complete note metadata upload tested with actual files; invalid data cleanup verified. Word remains optional competitor context. | C,H |
+| S03 | Five free uploads then subscription (1,2,3,4) | C | Transactional lifetime quota of five, concurrent last-slot enforcement and deletion-not-restoring usage tested; shared upgrade workspace exposes plans. | D |
+| S04 | Read uploaded notes/status/stats (2,4) | C | Owner material/status pages show stored views and paid-order-derived per-note sales; dashboard/analytics and paging tested. | C,F |
+| S05 | Edit note description/price (2) | C | Owned draft/rejected metadata edits, optional category clearing and archive-to-draft workflow tested; publication always requires moderation. | C |
+| S06 | Delete unpublished material (2) | C | Unpublished unreferenced records and their files can be deleted; order references prohibit deletion and conditional state writes detect conflicts. | C,H |
+| S07 | Pending approval, publish, rejection feedback (2) | C | Pending approval/rejection feedback, resubmission, separate metadata edit/moderation and preference-aware in-app records exercised. | C,H |
 | S08 | Plagiarism/spam/duplicate quality checks (1,2) | N | No scanning or duplicate detection workflow; manual moderation alone does not establish this. | H |
-| S09 | Sales count and earnings per note (2) | P | Seller orders/ledger summaries exist; multi-item ledger bug and stale sales counters undermine totals. | C,D,F |
+| S09 | Sales count and earnings per note (2) | P | Version-2 all-item seller ledger/net and real per-note sales tested; legacy unaccounted net flagged/excluded, provider/settlement remains later. | C,D,F |
 | S10 | Pending payouts and minimum-balance withdrawal (2) | P | Ledger status display only; no minimum balance/request/reservation/approval flow in MongoDB API. | G |
 | S11 | Provider withdrawal/local transfer (2) | X | Provider/approved settlement arrangement required; no external transfer capability established. | G |
-| S12 | Base note price <= INR 150 (1,3) | U | Model/upload/edit checks exist; boundary helper tests exist, not rerun. | D |
-| S13 | Transparent commission and tax breakdown (3,4) | P | Fixed 30% webhook commission, zero GST, zero gateway cost; helper uses JS numbers and different revenue formula. | D |
+| S12 | Base note price <= INR 150 (1,3) | C | Backend exact minor-unit price parsing, INR150 cap and calculation boundary tests executed. | D |
+| S13 | Transparent commission and tax breakdown (3,4) | P | Integer snapshots, plan-specific commission and tax/fee breakdown tested. Actual statutory tax policy requires CA/legal approval; no implicit zero GST. | D |
 | S14 | Professionally approved tax treatment (3) | X | PDF tax example is not accepted policy; CA/legal review needed for GST base, liability, invoicing and settlement treatment. | D,G,I |
-| S15 | Free plan: 5 uploads, 30% fee (4) | P | Defaults present; counting semantics/expiry consistency not established. | D |
-| S16 | Pro: INR 199/month, ~15 monthly uploads, ~20% fee (4) | P | Display/defaults use 25 active listings; payment activation returns 402; webhook always takes 30%. | D,F |
-| S17 | Ultra: INR 499/month, unlimited uploads, ~10% fee (4) | P | ULTRA code/Ultra Pro label; defaults 100 active listings; paid activation unavailable. | D,F |
-| S18 | Featured listings, premium/basic analytics (4) | P | Featured config exists but listing ranking not driven by plan; charts use hardcoded values. | C,D |
+| S15 | Free plan: 5 uploads, 30% fee (4) | C | Canonical Free five lifetime creations/30% default; backend concurrent quota and entitlement tests pass. | D |
+| S16 | Pro: INR 199/month, ~15 monthly uploads, ~20% fee (4) | P | Pro INR199/15 per paid period/20% canonical contract tested, including expiry and renewal. Actual paid purchase depends on provider integration. | D,F |
+| S17 | Ultra: INR 499/month, unlimited uploads, ~10% fee (4) | P | Ultra INR499/unlimited/10% canonical contract and >100 uploads tested. Actual paid collection remains blocked. | D,F |
+| S18 | Featured listings, premium/basic analytics (4) | C | Basic analytics retained; verified paid featured eligibility and premium financial CSV entitlement enforced/tested server-side. | C,D |
 | S19 | Priority support/review, newsletters/marketing boosts (4) | N | Described as examples/possibilities; no implementation. Do not advertise guaranteed service levels without operational capacity. | C,H |
-| S20 | Subscription recurring billing, trials/overdue state (2,4,5) | N | No renewal/payment linkage; expiry worker returns a status without performing expiry. | D,F |
-| S21 | Platform profit/commission and gateway fee accounting (3,4) | P | Noncentralized floating calculations; no consistent accounting snapshot/refund adjustments. | D,G |
+| S20 | Subscription recurring billing, trials/overdue state (2,4,5) | P | Verified term queueing, expiry, cancellation/suspension and renewal eligibility tested. Automatic recurring debit, trial/overdue business rules not implemented. | D,F |
+| S21 | Platform profit/commission and gateway fee accounting (3,4) | P | Central exact commission/fee/seller allocation, reconciliation and bounded refund adjustments tested; live approved fees/taxes and settlement remain unresolved. | D,G |
 
 ## Original plan coverage: administration and public pages
 
 | ID | Requirement (PDF pages) | Status | Current evidence / remaining work | Phase |
 |---|---|---|---|---|
 | M01 | Secure admin portal and role enforcement (2,5) | P | Phase B backend revalidates current role/account/session and rejects unauthorized access. Full admin browser/management acceptance remains H/I. | B,H |
-| M02 | Users/active sellers/monthly revenue/recent uploads overview (2,5) | P | Active sellers counts all active users; approved count includes rejected; pending settlements hardcoded zero. | H |
-| M03 | Historical sales/user charts (2,5) | P | Decorative static chart; no real period series. | C,H |
+| M02 | Users/active sellers/monthly revenue/recent uploads overview (2,5) | P | Real seller/material/paid-order counts and monthly series tested. A complete recent-upload/user-trend admin overview remains later admin scope. | H |
+| M03 | Historical sales/user charts (2,5) | P | Seller and admin sales series now database-backed. Dedicated historical new-user chart remains later admin scope. | C,H |
 | M04 | User CRUD, deactivate and plan override (2,5) | P | Phase B protects privileged accounts, restricts role creation and parses account booleans; broader admin CRUD/browser acceptance remains H. | B,H |
 | M05 | User filters/detail/activity history (2,5) | P | Generic client-side record search and activity/session APIs; no joined per-user detail/date/role workflow. | H |
-| M06 | Content approval/rejection with feedback (2,5) | P | APIs/UI exist; preview absent; UI offers PENDING but status endpoint rejects it. | C,H |
-| M07 | Admin manually edit/remove any note (2,5) | P | Delete/status exist; full content edit absent. | H |
+| M06 | Content approval/rejection with feedback (2,5) | C | Role-enforced preview/full-source review, feedback, approval/rejection, search/pagination and conflict transitions verified by API/browser. | C,H |
+| M07 | Admin manually edit/remove any note (2,5) | C | Authorized metadata editing is audited and returns published notes to pending; archive/unreferenced delete retention and private assets tested. | H |
 | M08 | Orders/transactions filter date/user and track sold notes (2,5) | P | Listing exists; generic text search only; no complete typed filters/detail journey. | H |
-| M09 | Revenue vs commission vs payouts (2,5) | P | Ledger aggregates partial; unsafe status overrides, incorrect reporting periods. | D,G,H |
-| M10 | Admin configurable plan prices/limits/fees/featured (2,5) | P | Plan CRUD exists but upload/webhook logic ignores these records; generic form types inconsistent. | D,H |
-| M11 | Admin billing trials/active/overdue (2) | N | Plan CRUD is not subscriber billing management. | D,H |
+| M09 | Revenue vs commission vs payouts (2,5) | P | Real version-2 revenue/commission/refund/independent IST period reporting tested. Manual PAID overrides removed; payout reporting depends on Phase G. | D,G,H |
+| M10 | Admin configurable plan prices/limits/fees/featured (2,5) | C | One immutable versioned catalog drives APIs/UI/quotas; SUPER_ADMIN edits require reason/expected version and preserve purchased terms; browser/API tested. | D,H |
+| M11 | Admin billing trials/active/overdue (2) | P | Member status/history and audited suspend/resume/cancel verified contracts tested; trial/overdue/automatic collection not supplied. | D,H |
 | M12 | Category/subject CRUD (2,5) | P | Category CRUD exists; subject is free text; active field rendered but absent in schema. | C,H |
 | M13 | Site announcements/blog/FAQ/contact configuration (2) | N | No managed configuration endpoints or UI. | H |
 | M14 | Reported reviews/users and moderation actions (2) | P | Review.reported field only; no reporting/action journey. | H |
 | M15 | Upload/user/approval reports and CSV export (2,5) | P | Finance CSV endpoint exists, JSON serialization is not robust CSV escaping; UI has no export/date controls or usage reports. | H |
 | M16 | Landing hero/CTA and how-it-works (4) | U | Existing responsive animated sections; four steps rather than example three is acceptable. | C,I |
-| M17 | Featured/new notes/categories and carousel/sliding cards (1,4) | P | Animated static subject links and example note card; no real featured/new note feeds. | C |
+| M17 | Featured/new notes/categories and carousel/sliding cards (1,4) | P | Real newest-note feed and animated category links implemented; full plan-controlled featured merchandising remains D/H. | C |
 | M18 | Testimonials (4) | N | No verified testimonial content; do not fabricate testimonials. | H |
 | M19 | Pricing section (4) | P | Exists but plan benefits/limits duplicated and inconsistent with plan/API behavior. | D |
 | M20 | FAQ (4) | N | No functional FAQ content/management. | H |
 | M21 | Footer contact/terms/social; terms/privacy links (4) | P | Branding/copyright footer only; consent text lacks complete policy content/navigation. | H,I |
-| M22 | Cream/black/orange style, animations, rounded cards (5) | U | CSS/Tailwind/Framer Motion present; no current visual acceptance run. | C,I |
-| M23 | Responsive, accessible pages/navigation (4,5) | P | Breakpoints/mobile navigation present; browser, keyboard, screen reader and overflow checks outstanding. | C,I |
+| M22 | Cream/black/orange style, animations, rounded cards (5) | C | Existing cream/black/orange responsive design, animation and cards build and render in Chrome evidence; no redesign introduced. | C,I |
+| M23 | Responsive, accessible pages/navigation (4,5) | P | Buyer/seller desktop and 390px mobile navigation and overflow checks pass. Full accessibility/multi-browser certification remains I. | C,I |
 
 ## Current-request extensions and gateway readiness
 
@@ -115,47 +115,47 @@ No full product requirement is classified C in this review: builds, browser jour
 | R03 | Actual SMTP delivery | X | SMTP credentials/domain configuration and delivery verification required. | B,H |
 | R04 | Reset token expiry/single use and recovery UI | C | One-hour reset tokens, atomic consumption, replacement/invalidation, session revocation and recovery/reset browser journey passed. | B |
 | R05 | Refresh rotation, revocation, security activity | C | Marketplace session listing/revoke/logout-all, access expiry, refresh rotation/reuse/concurrency and password-change revocation tests passed. | B |
-| R06 | Cookie CSRF and current account/role enforcement | P | Marketplace Origin/header CSRF and current role/status enforcement passed. Gateway behavior tests pass, but PostgreSQL session persistence acceptance remains unexecuted. | B |
-| R07 | Paginated, safe backend marketplace queries | N | Returns full arrays; no pagination limits, escaped search or requested filters/sort. | C |
-| R08 | Draft/archive lifecycle | P | UI DRAFT tab exists; both schemas allow only PENDING/APPROVED/REJECTED. Current request explicitly adds draft/archive. | C |
-| R09 | Seller dashboard/upload/materials/sales/earnings | P | All pages exist; CRUD, accounting, preview and payout gaps above prevent acceptance. | C,G |
-| R10 | Seller analytics/reviews/promotions | P | Static charts; popular sales stale; promotions CRUD not applied at checkout and no material-ownership check. | C,D |
-| R11 | Seller subscription/profile/settings/support | P | Name/password/ticket flows exist; preference toggle only local React state; no support replies/status management. | B,C,H |
-| R12 | Central plan config; purchase/expiry/renewal/history | N | Multiple frontend/backend/seed defaults; no authoritative billing state machine. | D,F |
-| R13 | Decimal-safe central finance and refund/settlement math | P | Prisma decimals exist only in nonauthoritative target; MongoDB/JS number helper is not used by orders/webhooks. | D,G |
+| R06 | Cookie CSRF and current account/role enforcement | C | Marketplace CSRF/current role/status checks pass; merchant persistence/refresh replay and suspension also pass on fresh isolated PostgreSQL. | B |
+| R07 | Paginated, safe backend marketplace queries | C | Safe bounded backend search/filter/sort/pagination and invalid query handling tested against actual MongoDB. | C |
+| R08 | Draft/archive lifecycle | C | DRAFT/PENDING/APPROVED/REJECTED/ARCHIVED persist in MongoDB with enforced transitions; API/browser lifecycle checks pass. No PostgreSQL cutover. | C |
+| R09 | Seller dashboard/upload/materials/sales/earnings | P | All seller routes render working data/forms; upload/material/sales/dashboard and recorded earnings verified. Provider payout/financial correctness remains G/D. | C,G |
+| R10 | Seller analytics/reviews/promotions | C | Database analytics/reviews/promotion CRUD retained; scoped backend discount application and invalid/expired/foreign promotion rejection tested in D. | C,D |
+| R11 | Seller subscription/profile/settings/support | P | Profile/preferences/password/support retained; subscription status/history and cancellation tested in D. Operational support replies/profile assets remain H. | B,C,H |
+| R12 | Central plan config; purchase/expiry/renewal/history | P | Canonical versioned catalog and verified contract purchase linkage/expiry/queued renewals/history tested; real provider collection/automatic billing remain blocked. | D,F |
+| R13 | Decimal-safe central finance and refund/settlement math | P | Central exact minor-unit finance and confirmed-refund adjustments tested; actual provider refund and settlement workflows remain G. | D,G |
 | R14 | Authenticated gateway admin approval/rejection UI | P | Phase B removes shared-admin-token auth; adds live marketplace admin introspection and authenticated frontend fetch. Approval/rejection controls still Phase E. | E |
-| R15 | Merchant registration/login/profile backend | U | Merchant login/access/refresh/logout status checks expanded in Phase B. Mocked-persistence tests pass; four actual PostgreSQL cases skipped pending isolated database. | E |
+| R15 | Merchant registration/login/profile backend | U | Registration/login/refresh persistent tests pass on fresh PostgreSQL; merchant profile editing still lacks its own real DB acceptance journey. Team lifecycle remains E. | E |
 | R16 | Merchant team endpoints and UI | N | MerchantUser model/roles exist; no team lifecycle API/UI. | E |
 | R17 | API-key creation/rotation/revoke/list | U | Hashing, approval checks and merchant scoping exist; DB journey untested. | E |
 | R18 | API-key request authentication middleware | P | `/credentials/verify` validates body only; no reusable credential authentication for payment resources. | E |
 | R19 | Cross-merchant isolation acceptance tests | N | Four gateway tests do not exercise two merchant databases/identities. | E |
 | R20 | Merchant audit history and actionable developer UI | P | Phase B adds separate merchant login/logout and admin authentication; profile/key/webhook/team management cards still need Phase E actions. | E |
 | R21 | Webhook configuration | U | Scoped configuration, encrypted secret, one-time response and metadata listing exist; no current DB test. | E |
-| R22 | Fresh migration deployment and repeat deploy | P | Auth migration prepared and CI SQL setup extended. No actual PostgreSQL auth migration run; clean/repeat Prisma deployment remains Phase E. | E,I |
+| R22 | Fresh migration deployment and repeat deploy | P | Fresh Phase 5B/5C/auth SQL applied and auth columns verified in disposable PostgreSQL. Repeated Prisma migrate-deploy/rollback remains E. | E,I |
 | R23 | Gateway payment orders, dynamic QR, intent/status | N | Prisma models only; gateway API implements no order/payment endpoints. | F |
 | R24 | Isolated sandbox provider and authorized adapter interface | N | Marketplace client calls an external contract; no local sandbox/provider abstraction. | F |
 | R25 | Production provider verification | X | Authorized arrangements, sandbox/live credentials, signing contracts and approvals unavailable/unverified. | F |
 | R26 | Signed outbound delivery, durable outbox/retries | P | Schema/queue scaffolding; no producer/dispatcher/decrypt/delivery workflow. | F |
-| R27 | Incoming idempotent payment/ledger processing | P | HMAC helper exists; event persistence and financial mutations are nontransactional; see blockers. | F |
-| R28 | Reconciliation | P | Migration reconciliation artifacts exist; provider/payment reconciliation worker does no work. | F,G |
-| R29 | Refund request/approve/reject/status/provider adjustments | P | Admin local request returns 501; arbitrary COMPLETED patch possible; buyer request and provider lifecycle missing. | G |
+| R27 | Incoming idempotent payment/ledger processing | P | Signed sandbox exact amount/currency/env and atomic event/order/all-item ledger processing/replay conflict tests pass. Production provider delivery remains F. | F |
+| R28 | Reconciliation | P | Version-2 snapshot/ledger/refund reconciliation implemented/tested; operational provider reconciliation worker and legacy remediation remain later. | F,G |
+| R29 | Refund request/approve/reject/status/provider adjustments | P | Audited request/approve/reject review with exact amounts and no COMPLETED override; internal confirmed accounting tested. Buyer/provider execution lifecycle remains G. | G |
 | R30 | Payout request/approval/reserve/status/reconciliation | N | PostgreSQL settlement model does not implement MongoDB marketplace workflow. | G |
 | R31 | Authoritative payout/refund execution | X | Authorized provider or documented approved settlement evidence required. | G |
-| R32 | Seller verification/admin workflows | P | Uses same verified flag as email; no separate document review/verification state. | H |
-| R33 | Private PDFs and signed downloads | P | `/uploads` denied; disk downloads protected, but public detail/list returns raw material including internal paths. UI missing. | H |
+| R32 | Seller verification/admin workflows | P | Actual sellers only, independent seller verification and privileged-target checks tested. Document/KYC lifecycle remains H. | H |
+| R33 | Private PDFs and signed downloads | P | Private disk uploads, public path-free responses, authorized source/preview review and signed buyer downloads tested. Managed object storage/scanning/versioning remains H. | H |
 | R34 | Object storage, thumbnail serving/lifecycle adapters | N | Disk uploads only, private thumbnails lack working serving workflow; no object-store abstraction. | H |
 | R35 | Production object-store service | X | Bucket, credentials, encryption/retention and access policies needed. | H |
-| R36 | Size/type validation and malware quarantine integration | P | 20 MB/MIME/extension/PDF header checks; no scanner adapter/quarantine or robust image validation. | H |
+| R36 | Size/type validation and malware quarantine integration | P | PDF/image signature and size checks, upload cleanup and private assets tested. Full parsing, malware quarantine/scan interface remains H. | H |
 | R37 | Operational malware scanning | X | Scanner service/engine and policy required; missing interface remains software work. | H |
-| R38 | Email/in-app notifications and history | P | Notification read API/table only; no producer events/read-state actions/delivery; preference not persisted. | H |
+| R38 | Email/in-app notifications and history | P | Moderation emits preference-aware in-app records; settings/history work. Email/realtime/read-state notification delivery still H/external SMTP. | H |
 | R39 | Preserve MongoDB authority and separate gateway | U | Marketplace uses Mongoose; gateway Prisma; no application dual-write path found. Schema parity still needs reconciliation. | All |
-| R40 | Buyer/seller/admin/gateway E2E suites | P | Two real Phase B Playwright/Chrome auth journeys pass; full buyer/seller/admin/gateway business E2E remains Phase I. | I |
-| R41 | MongoDB integration coverage | P | Marketplace suite now 35 executed passes including real isolated MongoDB auth integration; broader business workflows remain untested. | B–I |
-| R42 | PostgreSQL integration coverage | P | Existing five schema tests retained; four new isolated PostgreSQL gateway auth cases added but not executed. No schema-only claim of merchant acceptance. | E,I |
-| R43 | CI builds/schema/database/security/browser checks | P | Existing CI retained with required auth migration/test-secret wiring; remote CI, browser/security scan expansion still Phase I. | I |
+| R40 | Buyer/seller/admin/gateway E2E suites | P | 15 Chrome cases pass: auth2, marketplace9, subscriptions/financial4. Full gateway/provider/refund/payout E2E remains later. | I |
+| R41 | MongoDB integration coverage | P | 102 server tests pass, including26 subscription/financial real replica-set MongoDB cases and18 exact arithmetic cases. Actual provider/payout acceptance remains later. | B–I |
+| R42 | PostgreSQL integration coverage | P | Fresh disposable PostgreSQL applies existing migrations; gateway auth4 and schema5 tests pass. Broader gateway management/payment suites remain later. | E,I |
+| R43 | CI builds/schema/database/security/browser checks | P | Local builds/tests pass; CI test database name/URL guard aligned and gateway DB URL supplied. Remote Actions result/security/full browser automation not certified. | I |
 | R44 | Deployment/monitoring/secrets/backup/restore evidence | P | Compose/security/backup scripts exist; production observability/retention/recovery and current runtime evidence absent. | I |
 
-## Critical discrepancies and failure cases
+## Phase A findings (historical; resolutions tracked in dated updates)
 
 1. **Verification bypass:** `server/src/routes.ts` `/auth/verify` marks any authenticated user verified without checking a token. Registration issues access immediately. Recovery text claims email instructions despite no sender.
 2. **Stale marketplace privileges:** `auth.ts` trusts JWT role/account data for 15 minutes; deactivation or demotion does not revoke existing access. Admin update protects assigning SUPER_ADMIN but not every operation against an existing privileged target. Generic admin forms also offer unsupported roles/statuses and string booleans.
@@ -243,3 +243,21 @@ Historical Phase A boundary: documentation was delivered and the user subsequent
 Authentication implementation delivered. See [PHASE_B_AUTH_SECURITY_REPORT.md](PHASE_B_AUTH_SECURITY_REPORT.md) and [SECURITY_REVIEW.md](SECURITY_REVIEW.md). A temporary Node runtime enabled actual tests: 35 marketplace/unit cases, 13 gateway cases and two real Chrome auth journeys passed (50 distinct cases). Gateway behavior tests use mocked persistence; four actual PostgreSQL cases are skipped. SMTP configuration is tested via mocks and development mail locally; external SMTP delivery is unverified. Backend/frontend/gateway builds and Prisma validation passed.
 
 Known unresolved acceptance dependencies: gateway migration/persistent auth tests, real SMTP delivery, production TLS/cookies/proxy/shared rate limits and remaining npm advisories (server 7, gateway 6). Original business/payment/storage findings remain outside Phase B. The historical Phase A test inventory and unavailable-tool table above are retained as dated baseline, not current results. No production database/data changes or live payment processing occurred. Phase C has not started; await user approval.
+
+## Phase C update ? 2026-11-13
+
+See [PHASE_C_MARKETPLACE_REPORT.md](PHASE_C_MARKETPLACE_REPORT.md) for the final feature inventory, changed files, test results, screenshots, reproduction commands and remaining limits. The checkout already included Phase C foundation modules; they were inspected, verified and extended, not rebuilt.
+
+Phase B verification follow-up passed: PostgreSQL 16.15 was started in a new disposable loopback cluster; Phase 5B, Phase 5C and authentication SQL applied; three auth columns checked; four persistent gateway auth tests passed; server stopped. No existing/production database was touched. SMTP configuration is absent, so real email delivery remains external.
+
+Phase C provides actual query search/filter/sort/pagination, permitted excerpts/thumbnails, seller details/review aggregates, multi-item cart, owned purchase history/protected downloads/reviews, enforced draft/review/archive lifecycle, database analytics with independent IST periods, profile/preferences/support and authorized paginated moderation/seller management. Seller/admin metadata edits require renewed moderation for previously public material, and order-referenced PDFs are retained. A success URL is now only a read-only purchase-record view and cannot establish payment success.
+
+Executed evidence: 63 ordinary marketplace/unit tests, 13 gateway behavior/security tests, four real PostgreSQL tests, two auth browser tests and nine marketplace browser tests (91 distinct executed cases). All three application builds pass. Existing stored-PAID fixtures were used exclusively in disposable MongoDB to test entitlements; provider/payment verification is not certified. Screenshots are under docs/evidence/phase-c.
+
+Dependency review: server 2 critical/4 high/1 moderate; gateway 2 critical/3 high/1 moderate; client zero. Omit-dev still reports four server and three gateway high package nodes in the Prisma-related graph; these cannot be dismissed as tooling-only. No dependency versions changed in C. See the Phase C report for exact package classification.
+
+Financial/subscription plan rules, payment processing, payouts/refunds, object storage/malware scanning, SMTP/realtime notifications, production operations and broader accessibility/scale work remain unresolved in their planned phases. No payment/financial service or order-processing route code changed. No live payment or production cutover enabled. Phase C is delivered for review; stop before Phase D pending approval.
+
+## Phase D reconciliation addendum (current)
+
+See [Phase D report](PHASE_D_SUBSCRIPTION_FINANCIAL_REPORT.md), [financial specification](FINANCIAL_CALCULATIONS.md) and [subscription specification](SUBSCRIPTIONS.md). Earlier dated observations about fixed30%, zero GST, lost same-seller lines or manual status overrides are historical findings now corrected for version-2 paths. Legacy data is not migrated or certified. Both tax and fee policies remain UNRESOLVED until approved. No live provider, payout, production migration or cutover was performed. MongoDB transactions require a replica set; standalone writes fail closed. Phase E has not begun.

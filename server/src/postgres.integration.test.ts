@@ -2,7 +2,10 @@ import { afterAll, beforeAll, describe, expect, it } from 'vitest'
 import { PrismaClient } from '@prisma/client'
 import type { Prisma } from '@prisma/client'
 
-const databaseUrl = process.env.TEST_DATABASE_URL || 'postgresql://noteora_app:noteora_app_dev_password@127.0.0.1:5432/noteora?schema=marketplace'
+const databaseUrl = process.env.TEST_DATABASE_URL
+if(!databaseUrl)throw new Error('TEST_DATABASE_URL must explicitly name an isolated PostgreSQL database')
+const target=new URL(databaseUrl)
+if(!['127.0.0.1','localhost','[::1]'].includes(target.hostname)||!target.pathname.endsWith('_test'))throw new Error('PostgreSQL tests require a loopback database ending in _test')
 const prisma = new PrismaClient({ datasources: { db: { url: databaseUrl } } })
 const suffix = `${Date.now()}-${Math.random().toString(16).slice(2)}`
 const ids: { users: string[]; categories: string[]; materials: string[]; orders: string[] } = { users: [], categories: [], materials: [], orders: [] }

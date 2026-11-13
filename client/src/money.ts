@@ -1,0 +1,1 @@
+export function minorMoney(value:number){if(!Number.isSafeInteger(value))return 'Unavailable';const n=BigInt(value),a=n<0n?-n:n;return `${n<0n?'-':''}\u20b9${(a/100n).toLocaleString('en-IN')}.${String(a%100n).padStart(2,'0')}`}

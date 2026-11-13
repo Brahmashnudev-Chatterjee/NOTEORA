@@ -1,5 +1,5 @@
 import { afterAll, beforeAll, beforeEach, describe, expect, it } from 'vitest'
-import { MongoMemoryServer } from 'mongodb-memory-server'
+import { MongoMemoryReplSet } from 'mongodb-memory-server'
 import mongoose from 'mongoose'
 import request from 'supertest'
 import fs from 'node:fs/promises'
@@ -11,7 +11,7 @@ import { Material, Category, Order, Cart, Review, Promotion, User, AuthSession, 
 import { testActor, testPdf, testPng } from './testFixtures.js'
 import { reportingBoundaries } from './sellerRoutes.js'
 
-let mongo:MongoMemoryServer,directory:string,seller:Awaited<ReturnType<typeof testActor>>,buyer:typeof seller,admin:typeof seller,other:typeof seller
+let mongo:MongoMemoryReplSet,directory:string,seller:Awaited<ReturnType<typeof testActor>>,buyer:typeof seller,admin:typeof seller,other:typeof seller
 const get=(url:string,actor=buyer)=>request(app).get('/api/v1'+url).auth(actor.token,{type:'bearer'})
 const post=(url:string,actor=buyer)=>request(app).post('/api/v1'+url).auth(actor.token,{type:'bearer'})
 const patch=(url:string,actor=seller)=>request(app).patch('/api/v1'+url).auth(actor.token,{type:'bearer'})
@@ -23,7 +23,7 @@ async function purchase(m:any,overrides:any={}){
   const unique=crypto.randomUUID()
   return Order.create({internalOrderId:unique,clientOrderId:unique,user:buyer.user._id,items:[{material:m._id,title:m.title,unitPrice:m.price,seller:m.seller}],subtotal:m.price,total:m.price,environment:'sandbox',paymentStatus:'PAID',paidAt:new Date(),...overrides})
 }
-beforeAll(async()=>{mongo=await MongoMemoryServer.create();await mongoose.connect(mongo.getUri());directory=await fs.mkdtemp(path.join(os.tmpdir(),'noteora-marketplace-test-'));process.env.PRIVATE_UPLOAD_DIR=directory;await Promise.all([Review.init(),Promotion.init(),Cart.init()])},120000)
+beforeAll(async()=>{mongo=await MongoMemoryReplSet.create({replSet:{count:1}});await mongoose.connect(mongo.getUri());directory=await fs.mkdtemp(path.join(os.tmpdir(),'noteora-marketplace-test-'));process.env.PRIVATE_UPLOAD_DIR=directory;await Promise.all([Review.init(),Promotion.init(),Cart.init()])},120000)
 beforeEach(async()=>{
   await Promise.all([Material,Category,Order,Cart,Review,Promotion,User,AuthSession,SupportTicket,SellerLedger,Notification].map((m:any)=>m.deleteMany({})))
   for(const name of await fs.readdir(directory))await fs.rm(path.join(directory,name),{force:true})
@@ -59,6 +59,7 @@ describe('Phase C real MongoDB marketplace integration',()=>{
     const m=await material(),o=await purchase(m);await Review.create({material:m._id,user:buyer.user._id,order:o._id,rating:4,comment:'Useful'})
     const r=await get('/materials/'+m._id)
     expect(r.body.rating).toBe(4);expect(r.body.sales).toBe(1);expect(r.body.seller.bio).toBe('Math teacher');expect(r.body.seller.sellerVerified).toBe(true)
+    expect(r.body.seller.rating).toBe(4);expect(r.body.seller.reviewCount).toBe(1);expect(r.body.seller.materialCount).toBe(1)
     for(const key of ['pdfPath','previewPath','coverImage'])expect(r.body[key]).toBeUndefined()
     expect(r.body.seller.email).toBeUndefined();expect(r.body.seller.phone).toBeUndefined()
   })
@@ -189,5 +190,67 @@ describe('Phase C real MongoDB marketplace integration',()=>{
     const user=await User.findById(seller.user._id);expect(user!.sellerVerified).toBe(true);expect(user!.verified).toBe(false)
     expect((await patch('/admin/sellers/'+seller.user._id,buyer).send({sellerVerified:true})).status).toBe(403)
     const overview=await get('/admin/dashboard',admin);expect(overview.body.activeSellers).toBe(1);expect(overview.body.approved).toBe(0)
+  })
+  it('paginates and searches the moderation queue on the backend without hiding older pending notes',async()=>{
+    const pending=await material({status:'PENDING',title:'Old pending note',createdAt:new Date('2020-01-01')})
+    await material({title:'Recent approved note'});await material({status:'PENDING',title:'Second pending note'})
+    const r=await get('/admin/materials?page=1&pageSize=1&status=PENDING',admin)
+    expect(r.status).toBe(200);expect(r.body.total).toBe(2);expect(r.body.pages).toBe(2)
+    const next=await get('/admin/materials?page=2&pageSize=1&status=PENDING',admin)
+    expect(next.body.items[0]._id).toBe(String(pending._id))
+    expect((await get('/admin/materials?page=1&search=Old%20pending',admin)).body.total).toBe(1)
+    expect((await get('/admin/materials?pageSize=9999',admin)).status).toBe(400)
+    expect((await get('/admin/materials?page=1',buyer)).status).toBe(403)
+  })
+  it('lets moderators inspect unpublished preview/thumbnail assets without exposing them to buyers',async()=>{
+    const preview=path.join(directory,'private-preview.pdf'),cover=path.join(directory,'private-cover.png')
+    await fs.writeFile(preview,testPdf('Excerpt'));await fs.writeFile(cover,testPng)
+    const m=await material({status:'PENDING',previewPath:preview,coverImage:cover})
+    for(const asset of ['preview','thumbnail']){
+      expect((await get(`/materials/${m._id}/source?asset=${asset}`,admin)).status).toBe(200)
+      expect((await get(`/materials/${m._id}/source?asset=${asset}`,seller)).status).toBe(200)
+      expect((await get(`/materials/${m._id}/source?asset=${asset}`,buyer)).status).toBe(404)
+    }
+    expect((await get(`/materials/${m._id}/source?asset=../../secret`,admin)).status).toBe(400)
+    expect((await request(app).get(`/api/v1/materials/${m._id}/source?asset=preview`)).status).toBe(401)
+  })
+  it('requires renewed moderation after an administrator edits published metadata and forbids buyer edits',async()=>{
+    const m=await material()
+    expect((await patch('/admin/materials/'+m._id,buyer).send({title:'Untrusted edit'})).status).toBe(403)
+    const r=await patch('/admin/materials/'+m._id,admin).send({title:'Corrected title',status:'APPROVED',seller:other.user._id})
+    expect(r.status).toBe(200);expect(r.body.status).toBe('PENDING');expect(r.body.title).toBe('Corrected title')
+    expect(String((await Material.findById(m._id))!.seller)).toBe(String(seller.user._id))
+    expect((await get('/materials/'+m._id)).status).toBe(404)
+    expect((await patch('/admin/materials/'+m._id+'/status',admin).send({status:'APPROVED'})).status).toBe(200)
+    expect((await get('/materials/'+m._id)).body.title).toBe('Corrected title')
+  })
+  it('preserves files referenced by pending orders and requires archiving before admin deletion',async()=>{
+    const m=await material(),order=await purchase(m,{paymentStatus:'PENDING'})
+    expect((await request(app).delete('/api/v1/admin/materials/'+m._id).auth(admin.token,{type:'bearer'})).status).toBe(409)
+    await patch('/materials/'+m._id+'/state').send({status:'ARCHIVED'})
+    expect((await request(app).delete('/api/v1/materials/'+m._id).auth(seller.token,{type:'bearer'})).status).toBe(409)
+    expect((await request(app).delete('/api/v1/admin/materials/'+m._id).auth(admin.token,{type:'bearer'})).status).toBe(409)
+    await fs.access(m.pdfPath!);expect(await Order.exists({_id:order._id})).toBeTruthy()
+  })
+  it('clears optional categories in editable drafts and rejects oversized tags',async()=>{
+    const category=await Category.create({name:'Math',slug:'math'}),m=await material({status:'DRAFT',category:category._id})
+    expect((await patch('/materials/'+m._id).send({category:null})).status).toBe(200)
+    expect((await Material.findById(m._id))!.category).toBeUndefined()
+    expect((await patch('/materials/'+m._id).send({tags:Array.from({length:21},(_,i)=>'tag'+i).join(',')})).status).toBe(400)
+  })
+  it('rejects multibyte download signatures and unknown seller verification targets safely',async()=>{
+    const m=await material(),o=await purchase(m)
+    const r=await get(`/orders/${o._id}/download-token/${m._id}`)
+    const [prefix]=r.body.url.split('.')
+    expect((await request(app).get(prefix+'.'+encodeURIComponent('\u00e9'.repeat(43))).auth(buyer.token,{type:'bearer'})).status).toBe(403)
+    expect((await patch('/admin/sellers/'+buyer.user._id,admin).send({sellerVerified:true})).status).toBe(404)
+  })
+  it('keeps purchase history scoped to its owner and paginates seller material search',async()=>{
+    const m=await material();await purchase(m);await purchase(m,{user:other.user._id})
+    expect((await get('/orders')).body).toHaveLength(1)
+    await material({title:'Second algebra note'});await material({seller:other.user._id})
+    const r=await get('/seller/materials?page=2&pageSize=1&search=algebra',seller)
+    expect(r.body.total).toBe(2);expect(r.body.items).toHaveLength(1);expect(r.body.items[0].sales).toBe(2)
+    expect((await get('/seller/materials?page=999999999999',seller)).status).toBe(400)
   })
 })

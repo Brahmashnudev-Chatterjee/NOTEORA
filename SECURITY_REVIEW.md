@@ -1,6 +1,6 @@
 # Phase B authentication security review
 
-Date: 2026-11-12. Scope: account/session authentication and authorization only. This is an implementation review with executed tests, not a penetration-test certification or production-readiness approval.
+Baseline: 2026-11-12. Updated 2026-11-13 after Phase C verification. Scope: account/session authentication and authorization only. This is an implementation review with executed tests, not a penetration-test certification or production-readiness approval.
 
 ## Implemented controls
 
@@ -20,13 +20,28 @@ Date: 2026-11-12. Scope: account/session authentication and authorization only. 
 
 ## Execution evidence
 
-See PHASE_B_AUTH_SECURITY_REPORT.md for final command results and limits. Marketplace tests use real isolated MongoMemoryServer databases; gateway behavior tests use mocked persistence. Browser journeys use a real headless Chrome browser, real API and isolated MongoDB. Four real PostgreSQL gateway tests are explicitly skipped without TEST_GATEWAY_DATABASE_URL. SMTP transport configuration is mocked in tests; no real SMTP credentials or delivery confirmation were available.
+See PHASE_B_AUTH_SECURITY_REPORT.md for final command results and limits. Marketplace tests use real isolated MongoMemoryServer databases; gateway behavior tests use mocked persistence. Browser journeys use a real headless Chrome browser, real API and isolated MongoDB. Four real PostgreSQL gateway tests skip in an unconfigured ordinary run; all four were separately executed and passed against a fresh disposable PostgreSQL 16.15 cluster on 2026-11-13. SMTP transport configuration is mocked in tests; no real SMTP credentials or delivery confirmation were available.
 
 ## Remaining risks and dependencies
 
-- Gateway SQL migration is prepared but not applied or runtime-verified here. Do not deploy gateway auth code against the old schema. Fresh/repeat migration acceptance remains Phase E work.
+- Gateway SQL migration and auth columns were applied/verified on fresh disposable PostgreSQL, with four persistent auth tests passed. This does not authorize production deployment or certify repeated Prisma migrate-deploy/rollback; those remain Phase E acceptance.
 - Real SMTP/domain/deliverability checks, PostgreSQL auth tests, production TLS/cookie/proxy settings, distributed rate limits and trusted network introspection need deployment verification.
-- Current npm audit after auth-library fixes still reports 7 server and 6 gateway package advisories, including critical test-tool dependencies and high Prisma-related development dependencies. Nodemailer and Zod advisories were removed by scoped updates. No broad forced dependency upgrade was performed; unresolved advisories prevent an unrestricted security/readiness claim. Do not expose Vitest's development/UI servers to a network.
+- Current npm audit after auth-library fixes still reports 7 server and 6 gateway package advisories, including critical test-tool dependencies and high Prisma-related dependencies. The high Prisma-related entries remain in the omit-dev install graph (server four, gateway three), so they must not all be dismissed as development-only. Nodemailer and Zod advisories were removed by scoped updates. No broad forced dependency upgrade was performed; unresolved advisories prevent an unrestricted security/readiness claim. Do not expose Vitest's development/UI servers to a network.
 - MFA, breached-password screening, CAPTCHA, session/audit retention policies and gateway account recovery are not added in this phase. Marketplace recovery is complete; merchant management remains a separate lifecycle, with admin/team management slated for Phase E.
 - Unverified users retain existing buyer/seller login behavior; verified status can now only be acquired using a valid verification token. Verification-gated publishing/purchasing policy is a separate product decision.
 - Phase A payment-state overrides, webhook/ledger issues, file privacy/scanning/storage and financial correctness remain unresolved by design because the user limited work to Phase B. No live payment processing or production migration was enabled.
+
+
+## Phase C verification follow-up (2026-11-13)
+
+See PHASE_C_MARKETPLACE_REPORT.md for 91 executed test cases, browser evidence, dependency severity tables and reproduction commands. Private paths are omitted from public note responses; unpublished source/excerpt/thumbnail review requires ownership or moderator permission. Signed download comparisons reject multibyte signatures safely; archived order-referenced files are retained. Published admin metadata edits return notes to the pending queue. Real browser tests cover ordinary auth and owner/admin denial, stale-data/error recovery, filter consistency and navigation.
+
+No SMTP credentials were present; real inbox delivery is still unverified. Payment/order-processing routes and financial/payment services were unchanged. Existing payment status overrides and verification/ledger issues remain critical later-phase findings, not problems resolved by successful marketplace tests. No production readiness, database cutover or live payment authorization is claimed.
+
+## Phase D financial integrity review - 2026-11-13
+
+Paid benefits require hash-covered terms and matching accounted payment evidence; stale User.plan and subscription active booleans grant nothing. Upload quotas and accounting writes are atomic MongoDB replica-set transactions. Immutable snapshots, unique ledger/event/adjustment keys and conflicting-replay detection protect all-item multi-seller accounting. Seller report queries are identity-scoped; SUPER_ADMIN-only versioned policy changes require audit reasons. Manual PAID and refund-completed controls are disabled.
+
+Signed webhook processing is isolated to sandbox/non-production and checks exact amount, currency, event sequence and environment. This is not an authorised-provider integration. No public route accepts customer/admin claims as refund confirmation. The internal accounting seam accepts only trusted integration evidence; authentic provider verification remains a future approved phase. No live credentials, payments or payouts were used.
+
+102 backend tests and15 real Chrome regressions pass in Phase D, including isolation, concurrent quota/ledger/refund writes and denial cases. The isolated PostgreSQL checks cover existing auth/schema definitions only. No production migration occurred. Replica-set deployment, approved tax/fee policy, legacy-record reconciliation, real SMTP, dependency remediation and production operations remain blockers. Dependency counts above are prior Phase C audit evidence, not a fresh Phase D advisory scan; dependencies were not changed in this phase.

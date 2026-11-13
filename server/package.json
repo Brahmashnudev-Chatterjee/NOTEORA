@@ -17,7 +17,8 @@
     "db:seed": "tsx scripts/seed-prisma.ts",
     "db:verify": "tsx scripts/verify-postgres.ts",
     "test:auth-browser": "node -e \"if(process.env.RUN_AUTH_BROWSER!=='1')throw new Error('Set RUN_AUTH_BROWSER=1')\" && vitest run src/auth.browser.test.ts",
-    "test:marketplace-browser": "node -e \"if(process.env.RUN_MARKETPLACE_BROWSER!=='1')throw new Error('Set RUN_MARKETPLACE_BROWSER=1')\" && vitest run src/marketplace.browser.test.ts"
+    "test:marketplace-browser": "node -e \"if(process.env.RUN_MARKETPLACE_BROWSER!=='1')throw new Error('Set RUN_MARKETPLACE_BROWSER=1')\" && vitest run src/marketplace.browser.test.ts",
+    "test:financial-browser": "node -e \"if(process.env.RUN_FINANCIAL_BROWSER!=='1')throw new Error('Set RUN_FINANCIAL_BROWSER=1')\" && vitest run src/financial.browser.test.ts"
   },
   "dependencies": {
     "@prisma/client": "^6.19.0",
