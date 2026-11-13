@@ -1,0 +1,19 @@
+# Development-only override. Prepare contexts OUTSIDE the repository using
+# scripts/prepare-e2-support-context.py, then set NOTEORA_SUPPORT_CONTEXT.
+# Use with: docker compose -f docker-compose.yml -f deployment/docker-compose.security.yml ...
+services:
+  postgres:
+    platform: linux/amd64
+    image: noteora-postgres:e2
+    build:
+      context: ${NOTEORA_SUPPORT_CONTEXT:?Prepare isolated support contexts first}/postgres
+  mongo:
+    platform: linux/amd64
+    image: noteora-mongo:e2
+    build:
+      context: ${NOTEORA_SUPPORT_CONTEXT:?Prepare isolated support contexts first}/mongo
+  redis:
+    platform: linux/amd64
+    image: noteora-redis:e2
+    build:
+      context: ${NOTEORA_SUPPORT_CONTEXT:?Prepare isolated support contexts first}/redis

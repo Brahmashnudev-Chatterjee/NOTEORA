@@ -1,0 +1,60 @@
+[
+  {
+    "scan": "base-mongo.json",
+    "image": "mongo:7",
+    "occurrences": 152,
+    "uniqueAdvisoryIDs": 100,
+    "severities": {
+      "MEDIUM": 78,
+      "LOW": 19,
+      "HIGH": 36,
+      "UNKNOWN": 18,
+      "CRITICAL": 1
+    }
+  },
+  {
+    "scan": "base-node.json",
+    "image": "node:22-alpine",
+    "occurrences": 24,
+    "uniqueAdvisoryIDs": 23,
+    "severities": {
+      "MEDIUM": 13,
+      "HIGH": 10,
+      "LOW": 1
+    }
+  },
+  {
+    "scan": "base-postgres.json",
+    "image": "postgres:16-alpine",
+    "occurrences": 62,
+    "uniqueAdvisoryIDs": 62,
+    "severities": {
+      "MEDIUM": 31,
+      "UNKNOWN": 2,
+      "CRITICAL": 1,
+      "HIGH": 25,
+      "LOW": 3
+    }
+  },
+  {
+    "scan": "base-redis.json",
+    "image": "redis:7-alpine",
+    "occurrences": 1,
+    "uniqueAdvisoryIDs": 1,
+    "severities": {
+      "MEDIUM": 1
+    }
+  },
+  {
+    "scan": "base-web.json",
+    "image": "nginxinc/nginx-unprivileged:stable-alpine",
+    "occurrences": 61,
+    "uniqueAdvisoryIDs": 36,
+    "severities": {
+      "CRITICAL": 1,
+      "HIGH": 12,
+      "MEDIUM": 4,
+      "LOW": 44
+    }
+  }
+]

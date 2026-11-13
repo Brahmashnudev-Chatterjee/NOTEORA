@@ -8,7 +8,9 @@ RUN npm ci --prefix server --ignore-scripts
 COPY server/src ./server/src
 COPY server/tsconfig.json ./server/tsconfig.json
 COPY security ./security
-RUN npm --prefix server run prisma:generate && npm --prefix server run build
+RUN ln -s server/node_modules /app/node_modules \
+    && PRISMA_GENERATE_SKIP_AUTOINSTALL=1 server/node_modules/.bin/prisma generate --schema database/prisma/schema.prisma --generator server \
+    && npm --prefix server run build
 RUN npm prune --prefix server --omit=dev --ignore-scripts
 FROM ${NODE_IMAGE} AS runtime
 USER root
@@ -19,7 +21,9 @@ COPY --from=build --chown=node:node /app/server/package*.json ./
 COPY --from=build --chown=node:node /app/server/node_modules ./node_modules
 COPY --from=build --chown=node:node /app/server/dist ./dist
 COPY --from=build --chown=node:node /app/security /app/security
-RUN mkdir -p /app/server/uploads && chown node:node /app/server/uploads
+RUN mkdir -p /app/server/uploads /app/server/.dev-mail \
+    && chown node:node /app/server/uploads /app/server/.dev-mail \
+    && chmod 0700 /app/server/.dev-mail
 USER node
 EXPOSE 5000
 HEALTHCHECK --interval=30s --timeout=5s CMD node -e "fetch('http://127.0.0.1:5000/api/live').then(r=>{if(!r.ok)process.exit(1)}).catch(()=>process.exit(1))"

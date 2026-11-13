@@ -1,0 +1,146 @@
+#0 building with "default" instance using docker driver
+
+#1 [internal] load build definition from Dockerfile
+#1 transferring dockerfile:
+#1 transferring dockerfile: 1.36kB 0.2s done
+#1 DONE 0.3s
+
+#2 [internal] load metadata for docker.io/library/node:22-alpine@sha256:1314fb30ec37592d5845e5a160d522c0e680972aa534549940b8d73bde88481a
+#2 DONE 4.5s
+
+#3 [internal] load .dockerignore
+#3 transferring context: 344B 0.0s done
+#3 DONE 0.1s
+
+#4 [build  1/11] FROM docker.io/library/node:22-alpine@sha256:1314fb30ec37592d5845e5a160d522c0e680972aa534549940b8d73bde88481a
+#4 resolve docker.io/library/node:22-alpine@sha256:1314fb30ec37592d5845e5a160d522c0e680972aa534549940b8d73bde88481a 0.1s done
+#4 sha256:1314fb30ec37592d5845e5a160d522c0e680972aa534549940b8d73bde88481a 6.41kB / 6.41kB done
+#4 sha256:12f54cafa58d0e96554ae05871e29663ff7241836377dc9a7916449b8adb062c 1.72kB / 1.72kB done
+#4 sha256:8049382e2048cff27289992d304206b4208b5b4f5110a19a5dbe21c18a0b8603 6.72kB / 6.72kB done
+#4 sha256:881fc932939efef04ca120ad44bbd2c0917851eb247aa4995428afb1e80ede17 0B / 3.85MB 0.1s
+#4 sha256:87aaee1f6667374a3b8e33a252954e01b1fac9749bb0c570022533b9120d13a1 0B / 56.25MB 0.2s
+#4 sha256:e868d1035e5072f0e369d44b840e8532b9500f7cc74aa8c908ccd2e1b9898eb3 0B / 1.26MB 0.4s
+#4 ...
+
+#5 [internal] load build context
+#5 transferring context: 529.56kB 0.6s done
+#5 DONE 0.8s
+
+#4 [build  1/11] FROM docker.io/library/node:22-alpine@sha256:1314fb30ec37592d5845e5a160d522c0e680972aa534549940b8d73bde88481a
+#4 sha256:881fc932939efef04ca120ad44bbd2c0917851eb247aa4995428afb1e80ede17 1.05MB / 3.85MB 0.8s
+#4 sha256:881fc932939efef04ca120ad44bbd2c0917851eb247aa4995428afb1e80ede17 2.10MB / 3.85MB 0.8s
+#4 sha256:881fc932939efef04ca120ad44bbd2c0917851eb247aa4995428afb1e80ede17 2.85MB / 3.85MB 1.0s
+#4 sha256:881fc932939efef04ca120ad44bbd2c0917851eb247aa4995428afb1e80ede17 3.15MB / 3.85MB 1.1s
+#4 sha256:87aaee1f6667374a3b8e33a252954e01b1fac9749bb0c570022533b9120d13a1 3.15MB / 56.25MB 1.2s
+#4 sha256:881fc932939efef04ca120ad44bbd2c0917851eb247aa4995428afb1e80ede17 3.36MB / 3.85MB 2.7s
+#4 sha256:881fc932939efef04ca120ad44bbd2c0917851eb247aa4995428afb1e80ede17 3.85MB / 3.85MB 2.7s done
+#4 sha256:87aaee1f6667374a3b8e33a252954e01b1fac9749bb0c570022533b9120d13a1 6.29MB / 56.25MB 2.9s
+#4 sha256:177fffbd7f516ce769745a38154a76ab1cc31d9f87f1c4ea5e448f6548fea4c4 0B / 443B 3.1s
+#4 extracting sha256:881fc932939efef04ca120ad44bbd2c0917851eb247aa4995428afb1e80ede17
+#4 sha256:87aaee1f6667374a3b8e33a252954e01b1fac9749bb0c570022533b9120d13a1 9.35MB / 56.25MB 3.4s
+#4 sha256:87aaee1f6667374a3b8e33a252954e01b1fac9749bb0c570022533b9120d13a1 12.58MB / 56.25MB 4.2s
+#4 sha256:87aaee1f6667374a3b8e33a252954e01b1fac9749bb0c570022533b9120d13a1 16.78MB / 56.25MB 4.8s
+#4 sha256:87aaee1f6667374a3b8e33a252954e01b1fac9749bb0c570022533b9120d13a1 19.92MB / 56.25MB 5.5s
+#4 sha256:e868d1035e5072f0e369d44b840e8532b9500f7cc74aa8c908ccd2e1b9898eb3 0B / 1.26MB 5.5s
+#4 sha256:87aaee1f6667374a3b8e33a252954e01b1fac9749bb0c570022533b9120d13a1 23.07MB / 56.25MB 5.9s
+#4 sha256:87aaee1f6667374a3b8e33a252954e01b1fac9749bb0c570022533b9120d13a1 26.21MB / 56.25MB 6.4s
+#4 sha256:87aaee1f6667374a3b8e33a252954e01b1fac9749bb0c570022533b9120d13a1 29.36MB / 56.25MB 7.0s
+#4 sha256:87aaee1f6667374a3b8e33a252954e01b1fac9749bb0c570022533b9120d13a1 32.51MB / 56.25MB 7.5s
+#4 extracting sha256:881fc932939efef04ca120ad44bbd2c0917851eb247aa4995428afb1e80ede17 4.3s done
+#4 sha256:87aaee1f6667374a3b8e33a252954e01b1fac9749bb0c570022533b9120d13a1 36.74MB / 56.25MB 8.2s
+#4 sha256:177fffbd7f516ce769745a38154a76ab1cc31d9f87f1c4ea5e448f6548fea4c4 0B / 443B 8.2s
+#4 sha256:87aaee1f6667374a3b8e33a252954e01b1fac9749bb0c570022533b9120d13a1 39.85MB / 56.25MB 8.5s
+#4 sha256:87aaee1f6667374a3b8e33a252954e01b1fac9749bb0c570022533b9120d13a1 43.97MB / 56.25MB 9.5s
+#4 sha256:87aaee1f6667374a3b8e33a252954e01b1fac9749bb0c570022533b9120d13a1 49.28MB / 56.25MB 10.1s
+#4 sha256:87aaee1f6667374a3b8e33a252954e01b1fac9749bb0c570022533b9120d13a1 54.53MB / 56.25MB 10.6s
+#4 sha256:e868d1035e5072f0e369d44b840e8532b9500f7cc74aa8c908ccd2e1b9898eb3 0B / 1.26MB 10.6s
+#4 sha256:177fffbd7f516ce769745a38154a76ab1cc31d9f87f1c4ea5e448f6548fea4c4 443B / 443B 10.8s done
+#4 sha256:87aaee1f6667374a3b8e33a252954e01b1fac9749bb0c570022533b9120d13a1 56.25MB / 56.25MB 11.1s done
+#4 extracting sha256:87aaee1f6667374a3b8e33a252954e01b1fac9749bb0c570022533b9120d13a1
+#4 sha256:e868d1035e5072f0e369d44b840e8532b9500f7cc74aa8c908ccd2e1b9898eb3 0B / 1.26MB 15.9s
+#4 extracting sha256:87aaee1f6667374a3b8e33a252954e01b1fac9749bb0c570022533b9120d13a1 5.1s
+#4 sha256:e868d1035e5072f0e369d44b840e8532b9500f7cc74aa8c908ccd2e1b9898eb3 0B / 1.26MB 21.0s
+#4 extracting sha256:87aaee1f6667374a3b8e33a252954e01b1fac9749bb0c570022533b9120d13a1 10.2s
+#4 sha256:e868d1035e5072f0e369d44b840e8532b9500f7cc74aa8c908ccd2e1b9898eb3 0B / 1.26MB 26.0s
+#4 extracting sha256:87aaee1f6667374a3b8e33a252954e01b1fac9749bb0c570022533b9120d13a1 15.3s
+#4 sha256:e868d1035e5072f0e369d44b840e8532b9500f7cc74aa8c908ccd2e1b9898eb3 0B / 1.26MB 31.0s
+#4 extracting sha256:87aaee1f6667374a3b8e33a252954e01b1fac9749bb0c570022533b9120d13a1 20.3s
+#4 sha256:e868d1035e5072f0e369d44b840e8532b9500f7cc74aa8c908ccd2e1b9898eb3 212.99kB / 1.26MB 32.2s
+#4 sha256:e868d1035e5072f0e369d44b840e8532b9500f7cc74aa8c908ccd2e1b9898eb3 1.26MB / 1.26MB 32.2s done
+#4 extracting sha256:87aaee1f6667374a3b8e33a252954e01b1fac9749bb0c570022533b9120d13a1 26.2s
+#4 extracting sha256:87aaee1f6667374a3b8e33a252954e01b1fac9749bb0c570022533b9120d13a1 31.4s
+#4 extracting sha256:87aaee1f6667374a3b8e33a252954e01b1fac9749bb0c570022533b9120d13a1 33.3s done
+#4 extracting sha256:e868d1035e5072f0e369d44b840e8532b9500f7cc74aa8c908ccd2e1b9898eb3
+#4 extracting sha256:e868d1035e5072f0e369d44b840e8532b9500f7cc74aa8c908ccd2e1b9898eb3 0.7s done
+#4 extracting sha256:177fffbd7f516ce769745a38154a76ab1cc31d9f87f1c4ea5e448f6548fea4c4 0.1s done
+#4 DONE 47.0s
+
+#6 [build  2/11] WORKDIR /app
+#6 DONE 1.5s
+
+#7 [runtime 2/8] RUN apk upgrade --no-cache && rm -rf /usr/local/lib/node_modules/npm /usr/local/lib/node_modules/corepack /usr/local/bin/npm /usr/local/bin/npx /usr/local/bin/corepack
+#7 ...
+
+#8 [build  3/11] RUN npm install --global npm@11.21.2
+#8 ...
+
+#7 [runtime 2/8] RUN apk upgrade --no-cache && rm -rf /usr/local/lib/node_modules/npm /usr/local/lib/node_modules/corepack /usr/local/bin/npm /usr/local/bin/npx /usr/local/bin/corepack
+#7 10.06 (1/1) Upgrading zlib (1.3.2-r1 -> 1.4-r0)
+#7 10.16 OK: 10.9 MiB in 19 packages
+#7 DONE 14.3s
+
+#8 [build  3/11] RUN npm install --global npm@11.21.2
+#8 ...
+
+#9 [runtime 3/8] WORKDIR /app/server
+#9 DONE 0.4s
+
+#8 [build  3/11] RUN npm install --global npm@11.21.2
+#8 102.1 
+#8 102.1 removed 57 packages, and changed 95 packages in 2m
+#8 102.2 
+#8 102.2 15 packages are looking for funding
+#8 102.2   run `npm fund` for details
+#8 DONE 104.3s
+
+#10 [build  4/11] COPY server/package*.json ./server/
+#10 DONE 0.2s
+
+#11 [build  5/11] COPY database/prisma ./database/prisma
+#11 DONE 0.2s
+
+#12 [build  6/11] RUN npm ci --prefix server --ignore-scripts
+#12 153.9 
+#12 153.9 added 325 packages, and audited 326 packages in 2m
+#12 153.9 
+#12 153.9 70 packages are looking for funding
+#12 153.9   run `npm fund` for details
+#12 154.0 
+#12 154.0 found 0 vulnerabilities
+#12 154.0 npm notice
+#12 154.0 npm notice New major version of npm available! 11.21.2 -> 12.2.2
+#12 154.0 npm notice Changelog: https://github.com/npm/cli/releases/tag/v12.2.2
+#12 154.0 npm notice To update run: npm install -g npm@12.2.2
+#12 154.0 npm notice
+#12 DONE 156.3s
+
+#13 [build  7/11] COPY server/src ./server/src
+#13 DONE 0.3s
+
+#14 [build  8/11] COPY server/tsconfig.json ./server/tsconfig.json
+#14 DONE 0.1s
+
+#15 [build  9/11] COPY security ./security
+#15 DONE 0.2s
+
+#16 [build 10/11] RUN npm --prefix server run prisma:generate && npm --prefix server run build
+#16 6.483 
+#16 6.483 > prisma:generate
+#16 6.483 > prisma generate --schema ../database/prisma/schema.prisma
+#16 6.483 
+#16 45.16 Prisma schema loaded from ../database/prisma/schema.prisma
+#16 50.59 Warning: [Prisma auto-install on generate] Prisma could not find a package.json file in the inferred project root /app. During the next step, when an auto-install of Prisma package(s) will be attempted, it will then be created by your package manager on the appropriate level if necessary.
+#16 50.60 Warning: [Prisma auto-install on generate] Prisma could not find a package.json file in the inferred project root /app. During the next step, when an auto-install of Prisma package(s) will be attempted, it will then be created by your package manager on the appropriate level if necessary.
+#16 50.61 Warning: [Prisma auto-install on generate] Prisma could not find a package.json file in the inferred project root /app. During the next step, when an auto-install of Prisma package(s) will be attempted, it will then be created by your package manager on the appropriate level if necessary.
+#16 CANCELED
+ERROR: failed to solve: Canceled: context canceled

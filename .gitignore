@@ -122,3 +122,7 @@ temp/
 
 # Private database snapshots may contain password hashes, account tokens and personal data.
 database/export/
+
+# Python verification caches and reviewed Phase E.2 logs.
+__pycache__/
+!docs/evidence/phase-e2/*.log

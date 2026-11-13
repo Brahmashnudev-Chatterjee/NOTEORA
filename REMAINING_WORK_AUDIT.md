@@ -269,3 +269,20 @@ See [Phase D report](PHASE_D_SUBSCRIPTION_FINANCIAL_REPORT.md), [financial speci
 ## Phase E.1 current remediation evidence
 
 [Security remediation report](PHASE_E1_SECURITY_REMEDIATION_REPORT.md): application advisory nodes resolved with patched dependencies; final npm/lockfile scans0. Actual image scanning retains3 critical/83 high base-image occurrences, with proposed changes unverified until builds/rescans. Historical export authentication material was found; current exports are untracked/preserved locally but history/revocation review remains open. No clean-production/security-clear claim. Migration ordering remains documented; shared guarded development deployment/recovery checks pass. No Phase F or provider integration has begun.
+# Phase E.2 security gate addendum — 2026-11-13
+
+Final evidence and container status: `PHASE_E2_FINAL_SECURITY_GATE_REPORT.md`. Earlier phase statements remain historical; this addendum grants no production or Phase F approval.
+
+| Requirement | Current classification | Evidence / remaining work |
+| --- | --- | --- |
+| Preserve and isolate historical exports | COMPLETE AND TESTED |16 byte-integrity/ACL checks; archive outside workspace; no export paths in current index/HEAD. |
+| Reject legacy verification/session bypass shapes in current API | COMPLETE AND TESTED |Two new synthetic MongoDB tests; no actual historical credential replay. |
+| Establish source-account provenance and password/token validity | BLOCKED BY EXTERNAL DEPENDENCY |Owner answer: Unknown — keep under review. Offline code/snapshot review cannot attest to deployments. |
+| Credential rotation/revocation and coordinated history cleanup if required | BLOCKED BY EXTERNAL DEPENDENCY |Requires explicit owner decision/approval; checklist supplied; nothing executed against accounts/history. |
+| Repository, generated outputs and build-context known-value checks | COMPLETE AND TESTED within documented scope |Current archive/output checks, redacted Gitleaks and real Docker canary; external releases/deployment logs remain unverified. |
+| Full application/security regression, schema validation and migration guards | COMPLETE AND TESTED within development scope |184 distinct tests, all three native builds, Prisma validation and repeated isolated migration/restore checks. Final Linux image/runtime findings recorded separately. |
+| Production image/security acceptance | PARTIALLY IMPLEMENTED |See final image register and residual risks; rebuilt does not imply vulnerability-free or production-approved. |
+| Production TLS, least-privilege deployment, encrypted/PITR recovery, operational monitoring and external artifact review | BLOCKED BY EXTERNAL DEPENDENCY |Requires actual production infrastructure/owner verification; no production system accessed. |
+
+Phase F remains unstarted. MongoDB remains the authoritative marketplace database. E.2 introduces no database migration/cutover, live UPI processing, provider credentials or settlements.
+

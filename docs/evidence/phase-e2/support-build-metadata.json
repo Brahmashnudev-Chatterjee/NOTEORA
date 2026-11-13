@@ -1,0 +1,12 @@
+{
+  "goVersion": "go version go1.27.4 windows/amd64",
+  "architecture": "linux/amd64",
+  "gosuVersion": "1.20",
+  "gosuSourceURL": "https://github.com/tianon/gosu/archive/refs/tags/1.20.tar.gz",
+  "gosuSourceSHA256": "207a2045e890d3ca3326027c5f585733085960b401a49dbc00e3bb628c054cf8",
+  "binarySHA256": "99450e87c219ee02cf76f2a34285c75036e74de7c2d1831e8e129ff9ba45e1cb",
+  "buildMetadata": "C:\\Users\\User\\AppData\\Local\\Temp\\noteora-phase-e2-vm\\support\\gosu: go1.27.4\n\tpath\tgithub.com/tianon/gosu\n\tmod\tgithub.com/tianon/gosu\t(devel)\t\n\tdep\tgithub.com/moby/sys/user\tv0.4.1\th1:RgjRlaDKi/Xmyrz4t8lyzXT6v2ooFeO/7xtchmhVWE0=\n\tdep\tgolang.org/x/sys\tv0.1.0\th1:kunALQeHf1/185U1i0GOB/fy1IPRDDpuoOOqRReG57U=\n\tbuild\t-buildmode=exe\n\tbuild\t-compiler=gc\n\tbuild\t-trimpath=true\n\tbuild\tDefaultGODEBUG=containermaxprocs=0,cryptocustomrand=1,decoratemappings=0,gotestjsonbuildtext=1,httpcookiemaxnum=0,httplaxcontentlength=1,httpmuxgo121=1,httpservecontentkeepheaders=1,httpservecontentmaxranges=1,multipathtcp=0,panicnil=1,randseednop=0,rsa1024min=0,tlsmlkem=0,tlssecpmlkem=0,tlssha1=1,tracebacklabels=0,updatemaxprocs=0,urlmaxqueryparams=0,urlstrictcolons=0,winreadlinkvolume=0,winsymlink=0,x509negativeserial=1,x509rsacrt=0,x509sha256skid=0,x509sslcertoverrideplatform=0,x509usepolicies=0\n\tbuild\tCGO_ENABLED=0\n\tbuild\tGOARCH=amd64\n\tbuild\tGOOS=linux\n\tbuild\tGOAMD64=v1\n",
+  "yamlVersion": "3.15.2",
+  "yamlURL": "https://registry.npmjs.org/js-yaml/-/js-yaml-3.15.2.tgz",
+  "yamlIntegrity": "sha512-6EuL879VkRA+1Cz578mKMiKvjPNEuk6+r1JaFzoSWejZmtf7xWbIyw1e3KkxlkzTIt9Taw6JBhEppG7utc1P+w=="
+}

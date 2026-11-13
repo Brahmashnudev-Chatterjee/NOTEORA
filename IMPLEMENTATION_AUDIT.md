@@ -45,3 +45,14 @@ The earlier Phase E six-node gateway advisory count is historical. All four appl
 The shared guarded development migration entrypoint preserves historical names/checksums, reproduces the ordering defect in an isolated DB, refuses unknown/failed history and passes fresh/repeat deployment plus16-table logical restore. No production migration or cutover occurred.
 
 Redacted history scanning found authentication material in exported account records. All16 exports were removed from Git tracking/build contexts but remain unchanged locally; earlier commits remain. Credential validity/revocation and approved history cleanup require owner review. See SECRET_FINDINGS.md, DEPENDENCY_ADVISORY_REGISTER.md, DEPLOYMENT_SECURITY_CHECKLIST.md and MIGRATION_BOOTSTRAP.md. **Stopped after E.1; explicit approval required before F.**
+# Phase E.2 security verification addendum — 2026-11-13
+
+This addendum supplements the earlier phase assessments; it does not authorise Phase F or production deployment. See `PHASE_E2_FINAL_SECURITY_GATE_REPORT.md` for the final executed image/build/runtime results and residual risks.
+
+- Historical export isolation: implemented and tested. All16 JSON files preserved byte-for-byte outside the workspace with protected ACLs; index/current source archive and application output checks exclude known historical values. Older Git history still contains authentication material.
+- Current legacy-authentication rejection: implemented and tested with two new synthetic MongoDB cases. Missing expiry/plaintext verification and analytics-session substitution are rejected. Actual historical passwords/deployments remain unverified.
+- Account provenance/rotation/history cleanup: blocked by owner review. Owner answered **Unknown — keep under review**. No historical credential replay, rotation/revocation, guessing or Git history rewrite occurred.
+- Regression verification:184 distinct tests passed on isolated Windows development services/Chrome; fresh/repeated migrations and16-table logical restore passed. Patched PostgreSQL Docker custom-format synthetic restore passed after correcting test initialization readiness.
+- Build/context hardening: actual Docker ignore-canary build passed; generated support contexts remain outside the repository. API Dockerfiles now generate only their own locked Prisma client instead of triggering implicit multi-workspace installation. Linux/amd64 support-image preparation pins source checksums and the Go toolchain; explicit development Compose override selects those images.
+- Production infrastructure, external release/log review, historical credential decisions and any residual image vulnerabilities remain separate gates. No application schema/migration, production state, financial/payment logic or technology stack was changed by E.2.
+

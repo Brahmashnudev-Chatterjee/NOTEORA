@@ -1,0 +1,10 @@
+{
+  "SchemaVersion": 2,
+  "Trivy": {
+    "Version": "0.76.2"
+  },
+  "ReportID": "01a1d46f-b94a-7a81-9f31-af0c0b5c2a10",
+  "CreatedAt": "2026-11-13T15:54:14.1546885+05:30",
+  "ArtifactName": "C:/Users/User/AppData/Local/Temp/noteora-phase-e2-vm/gosu-scan",
+  "ArtifactType": "filesystem"
+}

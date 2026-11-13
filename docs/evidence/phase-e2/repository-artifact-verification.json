@@ -1,0 +1,28 @@
+{
+  "historicalCandidateCount": 4,
+  "outputs": [
+    {
+      "directory": "client/dist",
+      "filesScanned": 4,
+      "historicalValueMatchFiles": []
+    },
+    {
+      "directory": "server/dist",
+      "filesScanned": 35,
+      "historicalValueMatchFiles": []
+    },
+    {
+      "directory": "gateway-api/dist",
+      "filesScanned": 6,
+      "historicalValueMatchFiles": []
+    }
+  ],
+  "gitExportPaths": [],
+  "rawCredentialValuesReported": false,
+  "sanitizedBuildContext": {
+    "fileCount": 86,
+    "historicalValueMatches": 0,
+    "sha256": "154f840e540b1de680744c7b5afb0a26dc73d91f24b44e8652865fa723884bfa",
+    "selection": "Explicit application-source allowlist; no private exports, environment files, installed dependencies or outputs"
+  }
+}

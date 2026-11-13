@@ -1,0 +1,24 @@
+{
+  "database\\export\\activitylogs.json": {
+    "recordCount": 1,
+    "categories": {
+      "SESSION_OR_NETWORK_METADATA": 1
+    },
+    "sha256": "87b0c113b2bd50f9fb6177fe73a7eaa77142620770898bf35663af70be30de23"
+  },
+  "database\\export\\users.json": {
+    "recordCount": 2,
+    "categories": {
+      "PASSWORD_HASH": 2,
+      "ACCOUNT_TOKEN_OR_HASH": 2
+    },
+    "sha256": "046ba9346dffbf0277dfe9e21e97cfc1c589d66838476950434f0b254679d73c"
+  },
+  "database\\export\\usersessions.json": {
+    "recordCount": 1,
+    "categories": {
+      "SESSION_OR_NETWORK_METADATA": 2
+    },
+    "sha256": "16256f8357a3dc6132737b9f4887348667f27b5013b1bed8abb9af26ab4b17ed"
+  }
+}

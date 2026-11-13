@@ -1,0 +1,36 @@
+#0 building with "default" instance using docker driver
+
+#1 [internal] load build definition from Dockerfile
+#1 transferring dockerfile:
+#1 transferring dockerfile: 169B 0.1s done
+#1 DONE 1.0s
+
+#2 [internal] load metadata for docker.io/library/redis:7-alpine@sha256:7f7d30b7fdd09467bac58198a1f166dd69789d348d4fe859cccb20e0cf287fbe
+#2 DONE 0.0s
+
+#3 [internal] load .dockerignore
+#3 transferring context:
+#3 transferring context: 2B 0.0s done
+#3 DONE 0.7s
+
+#4 [1/2] FROM docker.io/library/redis:7-alpine@sha256:7f7d30b7fdd09467bac58198a1f166dd69789d348d4fe859cccb20e0cf287fbe
+#4 DONE 0.0s
+
+#4 [1/2] FROM docker.io/library/redis:7-alpine@sha256:7f7d30b7fdd09467bac58198a1f166dd69789d348d4fe859cccb20e0cf287fbe
+#4 DONE 2.6s
+
+#5 [2/2] RUN apk upgrade --no-cache
+#5 3.639 fetch https://dl-cdn.alpinelinux.org/alpine/v3.22/main/x86_64/APKINDEX.tar.gz
+#5 6.763 fetch https://dl-cdn.alpinelinux.org/alpine/v3.22/community/x86_64/APKINDEX.tar.gz
+#5 16.63 (1/1) Upgrading zlib (1.3.2-r1 -> 1.4-r0)
+#5 16.77 OK: 8 MiB in 20 packages
+#5 DONE 19.8s
+
+#6 exporting to image
+#6 exporting layers
+#6 exporting layers 0.9s done
+#6 writing image sha256:04fb2d6ff70994f44f548914c5aac509afb5fb73deac6ea8137853d54e21a7e2
+#6 writing image sha256:04fb2d6ff70994f44f548914c5aac509afb5fb73deac6ea8137853d54e21a7e2 0.0s done
+#6 naming to docker.io/library/noteora-redis:e2
+#6 naming to docker.io/library/noteora-redis:e2 0.2s done
+#6 DONE 1.4s

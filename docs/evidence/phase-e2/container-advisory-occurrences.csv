@@ -1,0 +1,301 @@
+scan,image,target,type,id,package,installed,fixed,severity,source,origin
+base-mongo.json,mongo:7,mongo:7 (ubuntu 22.04),ubuntu,CVE-2026-102473,dash,0.5.11+git20210903+057cd650a4ed-3build1,,MEDIUM,https://avd.aquasec.com/nvd/cve-2026-102473,Inherited base image
+base-mongo.json,mongo:7,mongo:7 (ubuntu 22.04),ubuntu,CVE-2026-102474,dash,0.5.11+git20210903+057cd650a4ed-3build1,,MEDIUM,https://avd.aquasec.com/nvd/cve-2026-102474,Inherited base image
+base-mongo.json,mongo:7,mongo:7 (ubuntu 22.04),ubuntu,CVE-2022-27943,gcc-12-base,12.3.0-1ubuntu1~22.04.3,,LOW,https://avd.aquasec.com/nvd/cve-2022-27943,Inherited base image
+base-mongo.json,mongo:7,mongo:7 (ubuntu 22.04),ubuntu,CVE-2026-41256,jq,1.6-2.1ubuntu3.2,,MEDIUM,https://avd.aquasec.com/nvd/cve-2026-41256,Inherited base image
+base-mongo.json,mongo:7,mongo:7 (ubuntu 22.04),ubuntu,CVE-2026-41257,jq,1.6-2.1ubuntu3.2,,MEDIUM,https://avd.aquasec.com/nvd/cve-2026-41257,Inherited base image
+base-mongo.json,mongo:7,mongo:7 (ubuntu 22.04),ubuntu,CVE-2026-43895,jq,1.6-2.1ubuntu3.2,,MEDIUM,https://avd.aquasec.com/nvd/cve-2026-43895,Inherited base image
+base-mongo.json,mongo:7,mongo:7 (ubuntu 22.04),ubuntu,CVE-2026-43896,jq,1.6-2.1ubuntu3.2,,MEDIUM,https://avd.aquasec.com/nvd/cve-2026-43896,Inherited base image
+base-mongo.json,mongo:7,mongo:7 (ubuntu 22.04),ubuntu,CVE-2026-44777,jq,1.6-2.1ubuntu3.2,,MEDIUM,https://avd.aquasec.com/nvd/cve-2026-44777,Inherited base image
+base-mongo.json,mongo:7,mongo:7 (ubuntu 22.04),ubuntu,CVE-2026-54679,jq,1.6-2.1ubuntu3.2,,MEDIUM,https://avd.aquasec.com/nvd/cve-2026-54679,Inherited base image
+base-mongo.json,mongo:7,mongo:7 (ubuntu 22.04),ubuntu,CVE-2026-18374,libc-bin,2.35-0ubuntu3.15,2.35-0ubuntu3.18,MEDIUM,https://avd.aquasec.com/nvd/cve-2026-18374,Inherited base image
+base-mongo.json,mongo:7,mongo:7 (ubuntu 22.04),ubuntu,CVE-2026-84243,libc-bin,2.35-0ubuntu3.15,2.35-0ubuntu3.18,MEDIUM,https://avd.aquasec.com/nvd/cve-2026-84243,Inherited base image
+base-mongo.json,mongo:7,mongo:7 (ubuntu 22.04),ubuntu,CVE-2026-8674,libc-bin,2.35-0ubuntu3.15,2.35-0ubuntu3.18,MEDIUM,https://avd.aquasec.com/nvd/cve-2026-8674,Inherited base image
+base-mongo.json,mongo:7,mongo:7 (ubuntu 22.04),ubuntu,CVE-2026-86805,libc-bin,2.35-0ubuntu3.15,2.35-0ubuntu3.18,MEDIUM,https://avd.aquasec.com/nvd/cve-2026-86805,Inherited base image
+base-mongo.json,mongo:7,mongo:7 (ubuntu 22.04),ubuntu,CVE-2026-95818,libc-bin,2.35-0ubuntu3.15,2.35-0ubuntu3.18,MEDIUM,https://avd.aquasec.com/nvd/cve-2026-95818,Inherited base image
+base-mongo.json,mongo:7,mongo:7 (ubuntu 22.04),ubuntu,CVE-2026-97399,libc-bin,2.35-0ubuntu3.15,2.35-0ubuntu3.18,MEDIUM,https://avd.aquasec.com/nvd/cve-2026-97399,Inherited base image
+base-mongo.json,mongo:7,mongo:7 (ubuntu 22.04),ubuntu,CVE-2026-18374,libc6,2.35-0ubuntu3.15,2.35-0ubuntu3.18,MEDIUM,https://avd.aquasec.com/nvd/cve-2026-18374,Inherited base image
+base-mongo.json,mongo:7,mongo:7 (ubuntu 22.04),ubuntu,CVE-2026-84243,libc6,2.35-0ubuntu3.15,2.35-0ubuntu3.18,MEDIUM,https://avd.aquasec.com/nvd/cve-2026-84243,Inherited base image
+base-mongo.json,mongo:7,mongo:7 (ubuntu 22.04),ubuntu,CVE-2026-8674,libc6,2.35-0ubuntu3.15,2.35-0ubuntu3.18,MEDIUM,https://avd.aquasec.com/nvd/cve-2026-8674,Inherited base image
+base-mongo.json,mongo:7,mongo:7 (ubuntu 22.04),ubuntu,CVE-2026-86805,libc6,2.35-0ubuntu3.15,2.35-0ubuntu3.18,MEDIUM,https://avd.aquasec.com/nvd/cve-2026-86805,Inherited base image
+base-mongo.json,mongo:7,mongo:7 (ubuntu 22.04),ubuntu,CVE-2026-95818,libc6,2.35-0ubuntu3.15,2.35-0ubuntu3.18,MEDIUM,https://avd.aquasec.com/nvd/cve-2026-95818,Inherited base image
+base-mongo.json,mongo:7,mongo:7 (ubuntu 22.04),ubuntu,CVE-2026-97399,libc6,2.35-0ubuntu3.15,2.35-0ubuntu3.18,MEDIUM,https://avd.aquasec.com/nvd/cve-2026-97399,Inherited base image
+base-mongo.json,mongo:7,mongo:7 (ubuntu 22.04),ubuntu,CVE-2022-27943,libgcc-s1,12.3.0-1ubuntu1~22.04.3,,LOW,https://avd.aquasec.com/nvd/cve-2022-27943,Inherited base image
+base-mongo.json,mongo:7,mongo:7 (ubuntu 22.04),ubuntu,CVE-2026-67693,libgnutls30,3.7.3-4ubuntu1.9,,MEDIUM,https://avd.aquasec.com/nvd/cve-2026-67693,Inherited base image
+base-mongo.json,mongo:7,mongo:7 (ubuntu 22.04),ubuntu,CVE-2026-88647,libgnutls30,3.7.3-4ubuntu1.9,,MEDIUM,https://avd.aquasec.com/nvd/cve-2026-88647,Inherited base image
+base-mongo.json,mongo:7,mongo:7 (ubuntu 22.04),ubuntu,CVE-2026-88648,libgnutls30,3.7.3-4ubuntu1.9,,MEDIUM,https://avd.aquasec.com/nvd/cve-2026-88648,Inherited base image
+base-mongo.json,mongo:7,mongo:7 (ubuntu 22.04),ubuntu,CVE-2026-95184,libgnutls30,3.7.3-4ubuntu1.9,,MEDIUM,https://avd.aquasec.com/nvd/cve-2026-95184,Inherited base image
+base-mongo.json,mongo:7,mongo:7 (ubuntu 22.04),ubuntu,CVE-2026-95210,libgnutls30,3.7.3-4ubuntu1.9,,MEDIUM,https://avd.aquasec.com/nvd/cve-2026-95210,Inherited base image
+base-mongo.json,mongo:7,mongo:7 (ubuntu 22.04),ubuntu,CVE-2026-41256,libjq1,1.6-2.1ubuntu3.2,,MEDIUM,https://avd.aquasec.com/nvd/cve-2026-41256,Inherited base image
+base-mongo.json,mongo:7,mongo:7 (ubuntu 22.04),ubuntu,CVE-2026-41257,libjq1,1.6-2.1ubuntu3.2,,MEDIUM,https://avd.aquasec.com/nvd/cve-2026-41257,Inherited base image
+base-mongo.json,mongo:7,mongo:7 (ubuntu 22.04),ubuntu,CVE-2026-43895,libjq1,1.6-2.1ubuntu3.2,,MEDIUM,https://avd.aquasec.com/nvd/cve-2026-43895,Inherited base image
+base-mongo.json,mongo:7,mongo:7 (ubuntu 22.04),ubuntu,CVE-2026-43896,libjq1,1.6-2.1ubuntu3.2,,MEDIUM,https://avd.aquasec.com/nvd/cve-2026-43896,Inherited base image
+base-mongo.json,mongo:7,mongo:7 (ubuntu 22.04),ubuntu,CVE-2026-44777,libjq1,1.6-2.1ubuntu3.2,,MEDIUM,https://avd.aquasec.com/nvd/cve-2026-44777,Inherited base image
+base-mongo.json,mongo:7,mongo:7 (ubuntu 22.04),ubuntu,CVE-2026-54679,libjq1,1.6-2.1ubuntu3.2,,MEDIUM,https://avd.aquasec.com/nvd/cve-2026-54679,Inherited base image
+base-mongo.json,mongo:7,mongo:7 (ubuntu 22.04),ubuntu,CVE-2023-50495,libncurses6,6.3-2ubuntu0.3,,LOW,https://avd.aquasec.com/nvd/cve-2023-50495,Inherited base image
+base-mongo.json,mongo:7,mongo:7 (ubuntu 22.04),ubuntu,CVE-2023-50495,libncursesw6,6.3-2ubuntu0.3,,LOW,https://avd.aquasec.com/nvd/cve-2023-50495,Inherited base image
+base-mongo.json,mongo:7,mongo:7 (ubuntu 22.04),ubuntu,CVE-2022-41409,libpcre2-8-0,10.39-3ubuntu0.2,,LOW,https://avd.aquasec.com/nvd/cve-2022-41409,Inherited base image
+base-mongo.json,mongo:7,mongo:7 (ubuntu 22.04),ubuntu,CVE-2026-107161,libsasl2-2,2.1.27+dfsg2-3ubuntu1.2,,MEDIUM,https://avd.aquasec.com/nvd/cve-2026-107161,Inherited base image
+base-mongo.json,mongo:7,mongo:7 (ubuntu 22.04),ubuntu,CVE-2026-107161,libsasl2-modules,2.1.27+dfsg2-3ubuntu1.2,,MEDIUM,https://avd.aquasec.com/nvd/cve-2026-107161,Inherited base image
+base-mongo.json,mongo:7,mongo:7 (ubuntu 22.04),ubuntu,CVE-2026-107161,libsasl2-modules-db,2.1.27+dfsg2-3ubuntu1.2,,MEDIUM,https://avd.aquasec.com/nvd/cve-2026-107161,Inherited base image
+base-mongo.json,mongo:7,mongo:7 (ubuntu 22.04),ubuntu,CVE-2022-27943,libstdc++6,12.3.0-1ubuntu1~22.04.3,,LOW,https://avd.aquasec.com/nvd/cve-2022-27943,Inherited base image
+base-mongo.json,mongo:7,mongo:7 (ubuntu 22.04),ubuntu,CVE-2026-40228,libsystemd0,249.11-0ubuntu3.23,,LOW,https://avd.aquasec.com/nvd/cve-2026-40228,Inherited base image
+base-mongo.json,mongo:7,mongo:7 (ubuntu 22.04),ubuntu,CVE-2023-50495,libtinfo6,6.3-2ubuntu0.3,,LOW,https://avd.aquasec.com/nvd/cve-2023-50495,Inherited base image
+base-mongo.json,mongo:7,mongo:7 (ubuntu 22.04),ubuntu,CVE-2026-40228,libudev1,249.11-0ubuntu3.23,,LOW,https://avd.aquasec.com/nvd/cve-2026-40228,Inherited base image
+base-mongo.json,mongo:7,mongo:7 (ubuntu 22.04),ubuntu,CVE-2022-4899,libzstd1,1.4.8+dfsg-3build1,,LOW,https://avd.aquasec.com/nvd/cve-2022-4899,Inherited base image
+base-mongo.json,mongo:7,mongo:7 (ubuntu 22.04),ubuntu,CVE-2023-29383,login,1:4.8.1-2ubuntu2.2,,LOW,https://avd.aquasec.com/nvd/cve-2023-29383,Inherited base image
+base-mongo.json,mongo:7,mongo:7 (ubuntu 22.04),ubuntu,CVE-2024-56433,login,1:4.8.1-2ubuntu2.2,,LOW,https://avd.aquasec.com/nvd/cve-2024-56433,Inherited base image
+base-mongo.json,mongo:7,mongo:7 (ubuntu 22.04),ubuntu,CVE-2023-50495,ncurses-base,6.3-2ubuntu0.3,,LOW,https://avd.aquasec.com/nvd/cve-2023-50495,Inherited base image
+base-mongo.json,mongo:7,mongo:7 (ubuntu 22.04),ubuntu,CVE-2023-50495,ncurses-bin,6.3-2ubuntu0.3,,LOW,https://avd.aquasec.com/nvd/cve-2023-50495,Inherited base image
+base-mongo.json,mongo:7,mongo:7 (ubuntu 22.04),ubuntu,CVE-2023-29383,passwd,1:4.8.1-2ubuntu2.2,,LOW,https://avd.aquasec.com/nvd/cve-2023-29383,Inherited base image
+base-mongo.json,mongo:7,mongo:7 (ubuntu 22.04),ubuntu,CVE-2024-56433,passwd,1:4.8.1-2ubuntu2.2,,LOW,https://avd.aquasec.com/nvd/cve-2024-56433,Inherited base image
+base-mongo.json,mongo:7,mongo:7 (ubuntu 22.04),ubuntu,CVE-2026-48962,perl-base,5.34.0-3ubuntu1.10,,MEDIUM,https://avd.aquasec.com/nvd/cve-2026-48962,Inherited base image
+base-mongo.json,mongo:7,mongo:7 (ubuntu 22.04),ubuntu,CVE-2026-18477,tar,1.34+dfsg-1ubuntu0.1.22.04.6,,MEDIUM,https://avd.aquasec.com/nvd/cve-2026-18477,Inherited base image
+base-mongo.json,mongo:7,mongo:7 (ubuntu 22.04),ubuntu,CVE-2026-18508,tar,1.34+dfsg-1ubuntu0.1.22.04.6,,MEDIUM,https://avd.aquasec.com/nvd/cve-2026-18508,Inherited base image
+base-mongo.json,mongo:7,Node.js,node-pkg,CVE-2026-59869,js-yaml,3.13.1,"3.15.0, 4.3.0",HIGH,https://avd.aquasec.com/nvd/cve-2026-59869,Inherited base image
+base-mongo.json,mongo:7,Node.js,node-pkg,CVE-2026-84375,js-yaml,3.13.1,"4.3.2, 3.15.2",HIGH,https://avd.aquasec.com/nvd/cve-2026-84375,Inherited base image
+base-mongo.json,mongo:7,Node.js,node-pkg,GHSA-5p4m-2wfm-xmqj,js-yaml,3.13.1,"4.3.1, 3.15.1",HIGH,https://github.com/advisories/GHSA-5p4m-2wfm-xmqj,Inherited base image
+base-mongo.json,mongo:7,Node.js,node-pkg,CVE-2025-64718,js-yaml,3.13.1,"4.1.1, 3.14.2",MEDIUM,https://avd.aquasec.com/nvd/cve-2025-64718,Inherited base image
+base-mongo.json,mongo:7,Node.js,node-pkg,CVE-2026-53550,js-yaml,3.13.1,"4.2.0, 3.15.0",MEDIUM,https://avd.aquasec.com/nvd/cve-2026-53550,Inherited base image
+base-mongo.json,mongo:7,usr/bin/bsondump,gobinary,GO-2026-5932,golang.org/x/crypto,v0.58.0,0.58.1-0.20261009181718-2f1f834330b2,UNKNOWN,,Inherited base image
+base-mongo.json,mongo:7,usr/bin/bsondump,gobinary,CVE-2026-78661,golang.org/x/net,v0.61.0,0.62.0,HIGH,https://avd.aquasec.com/nvd/cve-2026-78661,Inherited base image
+base-mongo.json,mongo:7,usr/bin/bsondump,gobinary,CVE-2026-97045,golang.org/x/net,v0.61.0,0.62.0,MEDIUM,https://avd.aquasec.com/nvd/cve-2026-97045,Inherited base image
+base-mongo.json,mongo:7,usr/bin/bsondump,gobinary,CVE-2026-97054,stdlib,v1.27.3,"1.26.11, 1.27.4",UNKNOWN,https://avd.aquasec.com/nvd/cve-2026-97054,Inherited base image
+base-mongo.json,mongo:7,usr/bin/mongodump,gobinary,GO-2026-5932,golang.org/x/crypto,v0.58.0,0.58.1-0.20261009181718-2f1f834330b2,UNKNOWN,,Inherited base image
+base-mongo.json,mongo:7,usr/bin/mongodump,gobinary,CVE-2026-78661,golang.org/x/net,v0.61.0,0.62.0,HIGH,https://avd.aquasec.com/nvd/cve-2026-78661,Inherited base image
+base-mongo.json,mongo:7,usr/bin/mongodump,gobinary,CVE-2026-97045,golang.org/x/net,v0.61.0,0.62.0,MEDIUM,https://avd.aquasec.com/nvd/cve-2026-97045,Inherited base image
+base-mongo.json,mongo:7,usr/bin/mongodump,gobinary,CVE-2026-97054,stdlib,v1.27.3,"1.26.11, 1.27.4",UNKNOWN,https://avd.aquasec.com/nvd/cve-2026-97054,Inherited base image
+base-mongo.json,mongo:7,usr/bin/mongoexport,gobinary,GO-2026-5932,golang.org/x/crypto,v0.58.0,0.58.1-0.20261009181718-2f1f834330b2,UNKNOWN,,Inherited base image
+base-mongo.json,mongo:7,usr/bin/mongoexport,gobinary,CVE-2026-78661,golang.org/x/net,v0.61.0,0.62.0,HIGH,https://avd.aquasec.com/nvd/cve-2026-78661,Inherited base image
+base-mongo.json,mongo:7,usr/bin/mongoexport,gobinary,CVE-2026-97045,golang.org/x/net,v0.61.0,0.62.0,MEDIUM,https://avd.aquasec.com/nvd/cve-2026-97045,Inherited base image
+base-mongo.json,mongo:7,usr/bin/mongoexport,gobinary,CVE-2026-97054,stdlib,v1.27.3,"1.26.11, 1.27.4",UNKNOWN,https://avd.aquasec.com/nvd/cve-2026-97054,Inherited base image
+base-mongo.json,mongo:7,usr/bin/mongofiles,gobinary,GO-2026-5932,golang.org/x/crypto,v0.58.0,0.58.1-0.20261009181718-2f1f834330b2,UNKNOWN,,Inherited base image
+base-mongo.json,mongo:7,usr/bin/mongofiles,gobinary,CVE-2026-78661,golang.org/x/net,v0.61.0,0.62.0,HIGH,https://avd.aquasec.com/nvd/cve-2026-78661,Inherited base image
+base-mongo.json,mongo:7,usr/bin/mongofiles,gobinary,CVE-2026-97045,golang.org/x/net,v0.61.0,0.62.0,MEDIUM,https://avd.aquasec.com/nvd/cve-2026-97045,Inherited base image
+base-mongo.json,mongo:7,usr/bin/mongofiles,gobinary,CVE-2026-97054,stdlib,v1.27.3,"1.26.11, 1.27.4",UNKNOWN,https://avd.aquasec.com/nvd/cve-2026-97054,Inherited base image
+base-mongo.json,mongo:7,usr/bin/mongoimport,gobinary,GO-2026-5932,golang.org/x/crypto,v0.58.0,0.58.1-0.20261009181718-2f1f834330b2,UNKNOWN,,Inherited base image
+base-mongo.json,mongo:7,usr/bin/mongoimport,gobinary,CVE-2026-78661,golang.org/x/net,v0.61.0,0.62.0,HIGH,https://avd.aquasec.com/nvd/cve-2026-78661,Inherited base image
+base-mongo.json,mongo:7,usr/bin/mongoimport,gobinary,CVE-2026-97045,golang.org/x/net,v0.61.0,0.62.0,MEDIUM,https://avd.aquasec.com/nvd/cve-2026-97045,Inherited base image
+base-mongo.json,mongo:7,usr/bin/mongoimport,gobinary,CVE-2026-97054,stdlib,v1.27.3,"1.26.11, 1.27.4",UNKNOWN,https://avd.aquasec.com/nvd/cve-2026-97054,Inherited base image
+base-mongo.json,mongo:7,usr/bin/mongorestore,gobinary,GO-2026-5932,golang.org/x/crypto,v0.58.0,0.58.1-0.20261009181718-2f1f834330b2,UNKNOWN,,Inherited base image
+base-mongo.json,mongo:7,usr/bin/mongorestore,gobinary,CVE-2026-78661,golang.org/x/net,v0.61.0,0.62.0,HIGH,https://avd.aquasec.com/nvd/cve-2026-78661,Inherited base image
+base-mongo.json,mongo:7,usr/bin/mongorestore,gobinary,CVE-2026-97045,golang.org/x/net,v0.61.0,0.62.0,MEDIUM,https://avd.aquasec.com/nvd/cve-2026-97045,Inherited base image
+base-mongo.json,mongo:7,usr/bin/mongorestore,gobinary,CVE-2026-97054,stdlib,v1.27.3,"1.26.11, 1.27.4",UNKNOWN,https://avd.aquasec.com/nvd/cve-2026-97054,Inherited base image
+base-mongo.json,mongo:7,usr/bin/mongostat,gobinary,GO-2026-5932,golang.org/x/crypto,v0.58.0,0.58.1-0.20261009181718-2f1f834330b2,UNKNOWN,,Inherited base image
+base-mongo.json,mongo:7,usr/bin/mongostat,gobinary,CVE-2026-78661,golang.org/x/net,v0.61.0,0.62.0,HIGH,https://avd.aquasec.com/nvd/cve-2026-78661,Inherited base image
+base-mongo.json,mongo:7,usr/bin/mongostat,gobinary,CVE-2026-97045,golang.org/x/net,v0.61.0,0.62.0,MEDIUM,https://avd.aquasec.com/nvd/cve-2026-97045,Inherited base image
+base-mongo.json,mongo:7,usr/bin/mongostat,gobinary,CVE-2026-97054,stdlib,v1.27.3,"1.26.11, 1.27.4",UNKNOWN,https://avd.aquasec.com/nvd/cve-2026-97054,Inherited base image
+base-mongo.json,mongo:7,usr/bin/mongotop,gobinary,GO-2026-5932,golang.org/x/crypto,v0.58.0,0.58.1-0.20261009181718-2f1f834330b2,UNKNOWN,,Inherited base image
+base-mongo.json,mongo:7,usr/bin/mongotop,gobinary,CVE-2026-78661,golang.org/x/net,v0.61.0,0.62.0,HIGH,https://avd.aquasec.com/nvd/cve-2026-78661,Inherited base image
+base-mongo.json,mongo:7,usr/bin/mongotop,gobinary,CVE-2026-97045,golang.org/x/net,v0.61.0,0.62.0,MEDIUM,https://avd.aquasec.com/nvd/cve-2026-97045,Inherited base image
+base-mongo.json,mongo:7,usr/bin/mongotop,gobinary,CVE-2026-97054,stdlib,v1.27.3,"1.26.11, 1.27.4",UNKNOWN,https://avd.aquasec.com/nvd/cve-2026-97054,Inherited base image
+base-mongo.json,mongo:7,usr/local/bin/gosu,gobinary,CVE-2026-61801,github.com/moby/sys/user,v0.1.0,0.4.1,MEDIUM,https://avd.aquasec.com/nvd/cve-2026-61801,Inherited base image
+base-mongo.json,mongo:7,usr/local/bin/gosu,gobinary,CVE-2026-39824,golang.org/x/sys,v0.1.0,0.44.0,UNKNOWN,https://avd.aquasec.com/nvd/cve-2026-39824,Inherited base image
+base-mongo.json,mongo:7,usr/local/bin/gosu,gobinary,CVE-2025-68121,stdlib,v1.24.6,"1.24.13, 1.25.7, 1.26.0-rc.3",CRITICAL,https://avd.aquasec.com/nvd/cve-2025-68121,Inherited base image
+base-mongo.json,mongo:7,usr/local/bin/gosu,gobinary,CVE-2025-61726,stdlib,v1.24.6,"1.24.12, 1.25.6",HIGH,https://avd.aquasec.com/nvd/cve-2025-61726,Inherited base image
+base-mongo.json,mongo:7,usr/local/bin/gosu,gobinary,CVE-2025-61729,stdlib,v1.24.6,"1.24.11, 1.25.5",HIGH,https://avd.aquasec.com/nvd/cve-2025-61729,Inherited base image
+base-mongo.json,mongo:7,usr/local/bin/gosu,gobinary,CVE-2026-111943,stdlib,v1.24.6,"1.26.10, 1.27.3",HIGH,https://avd.aquasec.com/nvd/cve-2026-111943,Inherited base image
+base-mongo.json,mongo:7,usr/local/bin/gosu,gobinary,CVE-2026-25679,stdlib,v1.24.6,"1.25.8, 1.26.1",HIGH,https://avd.aquasec.com/nvd/cve-2026-25679,Inherited base image
+base-mongo.json,mongo:7,usr/local/bin/gosu,gobinary,CVE-2026-27145,stdlib,v1.24.6,"1.25.11, 1.26.4",HIGH,https://avd.aquasec.com/nvd/cve-2026-27145,Inherited base image
+base-mongo.json,mongo:7,usr/local/bin/gosu,gobinary,CVE-2026-32280,stdlib,v1.24.6,"1.25.9, 1.26.2",HIGH,https://avd.aquasec.com/nvd/cve-2026-32280,Inherited base image
+base-mongo.json,mongo:7,usr/local/bin/gosu,gobinary,CVE-2026-32281,stdlib,v1.24.6,"1.25.9, 1.26.2",HIGH,https://avd.aquasec.com/nvd/cve-2026-32281,Inherited base image
+base-mongo.json,mongo:7,usr/local/bin/gosu,gobinary,CVE-2026-32283,stdlib,v1.24.6,"1.25.9, 1.26.2",HIGH,https://avd.aquasec.com/nvd/cve-2026-32283,Inherited base image
+base-mongo.json,mongo:7,usr/local/bin/gosu,gobinary,CVE-2026-33811,stdlib,v1.24.6,"1.25.10, 1.26.3",HIGH,https://avd.aquasec.com/nvd/cve-2026-33811,Inherited base image
+base-mongo.json,mongo:7,usr/local/bin/gosu,gobinary,CVE-2026-33814,stdlib,v1.24.6,"1.25.10, 1.26.3",HIGH,https://avd.aquasec.com/nvd/cve-2026-33814,Inherited base image
+base-mongo.json,mongo:7,usr/local/bin/gosu,gobinary,CVE-2026-33818,stdlib,v1.24.6,"1.25.13, 1.26.6, 1.27.0-rc.3",HIGH,https://avd.aquasec.com/nvd/cve-2026-33818,Inherited base image
+base-mongo.json,mongo:7,usr/local/bin/gosu,gobinary,CVE-2026-39820,stdlib,v1.24.6,"1.25.10, 1.26.3",HIGH,https://avd.aquasec.com/nvd/cve-2026-39820,Inherited base image
+base-mongo.json,mongo:7,usr/local/bin/gosu,gobinary,CVE-2026-39821,stdlib,v1.24.6,"1.25.13, 1.26.6, 1.27.0-rc.3",HIGH,https://avd.aquasec.com/nvd/cve-2026-39821,Inherited base image
+base-mongo.json,mongo:7,usr/local/bin/gosu,gobinary,CVE-2026-39822,stdlib,v1.24.6,"1.25.12, 1.26.5, 1.27.0-rc.2",HIGH,https://avd.aquasec.com/nvd/cve-2026-39822,Inherited base image
+base-mongo.json,mongo:7,usr/local/bin/gosu,gobinary,CVE-2026-39836,stdlib,v1.24.6,"1.25.10, 1.26.3",HIGH,https://avd.aquasec.com/nvd/cve-2026-39836,Inherited base image
+base-mongo.json,mongo:7,usr/local/bin/gosu,gobinary,CVE-2026-42499,stdlib,v1.24.6,"1.25.10, 1.26.3",HIGH,https://avd.aquasec.com/nvd/cve-2026-42499,Inherited base image
+base-mongo.json,mongo:7,usr/local/bin/gosu,gobinary,CVE-2026-42504,stdlib,v1.24.6,"1.25.11, 1.26.4",HIGH,https://avd.aquasec.com/nvd/cve-2026-42504,Inherited base image
+base-mongo.json,mongo:7,usr/local/bin/gosu,gobinary,CVE-2026-56853,stdlib,v1.24.6,"1.25.13, 1.26.6, 1.27.0-rc.3",HIGH,https://avd.aquasec.com/nvd/cve-2026-56853,Inherited base image
+base-mongo.json,mongo:7,usr/local/bin/gosu,gobinary,CVE-2026-56858,stdlib,v1.24.6,"1.25.13, 1.26.6, 1.27.0-rc.3",HIGH,https://avd.aquasec.com/nvd/cve-2026-56858,Inherited base image
+base-mongo.json,mongo:7,usr/local/bin/gosu,gobinary,CVE-2026-56859,stdlib,v1.24.6,"1.25.13, 1.26.6, 1.27.0-rc.3",HIGH,https://avd.aquasec.com/nvd/cve-2026-56859,Inherited base image
+base-mongo.json,mongo:7,usr/local/bin/gosu,gobinary,CVE-2026-56860,stdlib,v1.24.6,"1.25.13, 1.26.6, 1.27.0-rc.3",HIGH,https://avd.aquasec.com/nvd/cve-2026-56860,Inherited base image
+base-mongo.json,mongo:7,usr/local/bin/gosu,gobinary,CVE-2026-56862,stdlib,v1.24.6,"1.25.13, 1.26.6, 1.27.0-rc.3",HIGH,https://avd.aquasec.com/nvd/cve-2026-56862,Inherited base image
+base-mongo.json,mongo:7,usr/local/bin/gosu,gobinary,CVE-2026-78667,stdlib,v1.24.6,"1.26.9, 1.27.2",HIGH,https://avd.aquasec.com/nvd/cve-2026-78667,Inherited base image
+base-mongo.json,mongo:7,usr/local/bin/gosu,gobinary,CVE-2026-78669,stdlib,v1.24.6,"1.26.9, 1.27.2",HIGH,https://avd.aquasec.com/nvd/cve-2026-78669,Inherited base image
+base-mongo.json,mongo:7,usr/local/bin/gosu,gobinary,CVE-2026-97031,stdlib,v1.24.6,"1.26.9, 1.27.2",HIGH,https://avd.aquasec.com/nvd/cve-2026-97031,Inherited base image
+base-mongo.json,mongo:7,usr/local/bin/gosu,gobinary,CVE-2025-47912,stdlib,v1.24.6,"1.24.8, 1.25.2",MEDIUM,https://avd.aquasec.com/nvd/cve-2025-47912,Inherited base image
+base-mongo.json,mongo:7,usr/local/bin/gosu,gobinary,CVE-2025-58183,stdlib,v1.24.6,"1.24.8, 1.25.2",MEDIUM,https://avd.aquasec.com/nvd/cve-2025-58183,Inherited base image
+base-mongo.json,mongo:7,usr/local/bin/gosu,gobinary,CVE-2025-58185,stdlib,v1.24.6,"1.24.8, 1.25.2",MEDIUM,https://avd.aquasec.com/nvd/cve-2025-58185,Inherited base image
+base-mongo.json,mongo:7,usr/local/bin/gosu,gobinary,CVE-2025-58187,stdlib,v1.24.6,"1.24.9, 1.25.3",MEDIUM,https://avd.aquasec.com/nvd/cve-2025-58187,Inherited base image
+base-mongo.json,mongo:7,usr/local/bin/gosu,gobinary,CVE-2025-58188,stdlib,v1.24.6,"1.24.8, 1.25.2",MEDIUM,https://avd.aquasec.com/nvd/cve-2025-58188,Inherited base image
+base-mongo.json,mongo:7,usr/local/bin/gosu,gobinary,CVE-2025-58189,stdlib,v1.24.6,"1.24.8, 1.25.2",MEDIUM,https://avd.aquasec.com/nvd/cve-2025-58189,Inherited base image
+base-mongo.json,mongo:7,usr/local/bin/gosu,gobinary,CVE-2025-61723,stdlib,v1.24.6,"1.24.8, 1.25.2",MEDIUM,https://avd.aquasec.com/nvd/cve-2025-61723,Inherited base image
+base-mongo.json,mongo:7,usr/local/bin/gosu,gobinary,CVE-2025-61724,stdlib,v1.24.6,"1.24.8, 1.25.2",MEDIUM,https://avd.aquasec.com/nvd/cve-2025-61724,Inherited base image
+base-mongo.json,mongo:7,usr/local/bin/gosu,gobinary,CVE-2025-61725,stdlib,v1.24.6,"1.24.8, 1.25.2",MEDIUM,https://avd.aquasec.com/nvd/cve-2025-61725,Inherited base image
+base-mongo.json,mongo:7,usr/local/bin/gosu,gobinary,CVE-2025-61727,stdlib,v1.24.6,"1.24.11, 1.25.5",MEDIUM,https://avd.aquasec.com/nvd/cve-2025-61727,Inherited base image
+base-mongo.json,mongo:7,usr/local/bin/gosu,gobinary,CVE-2025-61728,stdlib,v1.24.6,"1.24.12, 1.25.6",MEDIUM,https://avd.aquasec.com/nvd/cve-2025-61728,Inherited base image
+base-mongo.json,mongo:7,usr/local/bin/gosu,gobinary,CVE-2025-61730,stdlib,v1.24.6,"1.24.12, 1.25.6",MEDIUM,https://avd.aquasec.com/nvd/cve-2025-61730,Inherited base image
+base-mongo.json,mongo:7,usr/local/bin/gosu,gobinary,CVE-2026-27142,stdlib,v1.24.6,"1.25.8, 1.26.1",MEDIUM,https://avd.aquasec.com/nvd/cve-2026-27142,Inherited base image
+base-mongo.json,mongo:7,usr/local/bin/gosu,gobinary,CVE-2026-32282,stdlib,v1.24.6,"1.25.9, 1.26.2",MEDIUM,https://avd.aquasec.com/nvd/cve-2026-32282,Inherited base image
+base-mongo.json,mongo:7,usr/local/bin/gosu,gobinary,CVE-2026-32288,stdlib,v1.24.6,"1.25.9, 1.26.2",MEDIUM,https://avd.aquasec.com/nvd/cve-2026-32288,Inherited base image
+base-mongo.json,mongo:7,usr/local/bin/gosu,gobinary,CVE-2026-32289,stdlib,v1.24.6,"1.25.9, 1.26.2",MEDIUM,https://avd.aquasec.com/nvd/cve-2026-32289,Inherited base image
+base-mongo.json,mongo:7,usr/local/bin/gosu,gobinary,CVE-2026-39823,stdlib,v1.24.6,"1.25.10, 1.26.3",MEDIUM,https://avd.aquasec.com/nvd/cve-2026-39823,Inherited base image
+base-mongo.json,mongo:7,usr/local/bin/gosu,gobinary,CVE-2026-39825,stdlib,v1.24.6,"1.25.10, 1.26.3",MEDIUM,https://avd.aquasec.com/nvd/cve-2026-39825,Inherited base image
+base-mongo.json,mongo:7,usr/local/bin/gosu,gobinary,CVE-2026-39826,stdlib,v1.24.6,"1.25.10, 1.26.3",MEDIUM,https://avd.aquasec.com/nvd/cve-2026-39826,Inherited base image
+base-mongo.json,mongo:7,usr/local/bin/gosu,gobinary,CVE-2026-42505,stdlib,v1.24.6,"1.25.12, 1.26.5, 1.27.0-rc.2",MEDIUM,https://avd.aquasec.com/nvd/cve-2026-42505,Inherited base image
+base-mongo.json,mongo:7,usr/local/bin/gosu,gobinary,CVE-2026-42507,stdlib,v1.24.6,"1.25.11, 1.26.4",MEDIUM,https://avd.aquasec.com/nvd/cve-2026-42507,Inherited base image
+base-mongo.json,mongo:7,usr/local/bin/gosu,gobinary,CVE-2026-56866,stdlib,v1.24.6,"1.26.9, 1.27.2",MEDIUM,https://avd.aquasec.com/nvd/cve-2026-56866,Inherited base image
+base-mongo.json,mongo:7,usr/local/bin/gosu,gobinary,CVE-2026-78659,stdlib,v1.24.6,"1.26.9, 1.27.2",MEDIUM,https://avd.aquasec.com/nvd/cve-2026-78659,Inherited base image
+base-mongo.json,mongo:7,usr/local/bin/gosu,gobinary,CVE-2026-78660,stdlib,v1.24.6,"1.26.9, 1.27.2",MEDIUM,https://avd.aquasec.com/nvd/cve-2026-78660,Inherited base image
+base-mongo.json,mongo:7,usr/local/bin/gosu,gobinary,CVE-2026-78663,stdlib,v1.24.6,"1.26.9, 1.27.2",MEDIUM,https://avd.aquasec.com/nvd/cve-2026-78663,Inherited base image
+base-mongo.json,mongo:7,usr/local/bin/gosu,gobinary,CVE-2026-94439,stdlib,v1.24.6,"1.26.9, 1.27.2",MEDIUM,https://avd.aquasec.com/nvd/cve-2026-94439,Inherited base image
+base-mongo.json,mongo:7,usr/local/bin/gosu,gobinary,CVE-2026-94440,stdlib,v1.24.6,"1.26.9, 1.27.2",MEDIUM,https://avd.aquasec.com/nvd/cve-2026-94440,Inherited base image
+base-mongo.json,mongo:7,usr/local/bin/gosu,gobinary,CVE-2026-94448,stdlib,v1.24.6,"1.26.9, 1.27.2",MEDIUM,https://avd.aquasec.com/nvd/cve-2026-94448,Inherited base image
+base-mongo.json,mongo:7,usr/local/bin/gosu,gobinary,CVE-2026-97030,stdlib,v1.24.6,"1.26.9, 1.27.2",MEDIUM,https://avd.aquasec.com/nvd/cve-2026-97030,Inherited base image
+base-mongo.json,mongo:7,usr/local/bin/gosu,gobinary,CVE-2026-97032,stdlib,v1.24.6,"1.26.9, 1.27.2",MEDIUM,https://avd.aquasec.com/nvd/cve-2026-97032,Inherited base image
+base-mongo.json,mongo:7,usr/local/bin/gosu,gobinary,CVE-2025-58186,stdlib,v1.24.6,"1.24.8, 1.25.2",LOW,https://avd.aquasec.com/nvd/cve-2025-58186,Inherited base image
+base-mongo.json,mongo:7,usr/local/bin/gosu,gobinary,CVE-2026-27139,stdlib,v1.24.6,"1.25.8, 1.26.1",LOW,https://avd.aquasec.com/nvd/cve-2026-27139,Inherited base image
+base-mongo.json,mongo:7,usr/local/bin/gosu,gobinary,CVE-2026-56857,stdlib,v1.24.6,"1.26.9, 1.27.2",LOW,https://avd.aquasec.com/nvd/cve-2026-56857,Inherited base image
+base-mongo.json,mongo:7,usr/local/bin/gosu,gobinary,CVE-2026-97054,stdlib,v1.24.6,"1.26.11, 1.27.4",UNKNOWN,https://avd.aquasec.com/nvd/cve-2026-97054,Inherited base image
+base-node.json,node:22-alpine,node:22-alpine (alpine 3.24.4),alpine,CVE-2026-4738,zlib,1.3.2-r1,1.4-r0,MEDIUM,https://avd.aquasec.com/nvd/cve-2026-4738,Inherited base image
+base-node.json,node:22-alpine,Node.js,node-pkg,CVE-2026-48758,@sigstore/core,2.0.0,3.2.1,MEDIUM,https://avd.aquasec.com/nvd/cve-2026-48758,Inherited base image
+base-node.json,node:22-alpine,Node.js,node-pkg,CVE-2026-102276,brace-expansion,2.0.2,"5.0.10, 3.0.7, 2.1.5, 1.1.19",HIGH,https://avd.aquasec.com/nvd/cve-2026-102276,Inherited base image
+base-node.json,node:22-alpine,Node.js,node-pkg,CVE-2026-102278,brace-expansion,2.0.2,"5.0.11, 3.0.8, 2.1.6, 1.1.20",HIGH,https://avd.aquasec.com/nvd/cve-2026-102278,Inherited base image
+base-node.json,node:22-alpine,Node.js,node-pkg,CVE-2026-13149,brace-expansion,2.0.2,"5.0.7, 1.1.16, 2.1.2",HIGH,https://avd.aquasec.com/nvd/cve-2026-13149,Inherited base image
+base-node.json,node:22-alpine,Node.js,node-pkg,CVE-2026-14257,brace-expansion,2.0.2,"5.0.8, 3.0.3, 2.1.3, 1.1.17",HIGH,https://avd.aquasec.com/nvd/cve-2026-14257,Inherited base image
+base-node.json,node:22-alpine,Node.js,node-pkg,CVE-2026-69152,brace-expansion,2.0.2,"1.1.18, 2.1.4, 3.0.6, 5.0.9",HIGH,https://avd.aquasec.com/nvd/cve-2026-69152,Inherited base image
+base-node.json,node:22-alpine,Node.js,node-pkg,CVE-2026-102277,brace-expansion,2.0.2,"5.0.12, 3.0.9, 2.1.7, 1.1.21",MEDIUM,https://avd.aquasec.com/nvd/cve-2026-102277,Inherited base image
+base-node.json,node:22-alpine,Node.js,node-pkg,CVE-2026-33750,brace-expansion,2.0.2,"5.0.5, 3.0.2, 2.0.3, 1.1.13",MEDIUM,https://avd.aquasec.com/nvd/cve-2026-33750,Inherited base image
+base-node.json,node:22-alpine,Node.js,node-pkg,CVE-2026-118773,glob,10.5.0,14.0.2,MEDIUM,https://avd.aquasec.com/nvd/cve-2026-118773,Inherited base image
+base-node.json,node:22-alpine,Node.js,node-pkg,CVE-2026-69192,ip-address,10.1.0,10.3.1,HIGH,https://avd.aquasec.com/nvd/cve-2026-69192,Inherited base image
+base-node.json,node:22-alpine,Node.js,node-pkg,CVE-2026-101911,ip-address,10.1.0,10.7.1,MEDIUM,https://avd.aquasec.com/nvd/cve-2026-101911,Inherited base image
+base-node.json,node:22-alpine,Node.js,node-pkg,CVE-2026-101912,ip-address,10.1.0,10.7.1,MEDIUM,https://avd.aquasec.com/nvd/cve-2026-101912,Inherited base image
+base-node.json,node:22-alpine,Node.js,node-pkg,CVE-2026-101913,ip-address,10.1.0,10.5.1,MEDIUM,https://avd.aquasec.com/nvd/cve-2026-101913,Inherited base image
+base-node.json,node:22-alpine,Node.js,node-pkg,CVE-2026-111997,ip-address,10.1.0,10.7.4,MEDIUM,https://avd.aquasec.com/nvd/cve-2026-111997,Inherited base image
+base-node.json,node:22-alpine,Node.js,node-pkg,CVE-2026-42338,ip-address,10.1.0,10.1.1,MEDIUM,https://avd.aquasec.com/nvd/cve-2026-42338,Inherited base image
+base-node.json,node:22-alpine,Node.js,node-pkg,CVE-2026-118764,minimatch,9.0.9,11.0.1,MEDIUM,https://avd.aquasec.com/nvd/cve-2026-118764,Inherited base image
+base-node.json,node:22-alpine,Node.js,node-pkg,CVE-2026-9496,pacote,19.0.2,21.5.1,HIGH,https://avd.aquasec.com/nvd/cve-2026-9496,Inherited base image
+base-node.json,node:22-alpine,Node.js,node-pkg,CVE-2026-9496,pacote,20.0.1,21.5.1,HIGH,https://avd.aquasec.com/nvd/cve-2026-9496,Inherited base image
+base-node.json,node:22-alpine,Node.js,node-pkg,CVE-2026-33671,picomatch,4.0.3,"4.0.4, 3.0.2, 2.3.2",HIGH,https://avd.aquasec.com/nvd/cve-2026-33671,Inherited base image
+base-node.json,node:22-alpine,Node.js,node-pkg,CVE-2026-33672,picomatch,4.0.3,"4.0.4, 3.0.2, 2.3.2",MEDIUM,https://avd.aquasec.com/nvd/cve-2026-33672,Inherited base image
+base-node.json,node:22-alpine,Node.js,node-pkg,CVE-2026-104844,postcss-selector-parser,7.1.1,"7.1.6, 6.1.5",MEDIUM,https://avd.aquasec.com/nvd/cve-2026-104844,Inherited base image
+base-node.json,node:22-alpine,Node.js,node-pkg,CVE-2026-9358,postcss-selector-parser,7.1.1,"6.1.3, 7.1.3",LOW,https://avd.aquasec.com/nvd/cve-2026-9358,Inherited base image
+base-node.json,node:22-alpine,Node.js,node-pkg,CVE-2026-48815,sigstore,3.1.0,4.1.1,HIGH,https://avd.aquasec.com/nvd/cve-2026-48815,Inherited base image
+base-postgres.json,postgres:16-alpine,usr/local/bin/gosu,gobinary,CVE-2026-61801,github.com/moby/sys/user,v0.1.0,0.4.1,MEDIUM,https://avd.aquasec.com/nvd/cve-2026-61801,Inherited base image
+base-postgres.json,postgres:16-alpine,usr/local/bin/gosu,gobinary,CVE-2026-39824,golang.org/x/sys,v0.1.0,0.44.0,UNKNOWN,https://avd.aquasec.com/nvd/cve-2026-39824,Inherited base image
+base-postgres.json,postgres:16-alpine,usr/local/bin/gosu,gobinary,CVE-2025-68121,stdlib,v1.24.6,"1.24.13, 1.25.7, 1.26.0-rc.3",CRITICAL,https://avd.aquasec.com/nvd/cve-2025-68121,Inherited base image
+base-postgres.json,postgres:16-alpine,usr/local/bin/gosu,gobinary,CVE-2025-61726,stdlib,v1.24.6,"1.24.12, 1.25.6",HIGH,https://avd.aquasec.com/nvd/cve-2025-61726,Inherited base image
+base-postgres.json,postgres:16-alpine,usr/local/bin/gosu,gobinary,CVE-2025-61729,stdlib,v1.24.6,"1.24.11, 1.25.5",HIGH,https://avd.aquasec.com/nvd/cve-2025-61729,Inherited base image
+base-postgres.json,postgres:16-alpine,usr/local/bin/gosu,gobinary,CVE-2026-111943,stdlib,v1.24.6,"1.26.10, 1.27.3",HIGH,https://avd.aquasec.com/nvd/cve-2026-111943,Inherited base image
+base-postgres.json,postgres:16-alpine,usr/local/bin/gosu,gobinary,CVE-2026-25679,stdlib,v1.24.6,"1.25.8, 1.26.1",HIGH,https://avd.aquasec.com/nvd/cve-2026-25679,Inherited base image
+base-postgres.json,postgres:16-alpine,usr/local/bin/gosu,gobinary,CVE-2026-27145,stdlib,v1.24.6,"1.25.11, 1.26.4",HIGH,https://avd.aquasec.com/nvd/cve-2026-27145,Inherited base image
+base-postgres.json,postgres:16-alpine,usr/local/bin/gosu,gobinary,CVE-2026-32280,stdlib,v1.24.6,"1.25.9, 1.26.2",HIGH,https://avd.aquasec.com/nvd/cve-2026-32280,Inherited base image
+base-postgres.json,postgres:16-alpine,usr/local/bin/gosu,gobinary,CVE-2026-32281,stdlib,v1.24.6,"1.25.9, 1.26.2",HIGH,https://avd.aquasec.com/nvd/cve-2026-32281,Inherited base image
+base-postgres.json,postgres:16-alpine,usr/local/bin/gosu,gobinary,CVE-2026-32283,stdlib,v1.24.6,"1.25.9, 1.26.2",HIGH,https://avd.aquasec.com/nvd/cve-2026-32283,Inherited base image
+base-postgres.json,postgres:16-alpine,usr/local/bin/gosu,gobinary,CVE-2026-33811,stdlib,v1.24.6,"1.25.10, 1.26.3",HIGH,https://avd.aquasec.com/nvd/cve-2026-33811,Inherited base image
+base-postgres.json,postgres:16-alpine,usr/local/bin/gosu,gobinary,CVE-2026-33814,stdlib,v1.24.6,"1.25.10, 1.26.3",HIGH,https://avd.aquasec.com/nvd/cve-2026-33814,Inherited base image
+base-postgres.json,postgres:16-alpine,usr/local/bin/gosu,gobinary,CVE-2026-33818,stdlib,v1.24.6,"1.25.13, 1.26.6, 1.27.0-rc.3",HIGH,https://avd.aquasec.com/nvd/cve-2026-33818,Inherited base image
+base-postgres.json,postgres:16-alpine,usr/local/bin/gosu,gobinary,CVE-2026-39820,stdlib,v1.24.6,"1.25.10, 1.26.3",HIGH,https://avd.aquasec.com/nvd/cve-2026-39820,Inherited base image
+base-postgres.json,postgres:16-alpine,usr/local/bin/gosu,gobinary,CVE-2026-39821,stdlib,v1.24.6,"1.25.13, 1.26.6, 1.27.0-rc.3",HIGH,https://avd.aquasec.com/nvd/cve-2026-39821,Inherited base image
+base-postgres.json,postgres:16-alpine,usr/local/bin/gosu,gobinary,CVE-2026-39822,stdlib,v1.24.6,"1.25.12, 1.26.5, 1.27.0-rc.2",HIGH,https://avd.aquasec.com/nvd/cve-2026-39822,Inherited base image
+base-postgres.json,postgres:16-alpine,usr/local/bin/gosu,gobinary,CVE-2026-39836,stdlib,v1.24.6,"1.25.10, 1.26.3",HIGH,https://avd.aquasec.com/nvd/cve-2026-39836,Inherited base image
+base-postgres.json,postgres:16-alpine,usr/local/bin/gosu,gobinary,CVE-2026-42499,stdlib,v1.24.6,"1.25.10, 1.26.3",HIGH,https://avd.aquasec.com/nvd/cve-2026-42499,Inherited base image
+base-postgres.json,postgres:16-alpine,usr/local/bin/gosu,gobinary,CVE-2026-42504,stdlib,v1.24.6,"1.25.11, 1.26.4",HIGH,https://avd.aquasec.com/nvd/cve-2026-42504,Inherited base image
+base-postgres.json,postgres:16-alpine,usr/local/bin/gosu,gobinary,CVE-2026-56853,stdlib,v1.24.6,"1.25.13, 1.26.6, 1.27.0-rc.3",HIGH,https://avd.aquasec.com/nvd/cve-2026-56853,Inherited base image
+base-postgres.json,postgres:16-alpine,usr/local/bin/gosu,gobinary,CVE-2026-56858,stdlib,v1.24.6,"1.25.13, 1.26.6, 1.27.0-rc.3",HIGH,https://avd.aquasec.com/nvd/cve-2026-56858,Inherited base image
+base-postgres.json,postgres:16-alpine,usr/local/bin/gosu,gobinary,CVE-2026-56859,stdlib,v1.24.6,"1.25.13, 1.26.6, 1.27.0-rc.3",HIGH,https://avd.aquasec.com/nvd/cve-2026-56859,Inherited base image
+base-postgres.json,postgres:16-alpine,usr/local/bin/gosu,gobinary,CVE-2026-56860,stdlib,v1.24.6,"1.25.13, 1.26.6, 1.27.0-rc.3",HIGH,https://avd.aquasec.com/nvd/cve-2026-56860,Inherited base image
+base-postgres.json,postgres:16-alpine,usr/local/bin/gosu,gobinary,CVE-2026-56862,stdlib,v1.24.6,"1.25.13, 1.26.6, 1.27.0-rc.3",HIGH,https://avd.aquasec.com/nvd/cve-2026-56862,Inherited base image
+base-postgres.json,postgres:16-alpine,usr/local/bin/gosu,gobinary,CVE-2026-78667,stdlib,v1.24.6,"1.26.9, 1.27.2",HIGH,https://avd.aquasec.com/nvd/cve-2026-78667,Inherited base image
+base-postgres.json,postgres:16-alpine,usr/local/bin/gosu,gobinary,CVE-2026-78669,stdlib,v1.24.6,"1.26.9, 1.27.2",HIGH,https://avd.aquasec.com/nvd/cve-2026-78669,Inherited base image
+base-postgres.json,postgres:16-alpine,usr/local/bin/gosu,gobinary,CVE-2026-97031,stdlib,v1.24.6,"1.26.9, 1.27.2",HIGH,https://avd.aquasec.com/nvd/cve-2026-97031,Inherited base image
+base-postgres.json,postgres:16-alpine,usr/local/bin/gosu,gobinary,CVE-2025-47912,stdlib,v1.24.6,"1.24.8, 1.25.2",MEDIUM,https://avd.aquasec.com/nvd/cve-2025-47912,Inherited base image
+base-postgres.json,postgres:16-alpine,usr/local/bin/gosu,gobinary,CVE-2025-58183,stdlib,v1.24.6,"1.24.8, 1.25.2",MEDIUM,https://avd.aquasec.com/nvd/cve-2025-58183,Inherited base image
+base-postgres.json,postgres:16-alpine,usr/local/bin/gosu,gobinary,CVE-2025-58185,stdlib,v1.24.6,"1.24.8, 1.25.2",MEDIUM,https://avd.aquasec.com/nvd/cve-2025-58185,Inherited base image
+base-postgres.json,postgres:16-alpine,usr/local/bin/gosu,gobinary,CVE-2025-58187,stdlib,v1.24.6,"1.24.9, 1.25.3",MEDIUM,https://avd.aquasec.com/nvd/cve-2025-58187,Inherited base image
+base-postgres.json,postgres:16-alpine,usr/local/bin/gosu,gobinary,CVE-2025-58188,stdlib,v1.24.6,"1.24.8, 1.25.2",MEDIUM,https://avd.aquasec.com/nvd/cve-2025-58188,Inherited base image
+base-postgres.json,postgres:16-alpine,usr/local/bin/gosu,gobinary,CVE-2025-58189,stdlib,v1.24.6,"1.24.8, 1.25.2",MEDIUM,https://avd.aquasec.com/nvd/cve-2025-58189,Inherited base image
+base-postgres.json,postgres:16-alpine,usr/local/bin/gosu,gobinary,CVE-2025-61723,stdlib,v1.24.6,"1.24.8, 1.25.2",MEDIUM,https://avd.aquasec.com/nvd/cve-2025-61723,Inherited base image
+base-postgres.json,postgres:16-alpine,usr/local/bin/gosu,gobinary,CVE-2025-61724,stdlib,v1.24.6,"1.24.8, 1.25.2",MEDIUM,https://avd.aquasec.com/nvd/cve-2025-61724,Inherited base image
+base-postgres.json,postgres:16-alpine,usr/local/bin/gosu,gobinary,CVE-2025-61725,stdlib,v1.24.6,"1.24.8, 1.25.2",MEDIUM,https://avd.aquasec.com/nvd/cve-2025-61725,Inherited base image
+base-postgres.json,postgres:16-alpine,usr/local/bin/gosu,gobinary,CVE-2025-61727,stdlib,v1.24.6,"1.24.11, 1.25.5",MEDIUM,https://avd.aquasec.com/nvd/cve-2025-61727,Inherited base image
+base-postgres.json,postgres:16-alpine,usr/local/bin/gosu,gobinary,CVE-2025-61728,stdlib,v1.24.6,"1.24.12, 1.25.6",MEDIUM,https://avd.aquasec.com/nvd/cve-2025-61728,Inherited base image
+base-postgres.json,postgres:16-alpine,usr/local/bin/gosu,gobinary,CVE-2025-61730,stdlib,v1.24.6,"1.24.12, 1.25.6",MEDIUM,https://avd.aquasec.com/nvd/cve-2025-61730,Inherited base image
+base-postgres.json,postgres:16-alpine,usr/local/bin/gosu,gobinary,CVE-2026-27142,stdlib,v1.24.6,"1.25.8, 1.26.1",MEDIUM,https://avd.aquasec.com/nvd/cve-2026-27142,Inherited base image
+base-postgres.json,postgres:16-alpine,usr/local/bin/gosu,gobinary,CVE-2026-32282,stdlib,v1.24.6,"1.25.9, 1.26.2",MEDIUM,https://avd.aquasec.com/nvd/cve-2026-32282,Inherited base image
+base-postgres.json,postgres:16-alpine,usr/local/bin/gosu,gobinary,CVE-2026-32288,stdlib,v1.24.6,"1.25.9, 1.26.2",MEDIUM,https://avd.aquasec.com/nvd/cve-2026-32288,Inherited base image
+base-postgres.json,postgres:16-alpine,usr/local/bin/gosu,gobinary,CVE-2026-32289,stdlib,v1.24.6,"1.25.9, 1.26.2",MEDIUM,https://avd.aquasec.com/nvd/cve-2026-32289,Inherited base image
+base-postgres.json,postgres:16-alpine,usr/local/bin/gosu,gobinary,CVE-2026-39823,stdlib,v1.24.6,"1.25.10, 1.26.3",MEDIUM,https://avd.aquasec.com/nvd/cve-2026-39823,Inherited base image
+base-postgres.json,postgres:16-alpine,usr/local/bin/gosu,gobinary,CVE-2026-39825,stdlib,v1.24.6,"1.25.10, 1.26.3",MEDIUM,https://avd.aquasec.com/nvd/cve-2026-39825,Inherited base image
+base-postgres.json,postgres:16-alpine,usr/local/bin/gosu,gobinary,CVE-2026-39826,stdlib,v1.24.6,"1.25.10, 1.26.3",MEDIUM,https://avd.aquasec.com/nvd/cve-2026-39826,Inherited base image
+base-postgres.json,postgres:16-alpine,usr/local/bin/gosu,gobinary,CVE-2026-42505,stdlib,v1.24.6,"1.25.12, 1.26.5, 1.27.0-rc.2",MEDIUM,https://avd.aquasec.com/nvd/cve-2026-42505,Inherited base image
+base-postgres.json,postgres:16-alpine,usr/local/bin/gosu,gobinary,CVE-2026-42507,stdlib,v1.24.6,"1.25.11, 1.26.4",MEDIUM,https://avd.aquasec.com/nvd/cve-2026-42507,Inherited base image
+base-postgres.json,postgres:16-alpine,usr/local/bin/gosu,gobinary,CVE-2026-56866,stdlib,v1.24.6,"1.26.9, 1.27.2",MEDIUM,https://avd.aquasec.com/nvd/cve-2026-56866,Inherited base image
+base-postgres.json,postgres:16-alpine,usr/local/bin/gosu,gobinary,CVE-2026-78659,stdlib,v1.24.6,"1.26.9, 1.27.2",MEDIUM,https://avd.aquasec.com/nvd/cve-2026-78659,Inherited base image
+base-postgres.json,postgres:16-alpine,usr/local/bin/gosu,gobinary,CVE-2026-78660,stdlib,v1.24.6,"1.26.9, 1.27.2",MEDIUM,https://avd.aquasec.com/nvd/cve-2026-78660,Inherited base image
+base-postgres.json,postgres:16-alpine,usr/local/bin/gosu,gobinary,CVE-2026-78663,stdlib,v1.24.6,"1.26.9, 1.27.2",MEDIUM,https://avd.aquasec.com/nvd/cve-2026-78663,Inherited base image
+base-postgres.json,postgres:16-alpine,usr/local/bin/gosu,gobinary,CVE-2026-94439,stdlib,v1.24.6,"1.26.9, 1.27.2",MEDIUM,https://avd.aquasec.com/nvd/cve-2026-94439,Inherited base image
+base-postgres.json,postgres:16-alpine,usr/local/bin/gosu,gobinary,CVE-2026-94440,stdlib,v1.24.6,"1.26.9, 1.27.2",MEDIUM,https://avd.aquasec.com/nvd/cve-2026-94440,Inherited base image
+base-postgres.json,postgres:16-alpine,usr/local/bin/gosu,gobinary,CVE-2026-94448,stdlib,v1.24.6,"1.26.9, 1.27.2",MEDIUM,https://avd.aquasec.com/nvd/cve-2026-94448,Inherited base image
+base-postgres.json,postgres:16-alpine,usr/local/bin/gosu,gobinary,CVE-2026-97030,stdlib,v1.24.6,"1.26.9, 1.27.2",MEDIUM,https://avd.aquasec.com/nvd/cve-2026-97030,Inherited base image
+base-postgres.json,postgres:16-alpine,usr/local/bin/gosu,gobinary,CVE-2026-97032,stdlib,v1.24.6,"1.26.9, 1.27.2",MEDIUM,https://avd.aquasec.com/nvd/cve-2026-97032,Inherited base image
+base-postgres.json,postgres:16-alpine,usr/local/bin/gosu,gobinary,CVE-2025-58186,stdlib,v1.24.6,"1.24.8, 1.25.2",LOW,https://avd.aquasec.com/nvd/cve-2025-58186,Inherited base image
+base-postgres.json,postgres:16-alpine,usr/local/bin/gosu,gobinary,CVE-2026-27139,stdlib,v1.24.6,"1.25.8, 1.26.1",LOW,https://avd.aquasec.com/nvd/cve-2026-27139,Inherited base image
+base-postgres.json,postgres:16-alpine,usr/local/bin/gosu,gobinary,CVE-2026-56857,stdlib,v1.24.6,"1.26.9, 1.27.2",LOW,https://avd.aquasec.com/nvd/cve-2026-56857,Inherited base image
+base-postgres.json,postgres:16-alpine,usr/local/bin/gosu,gobinary,CVE-2026-97054,stdlib,v1.24.6,"1.26.11, 1.27.4",UNKNOWN,https://avd.aquasec.com/nvd/cve-2026-97054,Inherited base image
+base-redis.json,redis:7-alpine,redis:7-alpine (alpine 3.22.8),alpine,CVE-2026-4738,zlib,1.3.2-r1,1.4-r0,MEDIUM,https://avd.aquasec.com/nvd/cve-2026-4738,Inherited base image
+base-web.json,nginxinc/nginx-unprivileged:stable-alpine,nginxinc/nginx-unprivileged:stable-alpine (alpine 3.24.2),alpine,CVE-2026-111497,brotli-libs,1.2.0-r1,1.2.1-r0,CRITICAL,https://avd.aquasec.com/nvd/cve-2026-111497,Inherited base image
+base-web.json,nginxinc/nginx-unprivileged:stable-alpine,nginxinc/nginx-unprivileged:stable-alpine (alpine 3.24.2),alpine,CVE-2026-92392,curl,8.22.0-r0,8.23.0-r0,HIGH,https://avd.aquasec.com/nvd/cve-2026-92392,Inherited base image
+base-web.json,nginxinc/nginx-unprivileged:stable-alpine,nginxinc/nginx-unprivileged:stable-alpine (alpine 3.24.2),alpine,CVE-2026-92388,curl,8.22.0-r0,8.23.0-r0,MEDIUM,https://avd.aquasec.com/nvd/cve-2026-92388,Inherited base image
+base-web.json,nginxinc/nginx-unprivileged:stable-alpine,nginxinc/nginx-unprivileged:stable-alpine (alpine 3.24.2),alpine,CVE-2026-107928,curl,8.22.0-r0,8.23.0-r0,LOW,https://avd.aquasec.com/nvd/cve-2026-107928,Inherited base image
+base-web.json,nginxinc/nginx-unprivileged:stable-alpine,nginxinc/nginx-unprivileged:stable-alpine (alpine 3.24.2),alpine,CVE-2026-107929,curl,8.22.0-r0,8.23.0-r0,LOW,https://avd.aquasec.com/nvd/cve-2026-107929,Inherited base image
+base-web.json,nginxinc/nginx-unprivileged:stable-alpine,nginxinc/nginx-unprivileged:stable-alpine (alpine 3.24.2),alpine,CVE-2026-86409,curl,8.22.0-r0,8.23.0-r0,LOW,https://avd.aquasec.com/nvd/cve-2026-86409,Inherited base image
+base-web.json,nginxinc/nginx-unprivileged:stable-alpine,nginxinc/nginx-unprivileged:stable-alpine (alpine 3.24.2),alpine,CVE-2026-86410,curl,8.22.0-r0,8.23.0-r0,LOW,https://avd.aquasec.com/nvd/cve-2026-86410,Inherited base image
+base-web.json,nginxinc/nginx-unprivileged:stable-alpine,nginxinc/nginx-unprivileged:stable-alpine (alpine 3.24.2),alpine,CVE-2026-86411,curl,8.22.0-r0,8.23.0-r0,LOW,https://avd.aquasec.com/nvd/cve-2026-86411,Inherited base image
+base-web.json,nginxinc/nginx-unprivileged:stable-alpine,nginxinc/nginx-unprivileged:stable-alpine (alpine 3.24.2),alpine,CVE-2026-86412,curl,8.22.0-r0,8.23.0-r0,LOW,https://avd.aquasec.com/nvd/cve-2026-86412,Inherited base image
+base-web.json,nginxinc/nginx-unprivileged:stable-alpine,nginxinc/nginx-unprivileged:stable-alpine (alpine 3.24.2),alpine,CVE-2026-86413,curl,8.22.0-r0,8.23.0-r0,LOW,https://avd.aquasec.com/nvd/cve-2026-86413,Inherited base image
+base-web.json,nginxinc/nginx-unprivileged:stable-alpine,nginxinc/nginx-unprivileged:stable-alpine (alpine 3.24.2),alpine,CVE-2026-86414,curl,8.22.0-r0,8.23.0-r0,LOW,https://avd.aquasec.com/nvd/cve-2026-86414,Inherited base image
+base-web.json,nginxinc/nginx-unprivileged:stable-alpine,nginxinc/nginx-unprivileged:stable-alpine (alpine 3.24.2),alpine,CVE-2026-86415,curl,8.22.0-r0,8.23.0-r0,LOW,https://avd.aquasec.com/nvd/cve-2026-86415,Inherited base image
+base-web.json,nginxinc/nginx-unprivileged:stable-alpine,nginxinc/nginx-unprivileged:stable-alpine (alpine 3.24.2),alpine,CVE-2026-87861,curl,8.22.0-r0,8.23.0-r0,LOW,https://avd.aquasec.com/nvd/cve-2026-87861,Inherited base image
+base-web.json,nginxinc/nginx-unprivileged:stable-alpine,nginxinc/nginx-unprivileged:stable-alpine (alpine 3.24.2),alpine,CVE-2026-87862,curl,8.22.0-r0,8.23.0-r0,LOW,https://avd.aquasec.com/nvd/cve-2026-87862,Inherited base image
+base-web.json,nginxinc/nginx-unprivileged:stable-alpine,nginxinc/nginx-unprivileged:stable-alpine (alpine 3.24.2),alpine,CVE-2026-87863,curl,8.22.0-r0,8.23.0-r0,LOW,https://avd.aquasec.com/nvd/cve-2026-87863,Inherited base image
+base-web.json,nginxinc/nginx-unprivileged:stable-alpine,nginxinc/nginx-unprivileged:stable-alpine (alpine 3.24.2),alpine,CVE-2026-87864,curl,8.22.0-r0,8.23.0-r0,LOW,https://avd.aquasec.com/nvd/cve-2026-87864,Inherited base image
+base-web.json,nginxinc/nginx-unprivileged:stable-alpine,nginxinc/nginx-unprivileged:stable-alpine (alpine 3.24.2),alpine,CVE-2026-87865,curl,8.22.0-r0,8.23.0-r0,LOW,https://avd.aquasec.com/nvd/cve-2026-87865,Inherited base image
+base-web.json,nginxinc/nginx-unprivileged:stable-alpine,nginxinc/nginx-unprivileged:stable-alpine (alpine 3.24.2),alpine,CVE-2026-87866,curl,8.22.0-r0,8.23.0-r0,LOW,https://avd.aquasec.com/nvd/cve-2026-87866,Inherited base image
+base-web.json,nginxinc/nginx-unprivileged:stable-alpine,nginxinc/nginx-unprivileged:stable-alpine (alpine 3.24.2),alpine,CVE-2026-92386,curl,8.22.0-r0,8.23.0-r0,LOW,https://avd.aquasec.com/nvd/cve-2026-92386,Inherited base image
+base-web.json,nginxinc/nginx-unprivileged:stable-alpine,nginxinc/nginx-unprivileged:stable-alpine (alpine 3.24.2),alpine,CVE-2026-92387,curl,8.22.0-r0,8.23.0-r0,LOW,https://avd.aquasec.com/nvd/cve-2026-92387,Inherited base image
+base-web.json,nginxinc/nginx-unprivileged:stable-alpine,nginxinc/nginx-unprivileged:stable-alpine (alpine 3.24.2),alpine,CVE-2026-92389,curl,8.22.0-r0,8.23.0-r0,LOW,https://avd.aquasec.com/nvd/cve-2026-92389,Inherited base image
+base-web.json,nginxinc/nginx-unprivileged:stable-alpine,nginxinc/nginx-unprivileged:stable-alpine (alpine 3.24.2),alpine,CVE-2026-92390,curl,8.22.0-r0,8.23.0-r0,LOW,https://avd.aquasec.com/nvd/cve-2026-92390,Inherited base image
+base-web.json,nginxinc/nginx-unprivileged:stable-alpine,nginxinc/nginx-unprivileged:stable-alpine (alpine 3.24.2),alpine,CVE-2026-92391,curl,8.22.0-r0,8.23.0-r0,LOW,https://avd.aquasec.com/nvd/cve-2026-92391,Inherited base image
+base-web.json,nginxinc/nginx-unprivileged:stable-alpine,nginxinc/nginx-unprivileged:stable-alpine (alpine 3.24.2),alpine,CVE-2026-94265,curl,8.22.0-r0,8.23.0-r0,LOW,https://avd.aquasec.com/nvd/cve-2026-94265,Inherited base image
+base-web.json,nginxinc/nginx-unprivileged:stable-alpine,nginxinc/nginx-unprivileged:stable-alpine (alpine 3.24.2),alpine,CVE-2026-94266,curl,8.22.0-r0,8.23.0-r0,LOW,https://avd.aquasec.com/nvd/cve-2026-94266,Inherited base image
+base-web.json,nginxinc/nginx-unprivileged:stable-alpine,nginxinc/nginx-unprivileged:stable-alpine (alpine 3.24.2),alpine,CVE-2026-92392,libcurl,8.22.0-r0,8.23.0-r0,HIGH,https://avd.aquasec.com/nvd/cve-2026-92392,Inherited base image
+base-web.json,nginxinc/nginx-unprivileged:stable-alpine,nginxinc/nginx-unprivileged:stable-alpine (alpine 3.24.2),alpine,CVE-2026-92388,libcurl,8.22.0-r0,8.23.0-r0,MEDIUM,https://avd.aquasec.com/nvd/cve-2026-92388,Inherited base image
+base-web.json,nginxinc/nginx-unprivileged:stable-alpine,nginxinc/nginx-unprivileged:stable-alpine (alpine 3.24.2),alpine,CVE-2026-107928,libcurl,8.22.0-r0,8.23.0-r0,LOW,https://avd.aquasec.com/nvd/cve-2026-107928,Inherited base image
+base-web.json,nginxinc/nginx-unprivileged:stable-alpine,nginxinc/nginx-unprivileged:stable-alpine (alpine 3.24.2),alpine,CVE-2026-107929,libcurl,8.22.0-r0,8.23.0-r0,LOW,https://avd.aquasec.com/nvd/cve-2026-107929,Inherited base image
+base-web.json,nginxinc/nginx-unprivileged:stable-alpine,nginxinc/nginx-unprivileged:stable-alpine (alpine 3.24.2),alpine,CVE-2026-86409,libcurl,8.22.0-r0,8.23.0-r0,LOW,https://avd.aquasec.com/nvd/cve-2026-86409,Inherited base image
+base-web.json,nginxinc/nginx-unprivileged:stable-alpine,nginxinc/nginx-unprivileged:stable-alpine (alpine 3.24.2),alpine,CVE-2026-86410,libcurl,8.22.0-r0,8.23.0-r0,LOW,https://avd.aquasec.com/nvd/cve-2026-86410,Inherited base image
+base-web.json,nginxinc/nginx-unprivileged:stable-alpine,nginxinc/nginx-unprivileged:stable-alpine (alpine 3.24.2),alpine,CVE-2026-86411,libcurl,8.22.0-r0,8.23.0-r0,LOW,https://avd.aquasec.com/nvd/cve-2026-86411,Inherited base image
+base-web.json,nginxinc/nginx-unprivileged:stable-alpine,nginxinc/nginx-unprivileged:stable-alpine (alpine 3.24.2),alpine,CVE-2026-86412,libcurl,8.22.0-r0,8.23.0-r0,LOW,https://avd.aquasec.com/nvd/cve-2026-86412,Inherited base image
+base-web.json,nginxinc/nginx-unprivileged:stable-alpine,nginxinc/nginx-unprivileged:stable-alpine (alpine 3.24.2),alpine,CVE-2026-86413,libcurl,8.22.0-r0,8.23.0-r0,LOW,https://avd.aquasec.com/nvd/cve-2026-86413,Inherited base image
+base-web.json,nginxinc/nginx-unprivileged:stable-alpine,nginxinc/nginx-unprivileged:stable-alpine (alpine 3.24.2),alpine,CVE-2026-86414,libcurl,8.22.0-r0,8.23.0-r0,LOW,https://avd.aquasec.com/nvd/cve-2026-86414,Inherited base image
+base-web.json,nginxinc/nginx-unprivileged:stable-alpine,nginxinc/nginx-unprivileged:stable-alpine (alpine 3.24.2),alpine,CVE-2026-86415,libcurl,8.22.0-r0,8.23.0-r0,LOW,https://avd.aquasec.com/nvd/cve-2026-86415,Inherited base image
+base-web.json,nginxinc/nginx-unprivileged:stable-alpine,nginxinc/nginx-unprivileged:stable-alpine (alpine 3.24.2),alpine,CVE-2026-87861,libcurl,8.22.0-r0,8.23.0-r0,LOW,https://avd.aquasec.com/nvd/cve-2026-87861,Inherited base image
+base-web.json,nginxinc/nginx-unprivileged:stable-alpine,nginxinc/nginx-unprivileged:stable-alpine (alpine 3.24.2),alpine,CVE-2026-87862,libcurl,8.22.0-r0,8.23.0-r0,LOW,https://avd.aquasec.com/nvd/cve-2026-87862,Inherited base image
+base-web.json,nginxinc/nginx-unprivileged:stable-alpine,nginxinc/nginx-unprivileged:stable-alpine (alpine 3.24.2),alpine,CVE-2026-87863,libcurl,8.22.0-r0,8.23.0-r0,LOW,https://avd.aquasec.com/nvd/cve-2026-87863,Inherited base image
+base-web.json,nginxinc/nginx-unprivileged:stable-alpine,nginxinc/nginx-unprivileged:stable-alpine (alpine 3.24.2),alpine,CVE-2026-87864,libcurl,8.22.0-r0,8.23.0-r0,LOW,https://avd.aquasec.com/nvd/cve-2026-87864,Inherited base image
+base-web.json,nginxinc/nginx-unprivileged:stable-alpine,nginxinc/nginx-unprivileged:stable-alpine (alpine 3.24.2),alpine,CVE-2026-87865,libcurl,8.22.0-r0,8.23.0-r0,LOW,https://avd.aquasec.com/nvd/cve-2026-87865,Inherited base image
+base-web.json,nginxinc/nginx-unprivileged:stable-alpine,nginxinc/nginx-unprivileged:stable-alpine (alpine 3.24.2),alpine,CVE-2026-87866,libcurl,8.22.0-r0,8.23.0-r0,LOW,https://avd.aquasec.com/nvd/cve-2026-87866,Inherited base image
+base-web.json,nginxinc/nginx-unprivileged:stable-alpine,nginxinc/nginx-unprivileged:stable-alpine (alpine 3.24.2),alpine,CVE-2026-92386,libcurl,8.22.0-r0,8.23.0-r0,LOW,https://avd.aquasec.com/nvd/cve-2026-92386,Inherited base image
+base-web.json,nginxinc/nginx-unprivileged:stable-alpine,nginxinc/nginx-unprivileged:stable-alpine (alpine 3.24.2),alpine,CVE-2026-92387,libcurl,8.22.0-r0,8.23.0-r0,LOW,https://avd.aquasec.com/nvd/cve-2026-92387,Inherited base image
+base-web.json,nginxinc/nginx-unprivileged:stable-alpine,nginxinc/nginx-unprivileged:stable-alpine (alpine 3.24.2),alpine,CVE-2026-92389,libcurl,8.22.0-r0,8.23.0-r0,LOW,https://avd.aquasec.com/nvd/cve-2026-92389,Inherited base image
+base-web.json,nginxinc/nginx-unprivileged:stable-alpine,nginxinc/nginx-unprivileged:stable-alpine (alpine 3.24.2),alpine,CVE-2026-92390,libcurl,8.22.0-r0,8.23.0-r0,LOW,https://avd.aquasec.com/nvd/cve-2026-92390,Inherited base image
+base-web.json,nginxinc/nginx-unprivileged:stable-alpine,nginxinc/nginx-unprivileged:stable-alpine (alpine 3.24.2),alpine,CVE-2026-92391,libcurl,8.22.0-r0,8.23.0-r0,LOW,https://avd.aquasec.com/nvd/cve-2026-92391,Inherited base image
+base-web.json,nginxinc/nginx-unprivileged:stable-alpine,nginxinc/nginx-unprivileged:stable-alpine (alpine 3.24.2),alpine,CVE-2026-94265,libcurl,8.22.0-r0,8.23.0-r0,LOW,https://avd.aquasec.com/nvd/cve-2026-94265,Inherited base image
+base-web.json,nginxinc/nginx-unprivileged:stable-alpine,nginxinc/nginx-unprivileged:stable-alpine (alpine 3.24.2),alpine,CVE-2026-94266,libcurl,8.22.0-r0,8.23.0-r0,LOW,https://avd.aquasec.com/nvd/cve-2026-94266,Inherited base image
+base-web.json,nginxinc/nginx-unprivileged:stable-alpine,nginxinc/nginx-unprivileged:stable-alpine (alpine 3.24.2),alpine,CVE-2026-113351,libexpat,2.9.0-r0,2.10.0-r0,HIGH,https://avd.aquasec.com/nvd/cve-2026-113351,Inherited base image
+base-web.json,nginxinc/nginx-unprivileged:stable-alpine,nginxinc/nginx-unprivileged:stable-alpine (alpine 3.24.2),alpine,CVE-2026-115506,libexpat,2.9.0-r0,2.10.0-r0,HIGH,https://avd.aquasec.com/nvd/cve-2026-115506,Inherited base image
+base-web.json,nginxinc/nginx-unprivileged:stable-alpine,nginxinc/nginx-unprivileged:stable-alpine (alpine 3.24.2),alpine,CVE-2026-117610,libexpat,2.9.0-r0,2.10.0-r0,HIGH,https://avd.aquasec.com/nvd/cve-2026-117610,Inherited base image
+base-web.json,nginxinc/nginx-unprivileged:stable-alpine,nginxinc/nginx-unprivileged:stable-alpine (alpine 3.24.2),alpine,CVE-2026-118370,libexpat,2.9.0-r0,2.10.0-r0,HIGH,https://avd.aquasec.com/nvd/cve-2026-118370,Inherited base image
+base-web.json,nginxinc/nginx-unprivileged:stable-alpine,nginxinc/nginx-unprivileged:stable-alpine (alpine 3.24.2),alpine,CVE-2026-125350,libxslt,1.1.43-r3,1.1.43-r4,HIGH,https://avd.aquasec.com/nvd/cve-2026-125350,Inherited base image
+base-web.json,nginxinc/nginx-unprivileged:stable-alpine,nginxinc/nginx-unprivileged:stable-alpine (alpine 3.24.2),alpine,CVE-2026-87636,libxslt,1.1.43-r3,1.1.43-r4,HIGH,https://avd.aquasec.com/nvd/cve-2026-87636,Inherited base image
+base-web.json,nginxinc/nginx-unprivileged:stable-alpine,nginxinc/nginx-unprivileged:stable-alpine (alpine 3.24.2),alpine,CVE-2026-9947,libxslt,1.1.43-r3,1.1.43-r4,HIGH,https://avd.aquasec.com/nvd/cve-2026-9947,Inherited base image
+base-web.json,nginxinc/nginx-unprivileged:stable-alpine,nginxinc/nginx-unprivileged:stable-alpine (alpine 3.24.2),alpine,CVE-2025-10911,libxslt,1.1.43-r3,1.1.43-r4,MEDIUM,https://avd.aquasec.com/nvd/cve-2025-10911,Inherited base image
+base-web.json,nginxinc/nginx-unprivileged:stable-alpine,nginxinc/nginx-unprivileged:stable-alpine (alpine 3.24.2),alpine,CVE-2026-107891,musl,1.2.6-r2,1.2.6-r3,HIGH,https://avd.aquasec.com/nvd/cve-2026-107891,Inherited base image
+base-web.json,nginxinc/nginx-unprivileged:stable-alpine,nginxinc/nginx-unprivileged:stable-alpine (alpine 3.24.2),alpine,CVE-2026-107891,musl-utils,1.2.6-r2,1.2.6-r3,HIGH,https://avd.aquasec.com/nvd/cve-2026-107891,Inherited base image
+base-web.json,nginxinc/nginx-unprivileged:stable-alpine,nginxinc/nginx-unprivileged:stable-alpine (alpine 3.24.2),alpine,CVE-2026-85091,zlib,1.3.2-r0,1.3.2-r1,HIGH,https://avd.aquasec.com/nvd/cve-2026-85091,Inherited base image
+base-web.json,nginxinc/nginx-unprivileged:stable-alpine,nginxinc/nginx-unprivileged:stable-alpine (alpine 3.24.2),alpine,CVE-2026-4738,zlib,1.3.2-r0,1.4-r0,MEDIUM,https://avd.aquasec.com/nvd/cve-2026-4738,Inherited base image

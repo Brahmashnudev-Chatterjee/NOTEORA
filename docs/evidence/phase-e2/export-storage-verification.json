@@ -1,0 +1,120 @@
+﻿{
+    "localWorkspaceCopiesRemoved":  true,
+    "rotationPerformed":  false,
+    "files":  [
+                  {
+                      "integrityMatched":  true,
+                      "sha256":  "87B0C113B2BD50F9FB6177FE73A7EAA77142620770898BF35663AF70BE30DE23",
+                      "restrictedAclVerified":  true,
+                      "file":  "activitylogs.json",
+                      "bytes":  338
+                  },
+                  {
+                      "integrityMatched":  true,
+                      "sha256":  "4F53CDA18C2BAA0C0354BB5F9A3ECBE5ED12AB4D8E11BA873C2F11161202B945",
+                      "restrictedAclVerified":  true,
+                      "file":  "adminaudits.json",
+                      "bytes":  2
+                  },
+                  {
+                      "integrityMatched":  true,
+                      "sha256":  "4F53CDA18C2BAA0C0354BB5F9A3ECBE5ED12AB4D8E11BA873C2F11161202B945",
+                      "restrictedAclVerified":  true,
+                      "file":  "carts.json",
+                      "bytes":  2
+                  },
+                  {
+                      "integrityMatched":  true,
+                      "sha256":  "4F53CDA18C2BAA0C0354BB5F9A3ECBE5ED12AB4D8E11BA873C2F11161202B945",
+                      "restrictedAclVerified":  true,
+                      "file":  "categories.json",
+                      "bytes":  2
+                  },
+                  {
+                      "integrityMatched":  true,
+                      "sha256":  "4F53CDA18C2BAA0C0354BB5F9A3ECBE5ED12AB4D8E11BA873C2F11161202B945",
+                      "restrictedAclVerified":  true,
+                      "file":  "materials.json",
+                      "bytes":  2
+                  },
+                  {
+                      "integrityMatched":  true,
+                      "sha256":  "4F53CDA18C2BAA0C0354BB5F9A3ECBE5ED12AB4D8E11BA873C2F11161202B945",
+                      "restrictedAclVerified":  true,
+                      "file":  "notifications.json",
+                      "bytes":  2
+                  },
+                  {
+                      "integrityMatched":  true,
+                      "sha256":  "4F53CDA18C2BAA0C0354BB5F9A3ECBE5ED12AB4D8E11BA873C2F11161202B945",
+                      "restrictedAclVerified":  true,
+                      "file":  "orders.json",
+                      "bytes":  2
+                  },
+                  {
+                      "integrityMatched":  true,
+                      "sha256":  "4F53CDA18C2BAA0C0354BB5F9A3ECBE5ED12AB4D8E11BA873C2F11161202B945",
+                      "restrictedAclVerified":  true,
+                      "file":  "paymentwebhookevents.json",
+                      "bytes":  2
+                  },
+                  {
+                      "integrityMatched":  true,
+                      "sha256":  "4F53CDA18C2BAA0C0354BB5F9A3ECBE5ED12AB4D8E11BA873C2F11161202B945",
+                      "restrictedAclVerified":  true,
+                      "file":  "refunds.json",
+                      "bytes":  2
+                  },
+                  {
+                      "integrityMatched":  true,
+                      "sha256":  "4F53CDA18C2BAA0C0354BB5F9A3ECBE5ED12AB4D8E11BA873C2F11161202B945",
+                      "restrictedAclVerified":  true,
+                      "file":  "reviews.json",
+                      "bytes":  2
+                  },
+                  {
+                      "integrityMatched":  true,
+                      "sha256":  "4F53CDA18C2BAA0C0354BB5F9A3ECBE5ED12AB4D8E11BA873C2F11161202B945",
+                      "restrictedAclVerified":  true,
+                      "file":  "sellerledgers.json",
+                      "bytes":  2
+                  },
+                  {
+                      "integrityMatched":  true,
+                      "sha256":  "4F53CDA18C2BAA0C0354BB5F9A3ECBE5ED12AB4D8E11BA873C2F11161202B945",
+                      "restrictedAclVerified":  true,
+                      "file":  "subscriptionplans.json",
+                      "bytes":  2
+                  },
+                  {
+                      "integrityMatched":  true,
+                      "sha256":  "4F53CDA18C2BAA0C0354BB5F9A3ECBE5ED12AB4D8E11BA873C2F11161202B945",
+                      "restrictedAclVerified":  true,
+                      "file":  "subscriptions.json",
+                      "bytes":  2
+                  },
+                  {
+                      "integrityMatched":  true,
+                      "sha256":  "4F53CDA18C2BAA0C0354BB5F9A3ECBE5ED12AB4D8E11BA873C2F11161202B945",
+                      "restrictedAclVerified":  true,
+                      "file":  "supporttickets.json",
+                      "bytes":  2
+                  },
+                  {
+                      "integrityMatched":  true,
+                      "sha256":  "046BA9346DFFBF0277DFE9E21E97CFC1C589D66838476950434F0B254679D73C",
+                      "restrictedAclVerified":  true,
+                      "file":  "users.json",
+                      "bytes":  960
+                  },
+                  {
+                      "integrityMatched":  true,
+                      "sha256":  "16256F8357A3DC6132737B9F4887348667F27B5013B1BED8ABB9AF26AB4B17ED",
+                      "restrictedAclVerified":  true,
+                      "file":  "usersessions.json",
+                      "bytes":  430
+                  }
+              ],
+    "productionDataChanged":  false,
+    "archivePath":  "C:\\Users\\User\\AppData\\Local\\Noteora\\preserved-exports\\phase-e2-2b0b931f84e5444a95915f354e5bd54d"
+}

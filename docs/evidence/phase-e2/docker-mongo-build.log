@@ -1,0 +1,97 @@
+#0 building with "default" instance using docker driver
+
+#1 [internal] load build definition from Dockerfile
+#1 transferring dockerfile:
+#1 transferring dockerfile: 328B 0.1s done
+#1 DONE 0.6s
+
+#2 [internal] load metadata for docker.io/library/mongo:7@sha256:9896df581dfd0718b7abe112f4c37598d0986c54060e4ec1384997e6503c8c71
+#2 DONE 0.0s
+
+#3 [internal] load .dockerignore
+#3 transferring context:
+#3 transferring context: 2B 0.1s done
+#3 DONE 0.2s
+
+#4 [internal] load build context
+#4 ...
+
+#5 [1/4] FROM docker.io/library/mongo:7@sha256:9896df581dfd0718b7abe112f4c37598d0986c54060e4ec1384997e6503c8c71
+#5 DONE 2.3s
+
+#4 [internal] load build context
+#4 transferring context: 3.12MB 3.3s done
+#4 DONE 4.0s
+
+#6 [2/4] COPY --chmod=0755 gosu /usr/local/bin/gosu
+#6 DONE 1.5s
+
+#7 [3/4] COPY js-yaml/ /opt/js-yaml/
+#7 DONE 1.0s
+
+#8 [4/4] RUN apt-get update && apt-get upgrade -y --no-install-recommends     && apt-get clean && rm -rf /var/lib/apt/lists/*     && gosu nobody id
+#8 13.64 Get:1 http://archive.ubuntu.com/ubuntu jammy InRelease [270 kB]
+#8 13.71 Get:2 http://security.ubuntu.com/ubuntu jammy-security InRelease [129 kB]
+#8 15.47 Get:3 http://archive.ubuntu.com/ubuntu jammy-updates InRelease [128 kB]
+#8 15.47 Get:4 http://archive.ubuntu.com/ubuntu jammy-backports InRelease [127 kB]
+#8 17.82 Get:5 http://repo.mongodb.org/apt/ubuntu jammy/mongodb-org/7.0 InRelease [3005 B]
+#8 23.72 Get:6 http://security.ubuntu.com/ubuntu jammy-security/restricted amd64 Packages [8086 kB]
+#8 31.46 Get:7 http://security.ubuntu.com/ubuntu jammy-security/main amd64 Packages [4521 kB]
+#8 34.45 Get:8 http://archive.ubuntu.com/ubuntu jammy/multiverse amd64 Packages [266 kB]
+#8 35.95 Get:9 http://archive.ubuntu.com/ubuntu jammy/universe amd64 Packages [17.5 MB]
+#8 38.24 Get:10 http://security.ubuntu.com/ubuntu jammy-security/multiverse amd64 Packages [96.7 kB]
+#8 39.15 Get:11 http://security.ubuntu.com/ubuntu jammy-security/universe amd64 Packages [1328 kB]
+#8 69.45 Get:12 http://archive.ubuntu.com/ubuntu jammy/restricted amd64 Packages [164 kB]
+#8 71.23 Get:13 http://archive.ubuntu.com/ubuntu jammy/main amd64 Packages [1792 kB]
+#8 77.25 Get:14 http://archive.ubuntu.com/ubuntu jammy-updates/universe amd64 Packages [1631 kB]
+#8 82.31 Get:15 http://archive.ubuntu.com/ubuntu jammy-updates/restricted amd64 Packages [8373 kB]
+#8 101.4 Get:16 http://repo.mongodb.org/apt/ubuntu jammy/mongodb-org/7.0/multiverse amd64 Packages [142 kB]
+#8 102.1 Get:17 http://archive.ubuntu.com/ubuntu jammy-updates/multiverse amd64 Packages [104 kB]
+#8 103.2 Get:18 http://archive.ubuntu.com/ubuntu jammy-updates/main amd64 Packages [4847 kB]
+#8 112.1 Get:19 http://archive.ubuntu.com/ubuntu jammy-backports/main amd64 Packages [82.9 kB]
+#8 112.8 Get:20 http://archive.ubuntu.com/ubuntu jammy-backports/universe amd64 Packages [35.6 kB]
+#8 206.2 Fetched 49.6 MB in 3min 15s (254 kB/s)
+#8 206.2 Reading package lists...
+#8 307.8 Reading package lists...
+#8 386.2 Building dependency tree...
+#8 395.2 Reading state information...
+#8 399.1 Calculating upgrade...
+#8 422.8 The following packages will be upgraded:
+#8 422.8   libc-bin libc6
+#8 425.9 2 upgraded, 0 newly installed, 0 to remove and 0 not upgraded.
+#8 425.9 Need to get 3941 kB of archives.
+#8 425.9 After this operation, 0 B of additional disk space will be used.
+#8 425.9 Get:1 http://archive.ubuntu.com/ubuntu jammy-updates/main amd64 libc6 amd64 2.35-0ubuntu3.18 [3236 kB]
+#8 430.3 Get:2 http://archive.ubuntu.com/ubuntu jammy-updates/main amd64 libc-bin amd64 2.35-0ubuntu3.18 [706 kB]
+#8 443.7 debconf: delaying package configuration, since apt-utils is not installed
+#8 445.1 Fetched 3941 kB in 7s (568 kB/s)
+#8 446.7 (Reading database ... (Reading database ... 5%(Reading database ... 10%(Reading database ... 15%(Reading database ... 20%(Reading database ... 25%(Reading database ... 30%(Reading database ... 35%(Reading database ... 40%(Reading database ... 45%(Reading database ... 50%(Reading database ... 55%(Reading database ... 60%(Reading database ... 65%(Reading database ... 70%(Reading database ... 75%(Reading database ... 80%(Reading database ... 85%(Reading database ... 90%(Reading database ... 95%(Reading database ... 100%(Reading database ... 6933 files and directories currently installed.)
+#8 448.0 Preparing to unpack .../libc6_2.35-0ubuntu3.18_amd64.deb ...
+#8 458.1 debconf: unable to initialize frontend: Dialog
+#8 458.1 debconf: (TERM is not set, so the dialog frontend is not usable.)
+#8 458.1 debconf: falling back to frontend: Readline
+#8 458.1 debconf: unable to initialize frontend: Readline
+#8 458.1 debconf: (Can't locate Term/ReadLine.pm in @INC (you may need to install the Term::ReadLine module) (@INC contains: /etc/perl /usr/local/lib/x86_64-linux-gnu/perl/5.34.0 /usr/local/share/perl/5.34.0 /usr/lib/x86_64-linux-gnu/perl5/5.34 /usr/share/perl5 /usr/lib/x86_64-linux-gnu/perl-base /usr/lib/x86_64-linux-gnu/perl/5.34 /usr/share/perl/5.34 /usr/local/lib/site_perl) at /usr/share/perl5/Debconf/FrontEnd/Readline.pm line 7.)
+#8 458.1 debconf: falling back to frontend: Teletype
+#8 464.7 Unpacking libc6:amd64 (2.35-0ubuntu3.18) over (2.35-0ubuntu3.15) ...
+#8 494.6 Setting up libc6:amd64 (2.35-0ubuntu3.18) ...
+#8 505.3 debconf: unable to initialize frontend: Dialog
+#8 505.3 debconf: (TERM is not set, so the dialog frontend is not usable.)
+#8 505.3 debconf: falling back to frontend: Readline
+#8 505.4 debconf: unable to initialize frontend: Readline
+#8 505.4 debconf: (Can't locate Term/ReadLine.pm in @INC (you may need to install the Term::ReadLine module) (@INC contains: /etc/perl /usr/local/lib/x86_64-linux-gnu/perl/5.34.0 /usr/local/share/perl/5.34.0 /usr/lib/x86_64-linux-gnu/perl5/5.34 /usr/share/perl5 /usr/lib/x86_64-linux-gnu/perl-base /usr/lib/x86_64-linux-gnu/perl/5.34 /usr/share/perl/5.34 /usr/local/lib/site_perl) at /usr/share/perl5/Debconf/FrontEnd/Readline.pm line 7.)
+#8 505.4 debconf: falling back to frontend: Teletype
+#8 510.7 (Reading database ... (Reading database ... 5%(Reading database ... 10%(Reading database ... 15%(Reading database ... 20%(Reading database ... 25%(Reading database ... 30%(Reading database ... 35%(Reading database ... 40%(Reading database ... 45%(Reading database ... 50%(Reading database ... 55%(Reading database ... 60%(Reading database ... 65%(Reading database ... 70%(Reading database ... 75%(Reading database ... 80%(Reading database ... 85%(Reading database ... 90%(Reading database ... 95%(Reading database ... 100%(Reading database ... 6933 files and directories currently installed.)
+#8 511.2 Preparing to unpack .../libc-bin_2.35-0ubuntu3.18_amd64.deb ...
+#8 511.6 Unpacking libc-bin (2.35-0ubuntu3.18) over (2.35-0ubuntu3.15) ...
+#8 516.7 Setting up libc-bin (2.35-0ubuntu3.18) ...
+#8 523.0 uid=65534(nobody) gid=65534(nogroup) groups=65534(nogroup)
+#8 DONE 523.5s
+
+#9 exporting to image
+#9 exporting layers
+#9 exporting layers 3.8s done
+#9 writing image sha256:0a26e6e2826f907e2314fb9b003443ca2526325278b4b5f0416f822a01853e0f
+#9 writing image sha256:0a26e6e2826f907e2314fb9b003443ca2526325278b4b5f0416f822a01853e0f 0.1s done
+#9 naming to docker.io/library/noteora-mongo:e2 0.1s done
+#9 DONE 4.3s

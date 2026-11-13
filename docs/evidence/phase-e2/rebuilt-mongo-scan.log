@@ -1,0 +1,9 @@
+2026-11-13T16:38:38+05:30	INFO	[vuln] Vulnerability scanning is enabled
+2026-11-13T16:38:58+05:30	INFO	Detected OS	family="ubuntu" version="22.04"
+2026-11-13T16:38:58+05:30	INFO	[ubuntu] Detecting vulnerabilities...	os_version="22.04" pkg_num=121
+2026-11-13T16:38:58+05:30	INFO	Number of language-specific files	num=10
+2026-11-13T16:38:58+05:30	INFO	[gobinary] Detecting vulnerabilities...
+2026-11-13T16:38:58+05:30	INFO	[node-pkg] Detecting vulnerabilities...
+2026-11-13T16:38:58+05:30	WARN	Using severities from other vendors for some vulnerabilities. Read https://trivy.dev/docs/v0.76/guide/scanner/vulnerability#severity-selection for details.
+
+exitCode=0

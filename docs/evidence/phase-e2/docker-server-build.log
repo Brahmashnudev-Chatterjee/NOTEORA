@@ -1,0 +1,106 @@
+#0 building with "default" instance using docker driver
+
+#1 [internal] load build definition from Dockerfile
+#1 transferring dockerfile: 1.52kB 0.1s done
+#1 DONE 0.2s
+
+#2 [internal] load metadata for docker.io/library/node:22-alpine@sha256:1314fb30ec37592d5845e5a160d522c0e680972aa534549940b8d73bde88481a
+#2 DONE 0.1s
+
+#3 [internal] load .dockerignore
+#3 transferring context: 344B 0.0s done
+#3 DONE 0.1s
+
+#4 [build  1/11] FROM docker.io/library/node:22-alpine@sha256:1314fb30ec37592d5845e5a160d522c0e680972aa534549940b8d73bde88481a
+#4 DONE 0.0s
+
+#5 [runtime 2/8] RUN apk upgrade --no-cache && rm -rf /usr/local/lib/node_modules/npm /usr/local/lib/node_modules/corepack /usr/local/bin/npm /usr/local/bin/npx /usr/local/bin/corepack
+#5 CACHED
+
+#6 [runtime 3/8] WORKDIR /app/server
+#6 CACHED
+
+#7 [internal] load build context
+#7 transferring context: 2.88kB 0.2s done
+#7 DONE 0.3s
+
+#8 [build  4/11] COPY server/package*.json ./server/
+#8 CACHED
+
+#9 [build  8/11] COPY server/tsconfig.json ./server/tsconfig.json
+#9 CACHED
+
+#10 [build  5/11] COPY database/prisma ./database/prisma
+#10 CACHED
+
+#11 [build  2/11] WORKDIR /app
+#11 CACHED
+
+#12 [build  6/11] RUN npm ci --prefix server --ignore-scripts
+#12 CACHED
+
+#13 [build  7/11] COPY server/src ./server/src
+#13 CACHED
+
+#14 [build  3/11] RUN npm install --global npm@11.21.2
+#14 CACHED
+
+#15 [build  9/11] COPY security ./security
+#15 CACHED
+
+#16 [build 10/11] RUN ln -s server/node_modules /app/node_modules     && PRISMA_GENERATE_SKIP_AUTOINSTALL=1 server/node_modules/.bin/prisma generate --schema database/prisma/schema.prisma --generator server     && npm --prefix server run build
+#16 62.50 Prisma schema loaded from database/prisma/schema.prisma
+#16 95.79 
+#16 95.79 ✔ Generated Prisma Client (v6.19.3) to ./server/node_modules/.prisma/client in 15.74s
+#16 95.79 
+#16 95.79 Start by importing your Prisma Client (See: https://pris.ly/d/importing-client)
+#16 95.79 
+#16 95.79 Tip: Interested in query caching in just a few lines of code? Try Accelerate today! https://pris.ly/tip-3-accelerate
+#16 95.79 
+#16 106.3 
+#16 106.3 > build
+#16 106.3 > tsc
+#16 106.3 
+#16 ...
+
+#14 [build  3/11] RUN npm install --global npm@11.21.2
+#14 CACHED
+
+#5 [runtime 2/8] RUN apk upgrade --no-cache && rm -rf /usr/local/lib/node_modules/npm /usr/local/lib/node_modules/corepack /usr/local/bin/npm /usr/local/bin/npx /usr/local/bin/corepack
+#5 CACHED
+
+#16 [build 10/11] RUN ln -s server/node_modules /app/node_modules     && PRISMA_GENERATE_SKIP_AUTOINSTALL=1 server/node_modules/.bin/prisma generate --schema database/prisma/schema.prisma --generator server     && npm --prefix server run build
+#16 DONE 988.1s
+
+#17 [build 11/11] RUN npm prune --prefix server --omit=dev --ignore-scripts
+#17 324.5 
+#17 324.5 removed 115 packages, and audited 211 packages in 5m
+#17 324.6 
+#17 324.6 48 packages are looking for funding
+#17 324.6   run `npm fund` for details
+#17 324.7 
+#17 324.7 found 0 vulnerabilities
+#17 DONE 327.1s
+
+#18 [runtime 4/8] COPY --from=build --chown=node:node /app/server/package*.json ./
+#18 DONE 11.5s
+
+#19 [runtime 5/8] COPY --from=build --chown=node:node /app/server/node_modules ./node_modules
+#19 DONE 121.1s
+
+#20 [runtime 6/8] COPY --from=build --chown=node:node /app/server/dist ./dist
+#20 DONE 0.9s
+
+#21 [runtime 7/8] COPY --from=build --chown=node:node /app/security /app/security
+#21 DONE 0.5s
+
+#22 [runtime 8/8] RUN mkdir -p /app/server/uploads && chown node:node /app/server/uploads
+#22 DONE 7.6s
+
+#23 exporting to image
+#23 exporting layers
+#23 exporting layers 138.1s done
+#23 writing image sha256:36d1a01a3565567df8eb664955e8dc9f461588fdd22a51135f64e488d102d46f 0.1s done
+#23 naming to docker.io/library/noteora-server:e2
+#23 naming to docker.io/library/noteora-server:e2 0.1s done
+#23 DONE 139.0s
